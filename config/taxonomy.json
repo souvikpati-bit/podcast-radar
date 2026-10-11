@@ -1,0 +1,18 @@
+{
+  "topics": [
+    { "name": "AI and agents", "aliases": ["ai", "artificial intelligence", "llm", "gpt", "agents", "ai agents", "machine learning", "generative ai", "chatgpt", "openai"] },
+    { "name": "Fundraising", "aliases": ["fundraising", "venture capital", "vc", "seed round", "series a", "series b", "investors", "funding", "valuation", "term sheet"] },
+    { "name": "Bootstrapping", "aliases": ["bootstrapping", "profitability", "indie hacking", "solo founder", "no funding", "lean startup"] },
+    { "name": "Go-to-market and sales", "aliases": ["go to market", "gtm", "sales", "b2b", "outbound", "marketing", "growth", "distribution", "customer acquisition"] },
+    { "name": "Product and PMF", "aliases": ["product", "product market fit", "pmf", "product management", "mvp", "user research", "roadmap"] },
+    { "name": "Hiring and culture", "aliases": ["hiring", "recruiting", "team building", "culture", "talent", "management", "leadership"] },
+    { "name": "Founder mindset", "aliases": ["mental health", "founder mental health", "burnout", "resilience", "mindset", "productivity", "habits"] },
+    { "name": "Pricing and monetisation", "aliases": ["pricing", "monetisation", "monetization", "business model", "revenue", "subscriptions"] },
+    { "name": "Creator economy", "aliases": ["creator economy", "content creation", "youtube", "newsletter", "audience", "personal brand", "podcasting"] },
+    { "name": "Consumer and D2C", "aliases": ["d2c", "consumer", "ecommerce", "e commerce", "brand building", "retail", "direct to consumer"] },
+    { "name": "Fintech", "aliases": ["fintech", "payments", "banking", "crypto", "upi", "lending", "stock market", "investing"] },
+    { "name": "Markets and macro", "aliases": ["macro", "economy", "recession", "layoffs", "inflation", "interest rates", "geopolitics", "cost control"] },
+    { "name": "Climate and deep tech", "aliases": ["climate", "climate tech", "energy", "deep tech", "robotics", "space", "hardware", "biotech"] },
+    { "name": "Exits and M&A", "aliases": ["exit", "acquisition", "m&a", "ipo", "going public", "acquired"] }
+  ]
+}

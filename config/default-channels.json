@@ -1,0 +1,15 @@
+{
+  "note": "Starting list of English-language founder/startup shows. Verified by a real API call when first seeded. Edit in Settings, not here.",
+  "channels": [
+    { "handle": "@AllInPodcast", "host_name": "" },
+    { "handle": "@20VC", "host_name": "Harry Stebbings" },
+    { "handle": "@LennysPodcast", "host_name": "Lenny Rachitsky" },
+    { "handle": "@ycombinator", "host_name": "" },
+    { "handle": "@MastersofScale", "host_name": "Reid Hoffman" },
+    { "handle": "@MyFirstMillionPod", "host_name": "Sam Parr" },
+    { "handle": "@AcquiredFM", "host_name": "Ben Gilbert" },
+    { "handle": "@TheDiaryOfACEO", "host_name": "Steven Bartlett" },
+    { "handle": "@Nikhil.kamath", "host_name": "Nikhil Kamath" },
+    { "handle": "@ThinkSchool", "host_name": "" }
+  ]
+}

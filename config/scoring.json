@@ -1,0 +1,31 @@
+{
+  "windows": { "topicsGuestsDays": 30, "sponsorsDays": 45, "baselineDays": 90 },
+  "matureAfterDays": 3,
+  "baselineMinVideos": 5,
+  "baselineFallbackRecent": 20,
+  "counts": { "topics": 6, "guests": 7, "sponsors": 5 },
+  "probabilityClamp": { "min": 0.03, "max": 0.97 },
+  "topic": {
+    "minVideos": 2,
+    "weights": { "performance": 0.4, "engagement": 0.2, "coverage": 0.25, "recency": 0.15 },
+    "performanceCap": 2,
+    "engagementCap": 2,
+    "coverageChannels": 6,
+    "recencyDays": 7,
+    "recencyFull": 0.35
+  },
+  "guest": {
+    "weights": { "mediaWilling": 0.4, "recency": 0.3, "topicFit": 0.3 },
+    "channelCap": 4,
+    "floodedAt": 6,
+    "floodedFactor": 0.85,
+    "recencyHalfDays": 14
+  },
+  "sponsor": {
+    "weights": { "reach": 0.35, "recency": 0.25, "paidSignal": 0.25, "frequency": 0.15 },
+    "channelCap": 4,
+    "frequencyCap": 8,
+    "recencyHalfDays": 21,
+    "minMentions": 2
+  }
+}

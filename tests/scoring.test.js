@@ -1,0 +1,118 @@
+import test from 'node:test';
+import assert from 'node:assert';
+import { buildResults, scoreTopics, scoreGuests, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
+import { buildDemoDataset } from '../lib/demo.js';
+
+const NOW = new Date('2026-10-11T06:00:00Z');
+const daysAgo = (d) => new Date(NOW.getTime() - d * 86400000).toISOString();
+let seq = 0;
+const vid = (over) => ({
+  video_id: `t${++seq}`, channel_key: 'c1', channel_title: 'Show 1', title: 'x', url: 'https://y/x', published_at: daysAgo(10),
+  views: 1000, likes: 50, comments: 5, is_short: false, guests: [], topics: [], brands: [], ...over,
+});
+
+test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () => {
+  const r = buildResults(buildDemoDataset(NOW).videos, NOW);
+  assert.equal(r.topics.length, 6);
+  const top = r.topics[0].topic;
+  assert.equal(r.guestsByTopic[top].length, 7);
+  assert.equal(r.sponsors.length, 5);
+  for (const row of [...r.topics, ...r.guestsByTopic[top], ...r.sponsors]) {
+    assert.ok(row.probability >= 3 && row.probability <= 97, `${row.probability}`);
+    assert.ok(row.evidence.length >= 1);
+  }
+  for (let i = 1; i < r.topics.length; i++) {
+    const a = r.topics[i - 1], b = r.topics[i];
+    assert.ok(a.probability > b.probability || (a.probability === b.probability && a.score >= b.score));
+  }
+  for (let i = 1; i < 7; i++) assert.ok(r.guestsByTopic[top][i - 1].adjacent <= r.guestsByTopic[top][i].adjacent, 'tier 1 before adjacent');
+  console.log('\nTOPICS');
+  console.table(r.topics.map((t) => ({ rank: t.rank, topic: t.topic, score: t.score, 'prob%': t.probability, videos: t.videos, channels: t.channels })));
+  console.log('GUESTS for', top);
+  console.table(r.guestsByTopic[top].map((g) => ({ rank: g.rank, guest: g.guest, 'prob%': g.probability, shows: g.shows.length, mediaRound: g.mediaRound, adjacent: g.adjacent })));
+  console.log('SPONSORS');
+  console.table(r.sponsors.map((s) => ({ rank: s.rank, brand: s.brand, 'prob%': s.probability, mentions: s.mentions, advertiser: s.likelyAdvertiser })));
+});
+
+test('helpers handle empty, NaN and null', () => {
+  assert.equal(median([]), null);
+  assert.equal(median([3, 1, 2]), 2);
+  assert.equal(clamp(NaN, 0, 1), 0);
+  assert.equal(engagementRate({ views: 0, likes: 1, comments: 1 }), null);
+  assert.equal(engagementRate({ views: 100, likes: null, comments: null }), null);
+  assert.equal(engagementRate({ views: 100, likes: null, comments: 10 }), 0.1);
+});
+
+test('empty and tiny inputs never crash', () => {
+  const r = buildResults([], NOW);
+  assert.deepEqual(r.topics, []);
+  assert.deepEqual(r.sponsors, []);
+  const one = buildResults([vid({ topics: ['A'], guests: ['Jo Bo'], brands: [{ name: 'Foo', sponsored: true }] })], NOW);
+  assert.equal(one.topics.length, 1); // relaxed to 1 video, no padding
+  assert.equal(one.guestsByTopic.A.length, 1);
+  assert.equal(one.sponsors.length, 1);
+  assert.ok(one.notes.fewerTopics && one.notes.fewerGuests && one.notes.fewerSponsors);
+});
+
+test('zero views and null likes are safe; all-equal scores tie-break deterministically', () => {
+  const vs = ['A', 'B', 'C'].flatMap((t) => [vid({ topics: [t], views: 0, likes: null, comments: null }), vid({ topics: [t], views: 0, likes: null, comments: null, channel_key: 'c2', channel_title: 'Show 2' })]);
+  const rows = scoreTopics(vs, NOW);
+  assert.equal(rows.length, 3);
+  assert.ok(rows.every((r) => Number.isFinite(r.score) && Number.isFinite(r.probability)));
+  assert.deepEqual(rows.map((r) => r.topic), ['A', 'B', 'C']);
+});
+
+test('immature videos do not count toward performance or hits', () => {
+  const vs = [
+    vid({ topics: ['New'], published_at: daysAgo(1), views: 5 }),
+    vid({ topics: ['New'], published_at: daysAgo(2), views: 5 }),
+    ...Array.from({ length: 6 }, (_, i) => vid({ published_at: daysAgo(20 + i), views: 1000 })),
+  ];
+  const row = scoreTopics(vs, NOW).find((r) => r.topic === 'New');
+  assert.equal(row.parts.n, 0);
+  assert.equal(row.probability, 50); // (0+1)/(0+2)
+});
+
+test('topic probability follows (hits+1)/(n+2)', () => {
+  const base = Array.from({ length: 6 }, (_, i) => vid({ published_at: daysAgo(40 + i), views: 1000 }));
+  const topicVids = [vid({ topics: ['T'], views: 5000, published_at: daysAgo(10) }), vid({ topics: ['T'], views: 5000, published_at: daysAgo(12) }), vid({ topics: ['T'], views: 10, published_at: daysAgo(14) })];
+  const row = scoreTopics([...base, ...topicVids], NOW).find((r) => r.topic === 'T');
+  assert.equal(row.parts.hits, 2);
+  assert.equal(row.parts.n, 3);
+  assert.equal(row.probability, 60); // 3/5
+});
+
+test('guests: tier 1 first, media round badge, flooded penalty, never padded', () => {
+  const vs = [
+    vid({ guests: ['Ann Lee'], topics: ['T'], channel_key: 'c1', channel_title: 'S1' }),
+    vid({ guests: ['Ann Lee'], topics: ['T'], channel_key: 'c2', channel_title: 'S2', published_at: daysAgo(3) }),
+    vid({ guests: ['Bob Ray'], topics: ['Other'], channel_key: 'c3', channel_title: 'S3', published_at: daysAgo(1) }),
+  ];
+  const g = scoreGuests(vs, NOW, 'T');
+  assert.equal(g.length, 2);
+  assert.equal(g[0].guest, 'Ann Lee');
+  assert.ok(g[0].mediaRound);
+  assert.equal(g[1].adjacent, true);
+  assert.equal(scoreGuests(vs, NOW, 'Nothing')[0].adjacent, true);
+  const flooded = Array.from({ length: 6 }, (_, i) => vid({ guests: ['Mega Star'], topics: ['T'], channel_key: `f${i}`, channel_title: `F${i}` }));
+  const four = flooded.slice(0, 4);
+  assert.ok(scoreGuests(flooded, NOW, 'T')[0].probability < scoreGuests(four, NOW, 'T')[0].probability);
+});
+
+test('sponsors: advertiser tag, qualification and relaxation', () => {
+  const vs = [
+    vid({ brands: [{ name: 'PaidCo', sponsored: true }] }),
+    vid({ brands: [{ name: 'Mentioned', sponsored: false }] }),
+    vid({ brands: [{ name: 'Mentioned', sponsored: false }], channel_key: 'c2', channel_title: 'S2' }),
+    vid({ brands: [{ name: 'Once', sponsored: false }] }),
+  ];
+  const s = scoreSponsors(vs, NOW);
+  assert.equal(s.length, 3); // relaxed so "Once" is included, nothing invented
+  assert.equal(s.find((x) => x.brand === 'PaidCo').likelyAdvertiser, true);
+  assert.equal(s.find((x) => x.brand === 'Mentioned').likelyAdvertiser, false);
+});
+
+test('channel with one video still gets a baseline', () => {
+  const b = channelBaselines([vid({ views: 500 })], NOW);
+  assert.equal(b.byChannel.c1.medianViews, 500);
+});
