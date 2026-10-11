@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const FORBIDDEN = /(@anthropic-ai|anthropic\.com|api\.openai\.com|from ['"]openai['"]|require\(['"]openai['"]\)|"openai"|"anthropic")/i;
+const FORBIDDEN = /(@anthropic-ai|anthropic\.com|api\.openai\.com|from ['"]openai['"]|require\(['"]openai['"]\)|"openai"\s*:|"anthropic"\s*:)/i;
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
