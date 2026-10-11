@@ -6,7 +6,7 @@ Live: https://podcast-radar-alpha.vercel.app
 
 ## How it works
 
-1. **Refresh** (daily cron + "Refresh data now"): fetches recent uploads per channel (YouTube Data API v3, never `search.list`), reads the video text with Gemini Flash (keyword fallback), and scores everything in `lib/scoring.js` (weights in `config/scoring.json`).
+1. **Refresh** (daily cron + "Refresh data now"): fetches recent uploads per channel (YouTube Data API v3, never `search.list`) and, for shows that are thin on YouTube, reads their podcast RSS feed (free, no quota; paste a feed link in Settings), reads the video text with Gemini Flash (keyword fallback), and scores everything in `lib/scoring.js` (weights in `config/scoring.json`).
 2. The result is saved as a **snapshot** in Neon. The dashboard and the email both read that same snapshot, so numbers never differ.
 3. **Fallback chain**: live data, then the last good snapshot, then bundled demo data. The banner always says which one you are seeing.
 4. **Monday brief** (cron): sends the email via Resend and stores it for `/briefs/<date>`. Idempotent per week.
@@ -43,6 +43,13 @@ The database tables are created automatically on first use (`migrations/001_init
 - `0 0 * * 1` runs `/api/cron/brief` (05:30 IST Monday; Hobby may drift up to an hour, still before 07:00). It refreshes first if data is older than 12 hours.
 
 Both routes need `Authorization: Bearer $CRON_SECRET` (Vercel adds it automatically).
+
+## Rules for what counts
+
+- Only **guest-interview episodes** count (a real guest found in the title or show notes).
+- Each show needs at least 6 guest episodes; rarely-posting shows are read further back, up to 180 days.
+- No single show contributes more than 25 episodes.
+- A guest stays on the list until you press **Confirmed: remove from list**; Settings can put them back.
 
 ## Adding a channel
 

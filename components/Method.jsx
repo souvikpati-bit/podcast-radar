@@ -8,7 +8,7 @@ export function Method() {
         <div className="method-body" data-method-body>
           <p>Every probability on this page is a <strong>model estimate from the data</strong>. It is never a guarantee that a guest will say yes or a sponsor will buy.</p>
           <h3>Where the data comes from</h3>
-          <p>Only guest-interview episodes count: a video is used for topics, guests and sponsors only when a real guest was found in it. Shows that post rarely are read further back in time (up to six months) so they are not left blank. Solo videos and news clips are ignored (they still help set each channel&apos;s typical views). YouTube titles, descriptions, tags and public stats (views, likes, comments) for the shows you monitor. Spoken ad reads and audio are not available, so brand detection is partial: it only sees brands written in the text. Hidden likes or comments are treated as missing, never as zero.</p>
+          <p>Only guest-interview episodes count: a video is used for topics, guests and sponsors only when a real guest was found in it. Shows that post rarely are read further back in time (up to six months) so they are not left blank. Solo videos and news clips are ignored (they still help set each channel&apos;s typical views). Podcast RSS show notes (guest names, bios, sponsor reads) for shows that are thin on YouTube, plus YouTube titles, descriptions, tags and public stats (views, likes, comments) for the shows you monitor. Spoken ad reads and audio are not available, so brand detection is partial: it only sees brands written in the text. Hidden likes or comments are treated as missing, never as zero.</p>
           <h3>Topics (score out of 10 and probability)</h3>
           <ul>
             <li><strong>Performance (40%)</strong>: how a topic&apos;s videos did against their own channel&apos;s typical views. Only videos at least 3 days old count, because brand-new videos always look weak.</li>
@@ -23,6 +23,7 @@ export function Method() {
             <li><strong>Recency (30%)</strong>: fades over about two weeks since their last appearance.</li>
             <li><strong>Topic fit (30%)</strong>: the share of their videos tagged with the selected topic. Guests with no fit are shown last and marked &ldquo;adjacent&rdquo;.</li>
             <li>The hosts of the monitored shows are never listed as guests.</li>
+            <li>A guest stays on the list until you press &ldquo;Confirmed: remove from list&rdquo; (after they agree to come on your show). You can put them back in Settings.</li>
           </ul>
           <h3>Sponsors</h3>
           <ul>

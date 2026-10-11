@@ -1,5 +1,6 @@
 import { requireAdmin } from '@/lib/auth';
-import { addChannel, removeChannel, setChannelHost } from '@/lib/channels';
+import { addChannel, addFeedChannel, removeChannel, setChannelHost } from '@/lib/channels';
+import { fetchFeed } from '@/lib/rss';
 import { newUnitCounter, resolveChannel } from '@/lib/youtube';
 import { query } from '@/lib/db';
 
@@ -27,6 +28,14 @@ export async function POST(request) {
   try {
     if (b.action === 'preview') {
       const ch = await resolveChannel(String(b.input || ''), counter);
+      return Response.json({ ok: true, channel: ch });
+    }
+    if (b.action === 'preview-feed') {
+      const f = await fetchFeed(String(b.input || ''));
+      return Response.json({ ok: true, channel: { title: f.title, thumbnail: null, episodes: f.items.length, latest: f.items[0]?.published_at || null } });
+    }
+    if (b.action === 'add-feed') {
+      const ch = await addFeedChannel(String(b.input || ''), String(b.host || ''));
       return Response.json({ ok: true, channel: ch });
     }
     if (b.action === 'add') {

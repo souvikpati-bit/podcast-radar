@@ -113,6 +113,7 @@ export function Dashboard({ results, showSponsorNames, admin, actions, demo }) {
       <section className="block" id="guests" aria-labelledby="h-guests" ref={guestsSection}>
         <div className="sec-head"><span className="sec-num">02</span><h2 id="h-guests">Guests to book</h2></div>
         <p className="sec-sub">For <strong>{selected}</strong>. Guests on two or more shows in the last 60 days are on a media round, so they are easiest to book now. &ldquo;Adjacent&rdquo; guests fit a nearby topic and only fill the list.</p>
+        {results.excluded > 0 && <p className="note">{results.excluded} confirmed guest{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
         {guests.length === 0 ? (
           <p className="note">No guests were found for this topic in the data. We never invent a person.</p>
         ) : (

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const OPTIONS = {
   topic: [['shortlisted', 'Shortlist'], ['dismissed', 'Dismiss']],
-  guest: [['shortlisted', 'Shortlist'], ['dismissed', 'Dismiss'], ['contacted', 'Contacted outside app'], ['booked', 'Booked']],
+  guest: [['shortlisted', 'Shortlist'], ['dismissed', 'Dismiss'], ['contacted', 'Contacted outside app'], ['booked', 'Confirmed: remove from list']],
   sponsor: [['shortlisted', 'Shortlist'], ['dismissed', 'Dismiss'], ['contacted', 'Contacted outside app'], ['sponsored', 'Sponsored']],
 };
 

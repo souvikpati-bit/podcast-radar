@@ -44,6 +44,7 @@ export default async function Settings() {
           health={JSON.parse(JSON.stringify(health))}
           missing={missingKeys()}
           impact={impactCounts(actions)}
+          confirmed={actions.filter((a) => a.entity_type === 'guest' && a.status === 'booked').map((a) => a.entity_key)}
           emailReady={Boolean(env.resendKey && env.briefTo)}
           maxChannels={15}
         />

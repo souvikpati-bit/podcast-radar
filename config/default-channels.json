@@ -1,16 +1,17 @@
 {
-  "note": "India-based business and startup shows (English, Hinglish or Hindi), each checked against the live YouTube API: active in the last 45 days. Edit in Settings, not here. Inactive or unverified shows were left out: The Neon Show, First Principles, The Desi VC, Shunya One, The Indian Startup Show.",
+  "note": "India-focused business and startup shows with guests. Each needs at least 6 guest episodes in the last 6 months. 'feed' entries are read from a podcast RSS feed (no YouTube quota); the rest from YouTube. Edit in Settings, not here.",
   "channels": [
-    { "handle": "@Nikhil.kamath", "host_name": "Nikhil Kamath" },
     { "handle": "@RajShamani", "host_name": "Raj Shamani" },
-    { "handle": "@ranveerallahbadia", "host_name": "Ranveer Allahbadia" },
-    { "handle": "@ThinkSchool", "host_name": "" },
-    { "handle": "@Warikoo", "host_name": "Ankur Warikoo" },
-    { "handle": "@IndianSiliconValley", "host_name": "Jivraj Singh Sachar" },
     { "handle": "@YourStoryTV", "host_name": "" },
-    { "handle": "@BusinessToday", "host_name": "" },
+    { "handle": "@IndianSiliconValley", "host_name": "Jivraj Singh Sachar" },
+    { "handle": "@PrimeVenturePartners", "host_name": "" },
+    { "handle": "@ThinkSchool", "host_name": "" },
     { "handle": "@thebarbershopwithshantanu6670", "host_name": "Shantanu Deshpande" },
-    { "handle": "@PranjalKamra", "host_name": "Pranjal Kamra" },
-    { "handle": "@Abhishekkar", "host_name": "Abhishek Kar" }
+    { "handle": "@JoshTalksHindi", "host_name": "" },
+    { "handle": "@BusinessToday", "host_name": "" },
+    { "handle": "rss:the-neon-show", "feed": "https://rss.buzzsprout.com/1601695.rss", "host_name": "Siddhartha Ahluwalia" },
+    { "handle": "rss:first-principles", "feed": "https://feeds.transistor.fm/first-principles-261f2954-4e6b-4315-973d-17d02efc10f6", "host_name": "Rohin Dharmakumar" },
+    { "handle": "rss:the-indian-startup-show", "feed": "https://feeds.simplecast.com/6dj1W8C2", "host_name": "Neil Patel" },
+    { "handle": "rss:wired-in", "feed": "https://anchor.fm/s/991768/podcast/rss", "host_name": "Saanand Warrier" }
   ]
 }

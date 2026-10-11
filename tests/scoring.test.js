@@ -127,3 +127,12 @@ test('rarely-posting shows are read further back (max 180 days) so they are not 
   const withVeryOld = scoreTopics([...busy, ...rare, vid({ channel_key: 'old', channel_title: 'Old', topics: ['T'], guests: ['Old Guest'], published_at: daysAgo(400) })], NOW).find((r) => r.topic === 'T');
   assert.equal(withVeryOld.videos, t.videos, 'nothing older than 180 days is ever used');
 });
+test('a confirmed guest is removed from the list, everyone else stays, and nothing is hidden automatically', () => {
+  const vs = [vid({ guests: ['Ann Lee'], topics: ['T'] }), vid({ guests: ['Bob Ray'], topics: ['T'], channel_key: 'c2', channel_title: 'S2' })];
+  assert.equal(scoreGuests(vs, NOW, 'T').length, 2);
+  assert.deepEqual(scoreGuests(vs, NOW, 'T', new Set(['ann lee'])).map((g) => g.guest), ['Bob Ray']);
+  const r = buildResults(vs, NOW, { excludeGuests: new Set(['ann lee']) });
+  assert.equal(r.excluded, 1);
+  assert.equal(r.guestsByTopic.T.length, 1);
+  assert.equal(buildResults(vs, NOW).guestsByTopic.T.length, 2);
+});

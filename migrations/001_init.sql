@@ -27,6 +27,9 @@ CREATE TABLE IF NOT EXISTS videos (
 
 CREATE INDEX IF NOT EXISTS videos_published_idx ON videos (published_at DESC);
 
+-- Shows read from a podcast RSS feed (no YouTube quota) have a feed_url and no YouTube channel id.
+ALTER TABLE channels ADD COLUMN IF NOT EXISTS feed_url TEXT;
+
 CREATE TABLE IF NOT EXISTS video_stats (
   video_id TEXT NOT NULL REFERENCES videos(video_id) ON DELETE CASCADE,
   captured_on DATE NOT NULL,
