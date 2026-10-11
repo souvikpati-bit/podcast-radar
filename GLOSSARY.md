@@ -1,0 +1,21 @@
+# Glossary (plain English)
+
+- **API**: a way for one program to ask another for data (e.g. our app asks YouTube for video lists).
+- **API key**: a secret password for an API. Lives only in `.env.local` and Vercel settings, never in code.
+- **App Router / Next.js**: the framework that builds our website pages and server routes.
+- **Cron**: a timer on the server that runs a task on a schedule (daily refresh, Monday brief).
+- **CI**: Continuous Integration. GitHub automatically runs lint, tests and build on every push.
+- **Deploy**: putting the app on Vercel so it has a public URL.
+- **Environment variable**: a named setting (like a key) read at runtime. Change one in Vercel, then redeploy.
+- **Fallback**: the backup used when something fails (live data, then snapshot, then demo data).
+- **Gemini Flash**: Google's fast AI model. We use it to read video text and pull out guests, topics, brands.
+- **Idempotent**: running it twice has the same effect as once (the Monday brief never sends two emails).
+- **Median**: the middle value of a sorted list; ignores extreme outliers.
+- **Migration**: a SQL file that creates or changes database tables.
+- **Neon**: free hosted Postgres database.
+- **Quota / units**: YouTube gives 10,000 units/day free. Listing videos costs ~1 unit per call.
+- **Snapshot**: a saved copy of the computed results, so pages and emails show identical numbers.
+- **Mature video**: a video at least 3 days old. New videos always have fewer views, so we only judge performance on mature ones.
+- **Probability (here)**: a model estimate from the data, not a guarantee.
+- **Review Gate**: Aditya's private notebook: shortlist, dismiss, mark booked/sponsored. Sends nothing to anyone.
+- **Vercel**: hosting service that runs the site and the cron jobs.

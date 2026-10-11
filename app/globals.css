@@ -1,0 +1,12 @@
+:root {
+  --ink: #07090b;
+  --surface: #0e1216;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #edebe4;
+  --muted: #8a9099;
+  --signal: #c6f432;
+  --amber: #ffb547;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ink); color: var(--text); }
+body { font-family: system-ui, sans-serif; line-height: 1.5; }
