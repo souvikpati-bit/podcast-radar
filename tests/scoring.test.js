@@ -8,7 +8,7 @@ const daysAgo = (d) => new Date(NOW.getTime() - d * 86400000).toISOString();
 let seq = 0;
 const vid = (over) => ({
   video_id: `t${++seq}`, channel_key: 'c1', channel_title: 'Show 1', title: 'x', url: 'https://y/x', published_at: daysAgo(10),
-  views: 1000, likes: 50, comments: 5, is_short: false, guests: [], topics: [], brands: [], ...over,
+  views: 1000, likes: 50, comments: 5, is_short: false, guests: ['Default Guest'], topics: [], brands: [], ...over,
 });
 
 test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () => {

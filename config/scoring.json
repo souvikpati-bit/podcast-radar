@@ -1,6 +1,7 @@
 {
   "windows": { "topicsGuestsDays": 60, "sponsorsDays": 90, "baselineDays": 90 },
   "matureAfterDays": 3,
+  "requireGuest": true,
   "baselineMinVideos": 5,
   "baselineFallbackRecent": 20,
   "counts": { "topics": 6, "guests": 7, "sponsors": 5 },
