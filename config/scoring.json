@@ -19,7 +19,7 @@
     "recencyFull": 0.35
   },
   "guest": {
-    "weights": { "mediaWilling": 0.4, "recency": 0.3, "topicFit": 0.3 },
+    "weights": { "mediaWilling": 0.4, "recency": 0.3 },
     "channelCap": 4,
     "floodedAt": 6,
     "floodedFactor": 0.85,

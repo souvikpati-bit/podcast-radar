@@ -17,13 +17,14 @@ export function Method() {
             <li><strong>Engagement (20%)</strong>: likes plus comments per view, compared with the typical rate across all shows.</li>
             <li><strong>Coverage (25%)</strong>: how many different shows covered it. Six shows is the maximum.</li>
             <li><strong>Recency (15%)</strong>: the share of its videos from the last 7 days.</li>
+            <li><strong>Trend</strong>: the topic&apos;s guest episodes in the last 14 days against the 14 days before: rising, steady, cooling, or new. It is shown next to the rank and does not change the score.</li>
             <li><strong>Probability</strong>: out of the mature videos on the topic, how many beat their channel&apos;s typical views. It is smoothed as (hits + 1) / (videos + 2) so a tiny sample never shows 0% or 100%.</li>
           </ul>
           <h3>Guests</h3>
           <ul>
-            <li><strong>Media willingness (40%)</strong>: appearing on more shows in the last 60 days means a media round. Counted up to 4 shows; 6 or more is slightly reduced because that guest is already everywhere.</li>
-            <li><strong>Recency (30%)</strong>: fades over about two weeks since their last appearance.</li>
-            <li><strong>Topic fit (30%)</strong>: the share of their videos tagged with the selected topic. Guests with no fit are shown last and marked &ldquo;adjacent&rdquo;.</li>
+            <li>Guests are ranked on their own. No topic is involved, so whoever joins you, you can discuss the trending topics with them.</li>
+            <li><strong>Media willingness (about 57%)</strong>: appearing on more shows in the last 60 days means a media round. Counted up to 4 shows; 6 or more is slightly reduced because that guest is already everywhere.</li>
+            <li><strong>Recency (about 43%)</strong>: fades over about two weeks since their last appearance. (These are the original 40 and 30 weights scaled to 100% now that topic fit is gone.)</li>
             <li>The hosts of the monitored shows are never listed as guests.</li>
             <li>A guest stays on the list until you press &ldquo;Confirmed: remove from list&rdquo; (after they agree to come on your show). You can put them back in Settings.</li>
           </ul>

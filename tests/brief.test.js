@@ -55,7 +55,7 @@ test('brief sends once, never twice; failure is stored then retried', async () =
 
 test('email escapes untrusted text, obeys sponsor-name setting, falls back without Gemini', async () => {
   const d = data();
-  d.snapshot.results.guestsByTopic[d.snapshot.results.topics[0].topic][0].guest = '<script>alert(1)</script>';
+  d.snapshot.results.guests[0].guest = '<script>alert(1)</script>';
   const p = await buildPayload(d);
   assert.equal(p.usedGemini, false);
   assert.ok(p.opening.length > 40);

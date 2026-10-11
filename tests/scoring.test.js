@@ -15,9 +15,9 @@ test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () =>
   const r = buildResults(buildDemoDataset(NOW).videos, NOW);
   assert.equal(r.topics.length, 6);
   const top = r.topics[0].topic;
-  assert.equal(r.guestsByTopic[top].length, 7);
+  assert.equal(r.guests.length, 7);
   assert.equal(r.sponsors.length, 5);
-  for (const row of [...r.topics, ...r.guestsByTopic[top], ...r.sponsors]) {
+  for (const row of [...r.topics, ...r.guests, ...r.sponsors]) {
     assert.ok(row.probability >= 3 && row.probability <= 97, `${row.probability}`);
     assert.ok(row.evidence.length >= 1);
   }
@@ -25,11 +25,11 @@ test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () =>
     const a = r.topics[i - 1], b = r.topics[i];
     assert.ok(a.probability > b.probability || (a.probability === b.probability && a.score >= b.score));
   }
-  for (let i = 1; i < 7; i++) assert.ok(r.guestsByTopic[top][i - 1].adjacent <= r.guestsByTopic[top][i].adjacent, 'tier 1 before adjacent');
+  for (let i = 1; i < r.guests.length; i++) assert.ok(r.guests[i - 1].probability >= r.guests[i].probability, 'guests sorted by probability');
   console.log('\nTOPICS');
   console.table(r.topics.map((t) => ({ rank: t.rank, topic: t.topic, score: t.score, 'prob%': t.probability, videos: t.videos, channels: t.channels })));
-  console.log('GUESTS for', top);
-  console.table(r.guestsByTopic[top].map((g) => ({ rank: g.rank, guest: g.guest, 'prob%': g.probability, shows: g.shows.length, mediaRound: g.mediaRound, adjacent: g.adjacent })));
+  console.log('GUESTS (topic-independent)');
+  console.table(r.guests.map((g) => ({ rank: g.rank, guest: g.guest, 'prob%': g.probability, shows: g.shows.length, mediaRound: g.mediaRound })));
   console.log('SPONSORS');
   console.table(r.sponsors.map((s) => ({ rank: s.rank, brand: s.brand, 'prob%': s.probability, mentions: s.mentions, advertiser: s.likelyAdvertiser })));
 });
@@ -50,7 +50,7 @@ test('empty and tiny inputs never crash', () => {
   assert.deepEqual(r.sponsors, []);
   const one = buildResults([vid({ topics: ['A'], guests: ['Jo Bo'], brands: [{ name: 'Foo', sponsored: true }] })], NOW);
   assert.equal(one.topics.length, 1); // relaxed to 1 video, no padding
-  assert.equal(one.guestsByTopic.A.length, 1);
+  assert.equal(one.guests.length, 1);
   assert.equal(one.sponsors.length, 1);
   assert.ok(one.notes.fewerTopics && one.notes.fewerGuests && one.notes.fewerSponsors);
 });
@@ -83,21 +83,33 @@ test('topic probability follows (hits+1)/(n+2)', () => {
   assert.equal(row.probability, 60); // 3/5
 });
 
-test('guests: tier 1 first, media round badge, flooded penalty, never padded', () => {
+test('guests are ranked on their own: no topic involved, media round badge, flooded penalty, never padded', () => {
   const vs = [
-    vid({ guests: ['Ann Lee'], topics: ['T'], channel_key: 'c1', channel_title: 'S1' }),
-    vid({ guests: ['Ann Lee'], topics: ['T'], channel_key: 'c2', channel_title: 'S2', published_at: daysAgo(3) }),
+    vid({ guests: ['Ann Lee'], topics: ['T1'], channel_key: 'c1', channel_title: 'S1' }),
+    vid({ guests: ['Ann Lee'], topics: ['T2'], channel_key: 'c2', channel_title: 'S2', published_at: daysAgo(3) }),
     vid({ guests: ['Bob Ray'], topics: ['Other'], channel_key: 'c3', channel_title: 'S3', published_at: daysAgo(1) }),
   ];
-  const g = scoreGuests(vs, NOW, 'T');
+  const g = scoreGuests(vs, NOW);
   assert.equal(g.length, 2);
-  assert.equal(g[0].guest, 'Ann Lee');
-  assert.ok(g[0].mediaRound);
-  assert.equal(g[1].adjacent, true);
-  assert.equal(scoreGuests(vs, NOW, 'Nothing')[0].adjacent, true);
-  const flooded = Array.from({ length: 6 }, (_, i) => vid({ guests: ['Mega Star'], topics: ['T'], channel_key: `f${i}`, channel_title: `F${i}` }));
-  const four = flooded.slice(0, 4);
-  assert.ok(scoreGuests(flooded, NOW, 'T')[0].probability < scoreGuests(four, NOW, 'T')[0].probability);
+  assert.equal(g[0].guest, 'Ann Lee'); // two shows beats one, whatever the topic
+  assert.ok(g[0].mediaRound && !g[1].mediaRound);
+  assert.ok(!('adjacent' in g[0]));
+  // changing every topic tag changes nothing
+  const retagged = vs.map((v) => ({ ...v, topics: ['Z'] }));
+  assert.deepEqual(scoreGuests(retagged, NOW).map((x) => [x.guest, x.probability]), g.map((x) => [x.guest, x.probability]));
+  const flooded = Array.from({ length: 6 }, (_, i) => vid({ guests: ['Mega Star'], channel_key: `f${i}`, channel_title: `F${i}` }));
+  assert.ok(scoreGuests(flooded, NOW)[0].probability < scoreGuests(flooded.slice(0, 4), NOW)[0].probability);
+});
+
+test('topic trend: rising, cooling, new and steady against the previous two weeks', () => {
+  const eps = (topic, days) => days.map((d) => vid({ topics: [topic], published_at: daysAgo(d), guests: ['G ' + topic + d] }));
+  const vs = [...eps('Up', [1, 3, 5, 8, 20]), ...eps('Down', [2, 15, 17, 19, 21]), ...eps('Fresh', [1, 4, 9, 40, 45]), ...eps('Flat', [3, 6, 16, 18])];
+  const by = Object.fromEntries(scoreTopics(vs, NOW).map((r) => [r.topic, r.trend]));
+  assert.equal(by.Up.label, 'rising');
+  assert.equal(by.Down.label, 'cooling');
+  assert.equal(by.Flat.label, 'steady');
+  assert.ok(['steady', 'new'].includes(by.Fresh.label));
+  assert.equal(by.Up.recent, 4);
 });
 
 test('sponsors: advertiser tag, qualification and relaxation', () => {
@@ -129,10 +141,10 @@ test('rarely-posting shows are read further back (max 180 days) so they are not 
 });
 test('a confirmed guest is removed from the list, everyone else stays, and nothing is hidden automatically', () => {
   const vs = [vid({ guests: ['Ann Lee'], topics: ['T'] }), vid({ guests: ['Bob Ray'], topics: ['T'], channel_key: 'c2', channel_title: 'S2' })];
-  assert.equal(scoreGuests(vs, NOW, 'T').length, 2);
-  assert.deepEqual(scoreGuests(vs, NOW, 'T', new Set(['ann lee'])).map((g) => g.guest), ['Bob Ray']);
+  assert.equal(scoreGuests(vs, NOW).length, 2);
+  assert.deepEqual(scoreGuests(vs, NOW, new Set(['ann lee'])).map((g) => g.guest), ['Bob Ray']);
   const r = buildResults(vs, NOW, { excludeGuests: new Set(['ann lee']) });
   assert.equal(r.excluded, 1);
-  assert.equal(r.guestsByTopic.T.length, 1);
-  assert.equal(buildResults(vs, NOW).guestsByTopic.T.length, 2);
+  assert.equal(r.guests.length, 1);
+  assert.equal(buildResults(vs, NOW).guests.length, 2);
 });

@@ -57,7 +57,7 @@ test('an RSS-only show flows through refresh: no YouTube quota, guests and spons
   assert.equal(d.kind, 'live');
   const res = d.snapshot.results;
   assert.ok(res.counts.videos >= 1);
-  const guests = Object.values(res.guestsByTopic).flat().map((g) => g.guest);
+  const guests = res.guests.map((g) => g.guest);
   assert.ok(guests.includes('Jane Doe') || guests.includes('Sam Rivers'));
   assert.ok(res.sponsors.some((s) => /Zenpay|Loomwork/.test(s.brand)));
 });

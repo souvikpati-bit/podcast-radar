@@ -39,7 +39,7 @@ export default async function Home() {
           <Banner data={data} />
         </Hero>
         <div className="wrap">
-          <Dashboard results={results} showSponsorNames={env.showSponsorNames} admin={admin} actions={actions} demo={data.kind === 'demo'} />
+          <Dashboard results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} />
           <Method />
         </div>
       </main>
