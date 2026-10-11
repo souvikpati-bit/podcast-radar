@@ -1,15 +1,12 @@
 {
-  "note": "Starting list of English-language founder/startup shows. Verified by a real API call when first seeded. Edit in Settings, not here.",
+  "note": "India-based business and startup shows (English, Hinglish or Hindi), each checked against the live YouTube API: active in the last 45 days. Edit in Settings, not here. Inactive or unverified shows were left out: The Neon Show, First Principles, The Desi VC, Shunya One, The Indian Startup Show.",
   "channels": [
-    { "handle": "@AllInPodcast", "host_name": "" },
-    { "handle": "@20VC", "host_name": "Harry Stebbings" },
-    { "handle": "@LennysPodcast", "host_name": "Lenny Rachitsky" },
-    { "handle": "@ycombinator", "host_name": "" },
-    { "handle": "@MastersofScale", "host_name": "Reid Hoffman" },
-    { "handle": "@MyFirstMillionPod", "host_name": "Sam Parr" },
-    { "handle": "@AcquiredFM", "host_name": "Ben Gilbert" },
-    { "handle": "@TheDiaryOfACEO", "host_name": "Steven Bartlett" },
     { "handle": "@Nikhil.kamath", "host_name": "Nikhil Kamath" },
-    { "handle": "@ThinkSchool", "host_name": "" }
+    { "handle": "@RajShamani", "host_name": "Raj Shamani" },
+    { "handle": "@ranveerallahbadia", "host_name": "Ranveer Allahbadia" },
+    { "handle": "@ThinkSchool", "host_name": "" },
+    { "handle": "@Warikoo", "host_name": "Ankur Warikoo" },
+    { "handle": "@IndianSiliconValley", "host_name": "Jivraj Singh Sachar" },
+    { "handle": "@YourStoryTV", "host_name": "" }
   ]
 }
