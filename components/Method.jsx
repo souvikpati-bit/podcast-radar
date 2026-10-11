@@ -19,7 +19,7 @@ export function Method() {
           </ul>
           <h3>Guests</h3>
           <ul>
-            <li><strong>Media willingness (40%)</strong>: appearing on more shows in 30 days means a media round. Counted up to 4 shows; 6 or more is slightly reduced because that guest is already everywhere.</li>
+            <li><strong>Media willingness (40%)</strong>: appearing on more shows in the last 60 days means a media round. Counted up to 4 shows; 6 or more is slightly reduced because that guest is already everywhere.</li>
             <li><strong>Recency (30%)</strong>: fades over about two weeks since their last appearance.</li>
             <li><strong>Topic fit (30%)</strong>: the share of their videos tagged with the selected topic. Guests with no fit are shown last and marked &ldquo;adjacent&rdquo;.</li>
             <li>The hosts of the monitored shows are never listed as guests.</li>

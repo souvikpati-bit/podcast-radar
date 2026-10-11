@@ -1,12 +1,12 @@
 {
-  "windows": { "topicsGuestsDays": 30, "sponsorsDays": 45, "baselineDays": 90 },
+  "windows": { "topicsGuestsDays": 60, "sponsorsDays": 90, "baselineDays": 90 },
   "matureAfterDays": 3,
   "baselineMinVideos": 5,
   "baselineFallbackRecent": 20,
   "counts": { "topics": 6, "guests": 7, "sponsors": 5 },
   "probabilityClamp": { "min": 0.03, "max": 0.97 },
   "topic": {
-    "minVideos": 2,
+    "minVideos": 3,
     "weights": { "performance": 0.4, "engagement": 0.2, "coverage": 0.25, "recency": 0.15 },
     "performanceCap": 2,
     "engagementCap": 2,

@@ -112,7 +112,7 @@ export function Dashboard({ results, showSponsorNames, admin, actions, demo }) {
 
       <section className="block" id="guests" aria-labelledby="h-guests" ref={guestsSection}>
         <div className="sec-head"><span className="sec-num">02</span><h2 id="h-guests">Guests to book</h2></div>
-        <p className="sec-sub">For <strong>{selected}</strong>. Guests on two or more shows this month are on a media round, so they are easiest to book now. &ldquo;Adjacent&rdquo; guests fit a nearby topic and only fill the list.</p>
+        <p className="sec-sub">For <strong>{selected}</strong>. Guests on two or more shows in the last 60 days are on a media round, so they are easiest to book now. &ldquo;Adjacent&rdquo; guests fit a nearby topic and only fill the list.</p>
         {guests.length === 0 ? (
           <p className="note">No guests were found for this topic in the data. We never invent a person.</p>
         ) : (
@@ -142,7 +142,7 @@ export function Dashboard({ results, showSponsorNames, admin, actions, demo }) {
         <div className="sec-head"><span className="sec-num">03</span><h2 id="h-sponsors">Sponsors to pitch</h2></div>
         <p className="sec-sub">Brands already promoted across the shows. This list does not depend on the topic or guest you picked. &ldquo;Likely advertiser&rdquo; means the text showed paid promotion; &ldquo;Mentioned only&rdquo; means it was named without a paid signal. Spoken ad reads are not visible, so brand detection is partial.</p>
         {results.sponsors.length === 0 ? (
-          <p className="note">No brands qualified in the last 45 days.</p>
+          <p className="note">No brands qualified in the last 90 days.</p>
         ) : (
           <ol className="rows">
             {results.sponsors.map((s) => {
