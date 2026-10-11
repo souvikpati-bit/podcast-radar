@@ -71,6 +71,8 @@ section.block { padding: 56px 0 8px; border-top: 1px solid var(--line); margin-t
 /* rows */
 .rows { list-style: none; margin: 0; padding: 0; }
 .row { display: grid; grid-template-columns: 56px 1fr; gap: 6px 14px; padding: 20px 0; border-bottom: 1px solid var(--line); position: relative; }
+.hl { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(198, 244, 50, 0.08), transparent 75%); border-left: 2px solid var(--signal); pointer-events: none; z-index: 0; }
+.row > :not(.hl) { position: relative; z-index: 1; }
 .row .rank { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--muted); transition: color 0.2s; }
 .row.selected .rank, .row:hover .rank { color: var(--signal); }
 .row.selected { background: linear-gradient(90deg, rgba(198, 244, 50, 0.06), transparent 70%); }

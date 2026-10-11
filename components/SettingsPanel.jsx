@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { formatIST } from '@/lib/format';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 async function post(url, body) {
   const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body || {}) });
@@ -18,6 +19,10 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, emai
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
   const [progress, setProgress] = useState(null);
+
+  useGSAP(() => {
+    if (msg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.from('[data-toast]', { y: 24, opacity: 0, duration: 0.4, ease: 'power3.out' });
+  }, { dependencies: [msg] });
 
   const toast = (t) => {
     setMsg(t);

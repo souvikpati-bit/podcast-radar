@@ -8,6 +8,7 @@ import { Hero } from '@/components/Hero';
 import { Banner } from '@/components/Banner';
 import { Dashboard } from '@/components/Dashboard';
 import { Method } from '@/components/Method';
+import { MotionRoot } from '@/components/MotionRoot';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,7 @@ export default async function Home() {
   const actions = admin ? await actionMap() : {};
   const env = getEnv();
   return (
-    <>
+    <MotionRoot>
       <TopBar admin={admin} active="home" />
       <main id="main">
         <Hero>
@@ -32,6 +33,6 @@ export default async function Home() {
           <p>Data: public YouTube metadata for the monitored shows. Every probability is a model estimate from the data, not a guarantee. This tool never contacts a guest or a sponsor. <Link href="/briefs">Past briefs</Link></p>
         </div>
       </footer>
-    </>
+    </MotionRoot>
   );
 }
