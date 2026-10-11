@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS videos (
   title TEXT NOT NULL,
   description_clean TEXT,
   description_raw TEXT,
-  tags TEXT[],
+  tags JSONB NOT NULL DEFAULT '[]',
   published_at TIMESTAMPTZ NOT NULL,
   duration_s INTEGER,
   is_short BOOLEAN NOT NULL DEFAULT FALSE,

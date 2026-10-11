@@ -9,6 +9,7 @@
   "shortMaxSeconds": 120,
   "dailyUnitAlert": 80,
   "dailyUnitBudget": 100,
+  "dailyUnitHardStop": 1000,
   "staleHours": 36,
   "briefMaxAgeHours": 12,
   "promptVersion": "v1",
