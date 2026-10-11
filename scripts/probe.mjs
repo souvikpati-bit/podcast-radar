@@ -1,6 +1,6 @@
 import { resolveChannel, fetchChannelVideos, newUnitCounter } from '../lib/youtube.js';
 import { hasPaidSignal } from '../lib/text.js';
-const cands = ['@ZerodhaOnline'];
+const cands = ['@thebarbershopwithshantanu6670'];
 const c = newUnitCounter();
 const guestRe = /\b(with|ft\.?|feat\.?|in conversation|x|\|)\b/i;
 const eng = (s) => (s.match(/[A-Za-z]/g) || []).length / Math.max(1, s.replace(/\s/g, '').length);
@@ -17,6 +17,7 @@ for (const h of cands) {
   console.log(`    (units so far: ${c.units})`);
 }
 process.exit(0);
+
 
 
 
