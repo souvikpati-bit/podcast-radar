@@ -30,6 +30,18 @@ CREATE INDEX IF NOT EXISTS videos_published_idx ON videos (published_at DESC);
 -- Shows read from a podcast RSS feed (no YouTube quota) have a feed_url and no YouTube channel id.
 ALTER TABLE channels ADD COLUMN IF NOT EXISTS feed_url TEXT;
 
+-- Shows added automatically when data was thin. Auto-added shows that fail the guest-episode rule are removed again.
+ALTER TABLE channels ADD COLUMN IF NOT EXISTS auto_added BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE channels ADD COLUMN IF NOT EXISTS feed_checked_at TIMESTAMPTZ;
+
+-- Shows the system tried and rejected, so it never tries them again.
+CREATE TABLE IF NOT EXISTS discovery_rejects (
+  key TEXT PRIMARY KEY,
+  reason TEXT,
+  at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS video_stats (
   video_id TEXT NOT NULL REFERENCES videos(video_id) ON DELETE CASCADE,
   captured_on DATE NOT NULL,
@@ -85,6 +97,8 @@ CREATE TABLE IF NOT EXISTS runs (
   stage TEXT,
   failures_json JSONB NOT NULL DEFAULT '[]'
 );
+
+ALTER TABLE runs ADD COLUMN IF NOT EXISTS notes_json JSONB NOT NULL DEFAULT '[]';
 
 CREATE TABLE IF NOT EXISTS actions (
   entity_type TEXT NOT NULL,

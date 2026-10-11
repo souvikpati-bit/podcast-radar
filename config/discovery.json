@@ -1,0 +1,26 @@
+{
+  "note": "Automatic RSS reinforcement. When data is thin the system finds podcast feeds by itself (Apple's free podcast directory, no key). Nothing here needs manual input.",
+  "minGuestEpisodesPerShow": 6,
+  "minTotalGuestEpisodes": 150,
+  "minShows": 10,
+  "maxNewShowsPerRun": 3,
+  "feedRecheckDays": 14,
+  "lookbackDays": 180,
+  "minRecentEpisodes": 6,
+  "minMedianMinutes": 20,
+  "maxEpisodesIn180Days": 90,
+  "minNameMatch": 0.75,
+  "resultsPerQuery": 8,
+  "maxValidationsPerRun": 12,
+  "newShowGraceMinutes": 20,
+  "queries": [
+    "India startup founder interviews",
+    "Indian business podcast",
+    "entrepreneurship India podcast",
+    "Indian CEO interview podcast",
+    "startup funding India venture capital podcast",
+    "D2C brand founders India podcast",
+    "Indian entrepreneurs stories podcast",
+    "business strategy India podcast"
+  ]
+}

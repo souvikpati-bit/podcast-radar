@@ -15,7 +15,7 @@ export async function POST(request) {
     /* empty body starts a new run */
   }
   const s = body?.state;
-  const valid = s && Number.isInteger(s.runId) && ['init', 'fetch', 'extract', 'score'].includes(s.stage) && Number.isInteger(s.cursor) && s.cursor >= 0;
-  const out = await refreshStep(valid ? { runId: s.runId, stage: s.stage, cursor: s.cursor } : null);
+  const valid = s && Number.isInteger(s.runId) && ['init', 'fetch', 'extract', 'reinforce', 'score'].includes(s.stage) && Number.isInteger(s.cursor) && s.cursor >= 0;
+  const out = await refreshStep(valid ? { runId: s.runId, stage: s.stage, cursor: s.cursor, reinforced: s.reinforced === true, rssOnly: s.rssOnly === true } : null);
   return Response.json(out);
 }

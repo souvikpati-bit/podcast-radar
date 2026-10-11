@@ -7,6 +7,8 @@ export function Method() {
         <summary>Every number explained</summary>
         <div className="method-body" data-method-body>
           <p>Every probability on this page is a <strong>model estimate from the data</strong>. It is never a guarantee that a guest will say yes or a sponsor will buy.</p>
+          <h3>Thin data fixes itself</h3>
+          <p>If a show has fewer than 6 guest episodes in the last 6 months, the system looks up that show&apos;s podcast RSS feed by itself and reads it as well. If the overall picture is still thin, it searches Apple&apos;s free podcast directory for active India business and startup shows and adds them. Added shows that still do not deliver 6 guest episodes are removed again. You never have to enter a link.</p>
           <h3>Where the data comes from</h3>
           <p>Only guest-interview episodes count: a video is used for topics, guests and sponsors only when a real guest was found in it. Shows that post rarely are read further back in time (up to six months) so they are not left blank. Solo videos and news clips are ignored (they still help set each channel&apos;s typical views). Podcast RSS show notes (guest names, bios, sponsor reads) for shows that are thin on YouTube, plus YouTube titles, descriptions, tags and public stats (views, likes, comments) for the shows you monitor. Spoken ad reads and audio are not available, so brand detection is partial: it only sees brands written in the text. Hidden likes or comments are treated as missing, never as zero.</p>
           <h3>Topics (score out of 10 and probability)</h3>

@@ -44,6 +44,16 @@ The database tables are created automatically on first use (`migrations/001_init
 
 Both routes need `Authorization: Bearer $CRON_SECRET` (Vercel adds it automatically).
 
+## Automatic RSS reinforcement
+
+No manual feed links needed. After reading every show, the refresh checks for thin data (config in `config/discovery.json`):
+
+1. A show with fewer than 6 guest episodes in 6 months gets its podcast feed found automatically (Apple's free podcast directory, no key) and attached. Episodes already seen on YouTube are not counted twice.
+2. If the overall data is still thin (under 150 guest episodes in 60 days, or under 10 shows), up to 3 new active, long-form India business/startup shows are added per run.
+3. Auto-added shows that do not deliver 6 guest episodes are removed and never retried.
+
+What it did is listed under **System health** in Settings.
+
 ## Rules for what counts
 
 - Only **guest-interview episodes** count (a real guest found in the title or show notes).

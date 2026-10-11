@@ -144,7 +144,7 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
         {channels.map((c) => (
           <div className="chan" key={c.id}>
             {c.thumbnail ? <img src={c.thumbnail} alt="" width="40" height="40" /> : <span style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--line)' }} />}
-            <div className="grow"><strong>{c.title || c.handle}</strong><div className="muted mono" style={{ fontSize: 12 }}>{c.feed_url ? 'RSS feed (no YouTube quota)' : c.handle}</div></div>
+            <div className="grow"><strong>{c.title || c.handle}</strong><div className="muted mono" style={{ fontSize: 12 }}>{c.feed_url ? (c.youtube_channel_id ? `${c.handle} + podcast feed` : 'Podcast RSS feed (no YouTube quota)') : c.handle}{c.auto_added ? ' · added automatically' : ''}</div></div>
             <div>
               <label htmlFor={`host-${c.id}`} style={{ margin: 0 }}>Host</label>
               <input id={`host-${c.id}`} type="text" defaultValue={c.host_name || ''} maxLength={80} placeholder="Host name" onBlur={(e) => e.target.value !== (c.host_name || '') && saveHost(c, e.target.value)} />
@@ -180,6 +180,10 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
         <h3 style={{ fontSize: 15, marginTop: 16 }}>Missing keys</h3>
         {missing.length === 0 ? <p className="status-ok">All keys are set.</p> : (
           <ul>{missing.map((m) => <li key={m.name}><span className="mono status-warn">{m.name}</span>: {m.effect}</li>)}</ul>
+        )}
+        <h3 style={{ fontSize: 15, marginTop: 16 }}>Automatic reinforcement (last refresh)</h3>
+        {(health.notes || []).length === 0 ? <p className="muted">Data was not thin, so nothing needed adding.</p> : (
+          <ul>{health.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
         )}
         <h3 style={{ fontSize: 15, marginTop: 16 }}>Channels that failed last refresh</h3>
         {health.failedChannels.length === 0 ? <p className="muted">None.</p> : (
