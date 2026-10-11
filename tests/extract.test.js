@@ -64,3 +64,38 @@ test('guest merge: aliases, prefixes and ambiguity', () => {
   assert.ok(r.ambiguous.length >= 1);
   assert.equal(r.map['Priya  Nair'], 'Priya Nair');
 });
+
+test('guest roles and companies are read from the text and checked against it', () => {
+  const v = video({ title: 'Building a D2C brand with Priya Nair, founder of Glow Labs', description_raw: 'Priya Nair, founder of Glow Labs, talks. Also mentioned: Imaginary Corp.' });
+  const r = validateExtraction({ guests: [{ name: 'Priya Nair', role: 'founder', company: 'Glow Labs' }, { name: 'Ghost Person', role: 'founder', company: 'Nowhere Inc' }], topics: ['D2C'], brands: [] }, v, ctx);
+  assert.deepEqual(r.guests, ['Priya Nair']);
+  assert.deepEqual(r.guest_info, [{ name: 'Priya Nair', role: 'founder', company: 'Glow Labs' }]);
+  const bad = validateExtraction({ guests: [{ name: 'Priya Nair', role: 'wizard', company: 'Made Up Co' }] }, v, ctx);
+  assert.equal(bad.guest_info[0].role, 'unknown');
+  assert.equal(bad.guest_info[0].company, '', 'a company that is not in the text is dropped');
+  const kw = keywordExtract(video(), ctx);
+  assert.ok(kw.guest_info.every((x) => x.role === 'unknown'));
+});
+
+test('a specific theme that fits no topic becomes a new topic name', () => {
+  const tax = defaultTaxonomy();
+  const c = { taxonomy: tax, hostNames: [], allowNewTopics: true, newTopics: [] };
+  const r = validateExtraction({ guests: [], topics: ['quantum battery startups'], brands: [] }, video({ title: 'x with Jane Doe', description_raw: 'quantum battery startups' }), c);
+  assert.deepEqual(r.topics, ['Quantum battery startups']);
+  assert.equal(c.newTopics.length, 1);
+  const off = validateExtraction({ guests: [], topics: ['quantum battery startups'], brands: [] }, video(), { taxonomy: defaultTaxonomy(), hostNames: [] });
+  assert.deepEqual(off.topics, [], 'without permission nothing new is created');
+});
+
+test('Indian sponsor wording counts as a paid signal; plain talk does not', () => {
+  const r = validateExtraction({ brands: [{ name: 'Zenpay', sponsored: true }] }, video({ description_raw: 'This episode is presented by Zenpay, our official partner.' }), ctx);
+  assert.equal(r.brands[0].sponsored, true);
+  const r2 = validateExtraction({ brands: [{ name: 'Zenpay', sponsored: true }] }, video({ description_raw: 'We talked about Zenpay and how founders use it.' }), ctx);
+  assert.equal(r2.brands[0].sponsored, false);
+});
+
+test('spelling variants of a first name are merged, different people are not', () => {
+  const r = mergeGuestNames(['Nishchal Maheshwari', 'Nischal Maheshwari', 'Nikhil Gupta', 'Nilesh Gupta']);
+  assert.equal(r.map['Nischal Maheshwari'], 'Nishchal Maheshwari');
+  assert.equal(r.map['Nilesh Gupta'], 'Nilesh Gupta');
+});

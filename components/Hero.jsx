@@ -15,7 +15,7 @@ export function Hero({ children }) {
       </svg>
       <div className="wrap">
         <h1 data-split>Catch the <em>moment</em> before it passes.</h1>
-        <p className="lede">Aditya&apos;s weekly radar of the founder podcasts you monitor: the topics everyone is covering, the guests on a media round right now, and the brands already buying podcast ads. You make every call. Nothing here ever contacts anyone.</p>
+        <p className="lede">Aditya&apos;s weekly radar of the founder podcasts you monitor: which topics several shows are covering at once, which founders are doing the media rounds this month, and which brands are being promoted across shows. You make every call. Nothing here ever contacts anyone.</p>
         {children}
       </div>
     </div>

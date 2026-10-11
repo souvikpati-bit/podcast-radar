@@ -10,6 +10,9 @@
   "counts": { "topics": 6, "guests": 7, "sponsors": 5 },
   "probabilityClamp": { "min": 0.03, "max": 0.97 },
   "topic": {
+    "simultaneousDays": 30,
+    "rideMinShows": 3,
+    "crowdedShare": 0.25,
     "minVideos": 5,
     "weights": { "performance": 0.4, "engagement": 0.2, "coverage": 0.25, "recency": 0.15 },
     "performanceCap": 2,
@@ -19,6 +22,9 @@
     "recencyFull": 0.35
   },
   "guest": {
+    "mediaRoundDays": 30,
+    "requireFounder": true,
+    "freshMaxAppearances": 2,
     "weights": { "mediaWilling": 0.4, "recency": 0.3 },
     "channelCap": 4,
     "floodedAt": 6,
@@ -26,6 +32,7 @@
     "recencyHalfDays": 14
   },
   "sponsor": {
+    "minShows": 2,
     "weights": { "reach": 0.35, "recency": 0.25, "paidSignal": 0.25, "frequency": 0.15 },
     "channelCap": 4,
     "frequencyCap": 8,

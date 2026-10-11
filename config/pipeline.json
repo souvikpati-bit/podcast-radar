@@ -15,7 +15,7 @@
   "dailyUnitHardStop": 1000,
   "staleHours": 36,
   "briefMaxAgeHours": 12,
-  "promptVersion": "v1",
-  "maxTaxonomyTopics": 14,
+  "promptVersion": "v2",
+  "maxTaxonomyTopics": 30,
   "brandDenylist": ["chatgpt", "openai", "anthropic", "claude", "gemini", "google gemini", "copilot", "microsoft copilot", "josh talks", "josh", "whatsapp business", "meta", "youtube premium", "youtube music", "apple music", "google podcasts", "amazon music", "spotify podcasts", "youtube", "instagram", "spotify", "linkedin", "twitter", "x", "apple", "apple podcasts", "google", "facebook", "tiktok", "podcast", "patreon", "whatsapp", "telegram", "amazon", "netflix", "substack"]
 }

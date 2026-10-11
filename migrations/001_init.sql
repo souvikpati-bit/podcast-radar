@@ -62,6 +62,9 @@ CREATE TABLE IF NOT EXISTS extractions (
   PRIMARY KEY (video_id, prompt_version)
 );
 
+-- Who each guest is (founder, investor, analyst...) and their company, as read from the episode text.
+ALTER TABLE extractions ADD COLUMN IF NOT EXISTS guest_info JSONB NOT NULL DEFAULT '[]';
+
 CREATE TABLE IF NOT EXISTS topics_taxonomy (
   canonical_name TEXT PRIMARY KEY,
   aliases JSONB NOT NULL DEFAULT '[]'

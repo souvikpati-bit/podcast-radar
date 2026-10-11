@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { buildResults, scoreTopics, scoreGuests, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
+import { buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
 import { buildDemoDataset } from '../lib/demo.js';
 
 const NOW = new Date('2026-10-11T06:00:00Z');
@@ -23,7 +23,7 @@ test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () =>
   }
   for (let i = 1; i < r.topics.length; i++) {
     const a = r.topics[i - 1], b = r.topics[i];
-    assert.ok(a.probability > b.probability || (a.probability === b.probability && a.score >= b.score));
+    assert.ok(a.simultaneous.shows > b.simultaneous.shows || (a.simultaneous.shows === b.simultaneous.shows && a.score >= b.score), 'ranked by shows covering it at the same time, then score');
   }
   for (let i = 1; i < r.guests.length; i++) assert.ok(r.guests[i - 1].probability >= r.guests[i].probability, 'guests sorted by probability');
   console.log('\nTOPICS');
@@ -120,9 +120,10 @@ test('sponsors: advertiser tag, qualification and relaxation', () => {
     vid({ brands: [{ name: 'Once', sponsored: false }] }),
   ];
   const s = scoreSponsors(vs, NOW);
-  assert.equal(s.length, 3); // relaxed so "Once" is included, nothing invented
+  assert.equal(s.length, 2); // PaidCo (paid) and Mentioned (two shows); a one-off mention never fills the list
   assert.equal(s.find((x) => x.brand === 'PaidCo').likelyAdvertiser, true);
   assert.equal(s.find((x) => x.brand === 'Mentioned').likelyAdvertiser, false);
+  assert.ok(!s.some((x) => x.brand === 'Once'));
 });
 
 test('channel with one video still gets a baseline', () => {
@@ -147,4 +148,73 @@ test('a confirmed guest is removed from the list, everyone else stays, and nothi
   assert.equal(r.excluded, 1);
   assert.equal(r.guests.length, 1);
   assert.equal(buildResults(vs, NOW).guests.length, 2);
+});
+
+test('guests: only founders are listed; unknown roles get the benefit of the doubt; media round means 2+ shows within 30 days', () => {
+  const info = (name, role, company = '') => [{ name, role, company }];
+  const vs = [
+    vid({ guests: ['Fay Founder'], guest_info: info('Fay Founder', 'founder', 'Foo Labs'), channel_key: 'a', channel_title: 'A', published_at: daysAgo(5) }),
+    vid({ guests: ['Fay Founder'], guest_info: info('Fay Founder', 'founder', 'Foo Labs'), channel_key: 'b', channel_title: 'B', published_at: daysAgo(12) }),
+    vid({ guests: ['Ann Analyst'], guest_info: info('Ann Analyst', 'analyst'), channel_key: 'a', channel_title: 'A', published_at: daysAgo(2) }),
+    vid({ guests: ['Cal Celeb'], guest_info: info('Cal Celeb', 'celebrity'), channel_key: 'a', channel_title: 'A', published_at: daysAgo(2) }),
+    vid({ guests: ['Una Unknown'], guest_info: info('Una Unknown', 'unknown'), channel_key: 'c', channel_title: 'C', published_at: daysAgo(4) }),
+    // two shows, but 40 days apart: NOT a media round (not the same month)
+    vid({ guests: ['Late Larry'], guest_info: info('Late Larry', 'founder'), channel_key: 'a', channel_title: 'A', published_at: daysAgo(3) }),
+    vid({ guests: ['Late Larry'], guest_info: info('Late Larry', 'founder'), channel_key: 'b', channel_title: 'B', published_at: daysAgo(50) }),
+  ];
+  const r = guestRanking(vs, NOW);
+  const names = r.rows.map((g) => g.guest);
+  assert.ok(names.includes('Fay Founder') && names.includes('Una Unknown') && names.includes('Late Larry'));
+  assert.ok(!names.includes('Ann Analyst') && !names.includes('Cal Celeb'));
+  assert.equal(r.skippedNotFounders, 2);
+  const fay = r.rows.find((g) => g.guest === 'Fay Founder');
+  const larry = r.rows.find((g) => g.guest === 'Late Larry');
+  assert.ok(fay.mediaRound && fay.company === 'Foo Labs' && /Founder at Foo Labs/.test(fay.why));
+  assert.ok(!larry.mediaRound, 'two shows 47 days apart is not a media round');
+  assert.equal(r.mediaRounds, 1);
+  assert.equal(names[0], 'Fay Founder', 'the media-round founder ranks first');
+  assert.ok(buildResults(vs, NOW).mediaRounds === 1);
+});
+
+test('guests: fresh voice and heavily booked tags', () => {
+  const fresh = vid({ guests: ['New Face'], guest_info: [{ name: 'New Face', role: 'founder', company: '' }] });
+  const busy = Array.from({ length: 6 }, (_, i) => vid({ guests: ['Everywhere Eve'], guest_info: [{ name: 'Everywhere Eve', role: 'founder', company: '' }], channel_key: `s${i}`, channel_title: `S${i}`, published_at: daysAgo(100 + i) }));
+  const recent = vid({ guests: ['Everywhere Eve'], guest_info: [{ name: 'Everywhere Eve', role: 'founder', company: '' }], channel_key: 's0', channel_title: 'S0', published_at: daysAgo(4) });
+  const rows = scoreGuests([fresh, ...busy, recent], NOW);
+  assert.equal(rows.find((g) => g.guest === 'New Face').fresh, true);
+  assert.equal(rows.find((g) => g.guest === 'Everywhere Eve').saturated, true);
+  assert.equal(rows.find((g) => g.guest === 'Everywhere Eve').fresh, false);
+});
+
+test('topics: ranked by how many shows cover them at the same time; ride vs counter-programme vs emerging', () => {
+  const eps = (topic, shows, days) => shows.flatMap((s) => days.map((d, i) => vid({ topics: [topic], guests: [`G ${topic} ${s} ${i}`], channel_key: s, channel_title: s, published_at: daysAgo(d) })));
+  const vs = [
+    ...eps('Crowded', ['s1', 's2', 's3', 's4'], [2, 6, 9, 14]),
+    ...eps('Rideable', ['s1', 's2', 's3'], [3, 8]),
+    ...eps('Solo', ['s5'], [1, 4, 7, 9, 12, 20]),
+    ...eps('Filler', ['s1', 's2', 's3', 's4', 's5', 's6'], [40, 45, 50]),
+  ];
+  // Filler is only 40+ days old so it is not "simultaneous"; Crowded takes 16 of 36 recent episodes (> 25%)
+  const rows = scoreTopics(vs, NOW);
+  const by = Object.fromEntries(rows.map((r) => [r.topic, r]));
+  assert.equal(by.Crowded.simultaneous.shows, 4);
+  assert.equal(by.Rideable.simultaneous.shows, 3);
+  assert.equal(by.Solo.simultaneous.shows, 1);
+  assert.equal(by.Filler.simultaneous.shows, 0);
+  assert.equal(by.Crowded.stance, 'counter');
+  assert.equal(by.Rideable.stance, 'ride');
+  assert.equal(by.Solo.stance, 'emerging');
+  assert.deepEqual(rows.map((r) => r.topic).slice(0, 3), ['Crowded', 'Rideable', 'Solo']);
+});
+
+test('sponsors: need two shows or a paid flag; one-off mentions never qualify', () => {
+  const vs = [
+    vid({ brands: [{ name: 'TwoShows', sponsored: false }], channel_key: 'a', channel_title: 'A' }),
+    vid({ brands: [{ name: 'TwoShows', sponsored: false }], channel_key: 'b', channel_title: 'B' }),
+    vid({ brands: [{ name: 'PaidOnce', sponsored: true }], channel_key: 'a', channel_title: 'A' }),
+    vid({ brands: [{ name: 'OneOff', sponsored: false }], channel_key: 'c', channel_title: 'C' }),
+  ];
+  const names = scoreSponsors(vs, NOW).map((s) => s.brand);
+  assert.ok(names.includes('TwoShows') && names.includes('PaidOnce'));
+  assert.ok(!names.includes('OneOff'));
 });

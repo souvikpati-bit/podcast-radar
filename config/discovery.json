@@ -3,6 +3,7 @@
   "minGuestEpisodesPerShow": 6,
   "minTotalGuestEpisodes": 150,
   "minShows": 10,
+  "maxAutoShows": 10,
   "maxNewShowsPerRun": 3,
   "feedRecheckDays": 14,
   "lookbackDays": 180,
