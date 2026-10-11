@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS briefs (
 
 CREATE TABLE IF NOT EXISTS runs (
   id SERIAL PRIMARY KEY,
-  kind TEXT NOT NULL CHECK (kind IN ('refresh', 'brief')),
+  kind TEXT NOT NULL CHECK (kind IN ('refresh', 'brief', 'check')),
   started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   finished_at TIMESTAMPTZ,
   status TEXT NOT NULL DEFAULT 'running',

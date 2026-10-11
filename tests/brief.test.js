@@ -107,3 +107,20 @@ test('Review Gate stores statuses and exports safe CSV', async () => {
   assert.ok(csv.includes(`"'=cmd|calc"`));
   await assert.rejects(() => setAction('guest', 'x', 'weird'));
 });
+
+test('a brief that fails before sending is stored and retried by the daily run', async () => {
+  const { briefNeedsRetry } = await import('../lib/brief.js');
+  const d3 = new PGlite();
+  __setTestClient(async (t, p) => (await d3.query(t, p)).rows);
+  clearMail();
+  const later = new Date('2026-11-02T00:30:00Z');
+  assert.equal(await briefNeedsRetry(later), true); // no row yet
+  const r = await sendBrief({ now: later, data: data() });
+  assert.equal(r.ok, false);
+  assert.equal((await d3.query('SELECT status FROM briefs')).rows[0].status, 'failed');
+  assert.equal(await briefNeedsRetry(later), true);
+  setMail();
+  const ok = await sendBrief({ now: later, data: data(), fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({}) }) });
+  assert.equal(ok.ok, true);
+  assert.equal(await briefNeedsRetry(later), false);
+});

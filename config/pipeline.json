@@ -14,5 +14,5 @@
   "briefMaxAgeHours": 12,
   "promptVersion": "v1",
   "maxTaxonomyTopics": 14,
-  "brandDenylist": ["youtube", "instagram", "spotify", "linkedin", "twitter", "x", "apple", "apple podcasts", "google", "facebook", "tiktok", "podcast", "patreon", "whatsapp", "telegram", "amazon", "netflix", "substack"]
+  "brandDenylist": ["youtube premium", "youtube music", "apple music", "google podcasts", "amazon music", "spotify podcasts", "youtube", "instagram", "spotify", "linkedin", "twitter", "x", "apple", "apple podcasts", "google", "facebook", "tiktok", "podcast", "patreon", "whatsapp", "telegram", "amazon", "netflix", "substack"]
 }

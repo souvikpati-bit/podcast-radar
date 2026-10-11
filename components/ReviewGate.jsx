@@ -8,7 +8,7 @@ const OPTIONS = {
 };
 
 // Aditya's private notebook. Nothing here contacts anyone.
-export function ReviewGate({ type, name, current }) {
+export function ReviewGate({ type, name, label, current }) {
   const [status, setStatus] = useState(current);
   const [err, setErr] = useState('');
   async function choose(next) {
@@ -19,7 +19,7 @@ export function ReviewGate({ type, name, current }) {
     else setErr((await res.json().catch(() => ({}))).error || 'Could not save');
   }
   return (
-    <div className="gate" role="group" aria-label={`Review ${name}`}>
+    <div className="gate" role="group" aria-label={`Review ${label || name}`}>
       {OPTIONS[type].map(([key, label]) => (
         <button key={key} type="button" aria-pressed={status === key} onClick={() => choose(key)}>{label}</button>
       ))}

@@ -40,7 +40,8 @@ test('helpers handle empty, NaN and null', () => {
   assert.equal(clamp(NaN, 0, 1), 0);
   assert.equal(engagementRate({ views: 0, likes: 1, comments: 1 }), null);
   assert.equal(engagementRate({ views: 100, likes: null, comments: null }), null);
-  assert.equal(engagementRate({ views: 100, likes: null, comments: 10 }), 0.1);
+  assert.equal(engagementRate({ views: 100, likes: null, comments: 10 }), null); // one hidden = missing
+  assert.equal(engagementRate({ views: 100, likes: 5, comments: 5 }), 0.1);
 });
 
 test('empty and tiny inputs never crash', () => {

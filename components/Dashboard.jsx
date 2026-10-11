@@ -146,9 +146,10 @@ export function Dashboard({ results, showSponsorNames, admin, actions, demo }) {
         ) : (
           <ol className="rows">
             {results.sponsors.map((s) => {
-              const label = showSponsorNames ? s.brand : `Sponsor ${s.rank}`;
+              const label = s.brand;
+              const sk = s.key || s.brand;
               return (
-                <li key={s.brand} className={`row${st('sponsor', s.brand) === 'dismissed' ? ' dismissed' : ''}`} data-row>
+                <li key={sk} className={`row${st('sponsor', sk) === 'dismissed' ? ' dismissed' : ''}`} data-row>
                   <div className="rank" aria-hidden="true">{String(s.rank).padStart(2, '0')}</div>
                   <div className="row-main">
                     <h3 className="row-title">
@@ -158,7 +159,7 @@ export function Dashboard({ results, showSponsorNames, admin, actions, demo }) {
                     <Prob value={s.probability} />
                     <p className="why">{s.why}. Carried by: {s.shows.join(', ')}.</p>
                     <Evidence items={s.evidence} />
-                    {admin && <ReviewGate type="sponsor" name={s.brand} current={st('sponsor', s.brand)} />}
+                    {admin && <ReviewGate type="sponsor" name={sk} label={label} current={st('sponsor', sk)} />}
                   </div>
                 </li>
               );

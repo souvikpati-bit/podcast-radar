@@ -105,3 +105,27 @@ test('database failure falls back to demo data', async () => {
   assert.equal(d.kind, 'demo');
   assert.equal(d.snapshot.results.topics.length, 6);
 });
+
+test('a refresh where every channel fails keeps the previous snapshot', async () => {
+  const d2 = new PGlite();
+  __setTestClient(async (t, p) => (await d2.query(t, p)).rows);
+  process.env.DATABASE_URL = 'postgres://test';
+  process.env.YOUTUBE_API_KEY = 'k';
+  const good = fakeFetch('@none');
+  await addChannel('@ccc', '', undefined, good);
+  await runRefreshToCompletion({ fetchImpl: good });
+  const before = await getDashboardData();
+  assert.equal(before.kind, 'live');
+  const allFail = async () => ({ ok: false, status: 500, json: async () => ({}) });
+  await d2.query(`UPDATE channels SET uploads_playlist_id = 'UUx'`);
+  const r = await runRefreshToCompletion({ fetchImpl: allFail });
+  assert.ok(r.done);
+  const run = (await d2.query(`SELECT status FROM runs WHERE kind='refresh' ORDER BY id DESC LIMIT 1`)).rows[0];
+  assert.equal(run.status, 'partial'); // stored videos still score; the failure is recorded
+  const after = await getDashboardData();
+  assert.ok(after.snapshot.results.counts.videos > 0, 'empty snapshot must not replace the good one');
+  assert.ok(after.snapshot.meta.failedChannels.length > 0);
+  // a channel preview must not hide the failed refresh
+  await d2.query(`INSERT INTO runs (kind, status, units_used) VALUES ('check','ok',1)`);
+  assert.ok((await getDashboardData()).snapshot.meta.failedChannels.length > 0);
+});

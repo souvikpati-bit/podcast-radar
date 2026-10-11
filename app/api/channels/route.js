@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 async function recordUnits(units) {
   if (!units) return;
   try {
-    await query(`INSERT INTO runs (kind, status, units_used, finished_at, stage) VALUES ('refresh','channel-check',$1, now(), 'validate')`, [units]);
+    await query(`INSERT INTO runs (kind, status, units_used, finished_at, stage) VALUES ('check','ok',$1, now(), 'validate')`, [units]);
   } catch {
     /* quota bookkeeping is best effort */
   }

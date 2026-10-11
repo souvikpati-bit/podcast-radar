@@ -15,7 +15,7 @@ export default async function Briefs() {
       <main id="main" className="wrap" style={{ paddingTop: 48 }}>
         <div className="sec-head"><span className="sec-num">H</span><h1 style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(34px,7vw,56px)' }}>Past briefs</h1></div>
         <p className="sec-sub">Every Monday brief, exactly as it was emailed.</p>
-        {!r.ok && <p className="note">The archive needs the database ({r.error}).</p>}
+        {!r.ok && <p className="note">The archive needs the database to be connected.</p>}
         {r.ok && r.rows.length === 0 && (
           <div className="empty"><h2>No briefs yet</h2><p>The first one is sent on Monday morning, or from Settings with &ldquo;Send brief now&rdquo;.</p></div>
         )}
@@ -25,7 +25,7 @@ export default async function Briefs() {
             return (
               <li key={d} className="row" style={{ gridTemplateColumns: '1fr' }}>
                 <h3 className="row-title"><Link href={`/briefs/${d}`}>Week of {d}</Link> <span className={`badge ${b.status === 'sent' ? 'signal' : b.status === 'failed' ? 'amber' : ''}`}>{b.status}</span></h3>
-                <p className="why">{b.status === 'sent' && b.sent_at ? `Sent ${formatIST(b.sent_at)}` : b.error ? `Not sent: ${b.error}` : 'Draft'}</p>
+                <p className="why">{b.status === 'sent' && b.sent_at ? `Sent ${formatIST(b.sent_at)}` : b.error ? (admin ? `Not sent: ${b.error}` : 'Not sent yet') : 'Draft'}</p>
               </li>
             );
           })}
