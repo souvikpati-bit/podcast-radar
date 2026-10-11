@@ -117,3 +117,13 @@ test('channel with one video still gets a baseline', () => {
   const b = channelBaselines([vid({ views: 500 })], NOW);
   assert.equal(b.byChannel.c1.medianViews, 500);
 });
+
+test('rarely-posting shows are read further back (max 180 days) so they are not left blank', () => {
+  const busy = Array.from({ length: 10 }, (_, i) => vid({ channel_key: 'busy', channel_title: 'Busy', topics: ['T'], guests: ['Bee Guest'], published_at: daysAgo(2 + i * 4) }));
+  const rare = [10, 70, 100, 130, 160, 175, 300].map((d) => vid({ channel_key: 'rare', channel_title: 'Rare', topics: ['T'], guests: ['Rare Guest'], published_at: daysAgo(d) }));
+  const t = scoreTopics([...busy, ...rare], NOW).find((r) => r.topic === 'T');
+  // busy: all 10 are inside 60 days. rare: the newest 6 are used (1 inside 60 days + 5 older); the 300-day one is beyond the 180-day cap.
+  assert.equal(t.videos, 10 + 6);
+  const withVeryOld = scoreTopics([...busy, ...rare, vid({ channel_key: 'old', channel_title: 'Old', topics: ['T'], guests: ['Old Guest'], published_at: daysAgo(400) })], NOW).find((r) => r.topic === 'T');
+  assert.equal(withVeryOld.videos, t.videos, 'nothing older than 180 days is ever used');
+});

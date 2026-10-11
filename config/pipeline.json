@@ -1,6 +1,9 @@
 {
   "maxChannels": 15,
   "fetchWindowDays": 90,
+  "sparseFetchWindowDays": 180,
+  "sparseChannelMinVideos": 12,
+  "extractLookbackDays": 180,
   "maxPlaylistPages": 3,
   "extractWindowDays": 90,
   "maxNewVideosPerRun": 160,
