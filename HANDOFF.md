@@ -307,7 +307,7 @@ Paste this:
 ## Addendum (2026-10-13): Trends block, login block, dashboard blocks
 - Main page is now seven clickable blocks (01 Login, 02 Topics, 03 Trends, 04 Founders, 05 Sponsors, 06 Shows, 07 How it works); Settings has four. Component: `components/BlockTabs.jsx`.
 - Show list max is 10 (`config/pipeline.json` maxChannels); add/remove is on the main page and in Settings after login (`components/ChannelManager.jsx`).
-- Trends: `lib/trends.js` + `config/trend-articles.json` fetch Wikipedia daily page views (no key, polite pacing, failures never break a refresh) and are stored in the snapshot as `results.trends`; each topic also has `weekly8` (episodes per week). Chart: `components/TrendChart.jsx`. `scripts/rescore.mjs` re-scores and refreshes trends with no YouTube/Gemini quota.
+- Trends: `lib/trends.js` + `config/trend-articles.json` fetch Wikipedia daily page views over 16 weeks, baseline = 16-week average (no key, polite pacing, failures never break a refresh) and are stored in the snapshot as `results.trends`; each topic also has `weeklyShows` (distinct shows covering it per week, last 12 weeks; counting shows not episodes because high-volume shows such as Business Today have no older history stored). Chart: `components/TrendChart.jsx`. `scripts/rescore.mjs` re-scores and refreshes trends with no YouTube/Gemini quota.
 - Google Trends is NOT used: the official API is alpha-by-application and scraping is unreliable. Wikipedia page views are the stand-in.
 - Removed from the front page at the user's request: the intro paragraph, the scrolling show ticker, and the media-round stat.
 - Components Map was redrawn: `components-map.pdf/png/svg`. `CODE_FLOW.md` explains the code flow.

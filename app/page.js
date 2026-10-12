@@ -51,7 +51,7 @@ export default async function Home() {
           tabs={[
             { id: 'login', num: '01', label: admin ? 'Logged in' : 'Login', hint: admin ? 'Aditya · manage shows' : 'Aditya only', content: <LoginPanel admin={admin} /> },
             { id: 'topics', num: '02', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'trends', num: '03', label: 'Trends', hint: 'Topics over 8 weeks', content: <TrendsPanel results={results} /> },
+            { id: 'trends', num: '03', label: 'Trends', hint: 'Topics over time', content: <TrendsPanel results={results} /> },
             { id: 'guests', num: '04', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
             { id: 'sponsors', num: '05', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
             { id: 'shows', num: '06', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (

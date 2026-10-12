@@ -14,15 +14,16 @@ const toIndex = (vals) => {
 };
 const pctChange = (now, before) => (before > 0 ? Math.round(((now - before) / before) * 100) : null);
 
-export function TrendChart({ weeks, topics, source }) {
+export function TrendChart({ coverageWeeks, interestWeeks, topics, source }) {
   const hasInterest = topics.some((t) => t.interest);
-  const [mode, setMode] = useState('episodes');
+  const [mode, setMode] = useState('coverage');
   const [off, setOff] = useState({});
   const [hover, setHover] = useState(null);
-  const active = hasInterest ? mode : 'episodes';
+  const active = hasInterest ? mode : 'coverage';
+  const weeks = active === 'interest' ? interestWeeks : coverageWeeks;
 
   const series = useMemo(
-    () => topics.map((t, i) => ({ ...t, color: COLORS[i % COLORS.length], values: active === 'interest' ? (t.interest ? toIndex(t.interest) : null) : t.episodes })),
+    () => topics.map((t, i) => ({ ...t, color: COLORS[i % COLORS.length], values: active === 'interest' ? (t.interest ? toIndex(t.interest) : null) : t.coverage })),
     [topics, active],
   );
   const shown = series.filter((s) => s.values && !off[s.topic]);
@@ -43,14 +44,14 @@ export function TrendChart({ weeks, topics, source }) {
     <div className="trend">
       {hasInterest && (
         <div className="seg" role="group" aria-label="What the chart shows">
-          <button type="button" aria-pressed={active === 'episodes'} onClick={() => setMode('episodes')}>Episodes per week</button>
+          <button type="button" aria-pressed={active === 'coverage'} onClick={() => setMode('coverage')}>Shows covering it</button>
           <button type="button" aria-pressed={active === 'interest'} onClick={() => setMode('interest')}>Public interest</button>
         </div>
       )}
       <p className="muted" style={{ fontSize: 14, margin: '10px 0 6px' }}>
         {active === 'interest'
-          ? `${source || 'Wikipedia page views'}, shown as an index: 100 = that topic's own average over the eight weeks. Above 100 means more people are reading about it than usual.`
-          : 'Guest episodes on each topic, per week, across all monitored shows.'}
+          ? `${source || 'Wikipedia page views'}, shown as an index: 100 = that topic's own average over the last 16 weeks. Above 100 means more people are reading about it than usual.`
+          : 'How many of your monitored shows had a guest episode on each topic, per week, over the last 12 weeks.'}
       </p>
       <div className="legend" role="group" aria-label="Topics on the chart">
         {series.map((s) => (
@@ -66,7 +67,7 @@ export function TrendChart({ weeks, topics, source }) {
             <text x={M.l - 8} y={y(t) + 4} textAnchor="end" className="axis-t">{t}</text>
           </g>
         ))}
-        {weeks.map((w, i) => (i % 2 === 0 || i === n - 1) && <text key={w + i} x={x(i)} y={H - 12} textAnchor="middle" className="axis-t">{w}</text>)}
+        {weeks.map((w, i) => ((n - 1 - i) % 3 === 0) && <text key={w + i} x={x(i)} y={H - 12} textAnchor="middle" className="axis-t">{w}</text>)}
         {hover !== null && <line x1={x(at)} x2={x(at)} y1={M.t} y2={H - M.b} stroke="rgba(255,255,255,0.3)" strokeDasharray="3 3" />}
         {shown.map((s) => (
           <g key={s.topic}>
@@ -83,12 +84,13 @@ export function TrendChart({ weeks, topics, source }) {
 
       <div style={{ overflowX: 'auto' }}>
         <table className="t">
-          <thead><tr><th>Topic</th><th>Shows now</th><th>Episodes, last 2 weeks vs 2 before</th>{hasInterest && <th>Public interest, latest week vs 8-week average</th>}</tr></thead>
+          <thead><tr><th>Topic</th><th>Shows now</th><th>Shows per week, last 4 weeks vs the 4 before</th>{hasInterest && <th>Public interest, latest week vs 16-week average</th>}</tr></thead>
           <tbody>
             {topics.map((t) => {
-              const e = t.episodes;
-              const recent = e.slice(-2).reduce((a, b) => a + b, 0);
-              const before = e.slice(-4, -2).reduce((a, b) => a + b, 0);
+              const c = t.coverage;
+              const mean = (a) => a.reduce((x, y) => x + y, 0) / Math.max(a.length, 1);
+              const recent = mean(c.slice(-4));
+              const before = mean(c.slice(-8, -4));
               const d = pctChange(recent, before);
               const idx = t.interest ? toIndex(t.interest) : null;
               const last = idx ? idx[idx.length - 1] - 100 : null;
@@ -96,7 +98,7 @@ export function TrendChart({ weeks, topics, source }) {
                 <tr key={t.topic}>
                   <td>{t.topic}</td>
                   <td className="mono">{t.shows}</td>
-                  <td className="mono">{recent} vs {before}{d === null ? '' : ` (${d > 0 ? '+' : ''}${d}%)`}</td>
+                  <td className="mono">{recent.toFixed(1)} vs {before.toFixed(1)}{d === null ? '' : ` (${d > 0 ? '+' : ''}${d}%)`}</td>
                   {hasInterest && <td className="mono">{last === null ? 'no data' : `${last > 0 ? '+' : ''}${last}%`}</td>}
                 </tr>
               );

@@ -200,18 +200,18 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
 
 export function TrendsPanel({ results }) {
   const tr = results.trends;
-  const topics = (results.topics || []).filter((t) => t.weekly8).map((t) => ({ topic: t.topic, shows: t.simultaneous?.shows || 0, episodes: t.weekly8, interest: tr?.interest?.[t.topic] || null }));
-  const weeks = tr?.weeks || topics[0]?.episodes.map((_, i, a) => (i === a.length - 1 ? 'now' : `-${a.length - 1 - i}w`)) || [];
+  const topics = (results.topics || []).filter((t) => t.weeklyShows).map((t) => ({ topic: t.topic, shows: t.simultaneous?.shows || 0, coverage: t.weeklyShows, interest: tr?.interest?.[t.topic] || null }));
+  const coverageWeeks = tr?.showWeeks || topics[0]?.coverage.map((_, i, a) => (i === a.length - 1 ? 'now' : `-${a.length - 1 - i}w`)) || [];
   return (
     <section className="block">
       <SectionHead num="03" id="h-trends" title="Topic trends over time">
-        The six topics compared week by week for the last eight weeks: how often guests talked about each one across your shows, and how much the public is reading about it (Wikipedia page views, a free live signal for hype). Click a topic name to hide or show its line; hover the chart to read a week.
+        The six topics compared week by week: how many of your shows covered each one (last 12 weeks), and how much the public is reading about it (Wikipedia page views over 16 weeks, a free live signal for hype). Click a topic name to hide or show its line; hover the chart to read a week.
       </SectionHead>
       {topics.length === 0 ? (
         <p className="note">Trend lines appear after the next data refresh.</p>
       ) : (
         <>
-          <TrendChart weeks={weeks} topics={topics} source={tr?.source} />
+          <TrendChart coverageWeeks={coverageWeeks} interestWeeks={tr?.weeks || []} topics={topics} source={tr?.source} />
           {tr?.error && <p className="note">Some public-interest lines are missing this time ({tr.error}). They return on the next refresh.</p>}
           {!tr && <p className="note">Public-interest lines appear after the next data refresh.</p>}
         </>

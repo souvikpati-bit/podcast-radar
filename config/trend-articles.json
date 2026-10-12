@@ -16,7 +16,7 @@
     "Climate and deep tech": ["Clean technology", "Deep tech"],
     "Exits and M&A": ["Mergers and acquisitions"]
   },
-  "weeks": 8,
+  "weeks": 16,
   "requestGapMs": 450,
   "timeoutMs": 8000
 }

@@ -9,6 +9,6 @@ const d = await getDashboardData();
 const t = d.snapshot.results.trends;
 console.log('weeks:', t?.weeks?.join(', '));
 for (const topic of d.snapshot.results.topics) {
-  console.log(`${topic.rank}. ${topic.topic} | episodes/week ${JSON.stringify(topic.weekly8)} | interest ${JSON.stringify(t?.interest?.[topic.topic] || null)}`);
+  console.log(`${topic.rank}. ${topic.topic} | shows covering/week ${JSON.stringify(topic.weeklyShows)} | interest ${JSON.stringify(t?.interest?.[topic.topic] || null)}`);
 }
 console.log('error:', t?.error || 'none');
