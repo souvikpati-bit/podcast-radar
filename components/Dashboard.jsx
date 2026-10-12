@@ -63,7 +63,7 @@ export function TopicsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-topics">
-        <SectionHead num="01" id="h-topics" title="Topics to cover">
+        <SectionHead num="02" id="h-topics" title="Topics to cover">
           The six themes covered by the most shows at the same time in the last 30 days. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Probability is the chance a new video on the topic beats its channel&apos;s typical views.
         </SectionHead>
         <ol className="topics">
@@ -114,7 +114,7 @@ export function GuestsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-guests">
-        <SectionHead num="02" id="h-guests" title="Founders to track">
+        <SectionHead num="03" id="h-guests" title="Founders to track">
           Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
         </SectionHead>
         {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
@@ -163,7 +163,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
   return (
     <>
       <section className="block" aria-labelledby="h-sponsors">
-        <SectionHead num="03" id="h-sponsors" title="Sponsors to pitch">
+        <SectionHead num="04" id="h-sponsors" title="Sponsors to pitch">
           Brands promoted or mentioned across your shows: each appears on two or more shows or shows paid promotion. A founder naming their own company is not counted. <strong>Likely advertiser</strong> means the text showed paid promotion; <strong>Mentioned only</strong> means it was named without a paid signal. Spoken ad reads are not visible, so brand detection is partial.
         </SectionHead>
         {results.sponsors.length === 0 ? (
