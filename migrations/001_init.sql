@@ -123,13 +123,3 @@ CREATE TABLE IF NOT EXISTS auth_attempts (
   ip TEXT NOT NULL,
   at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
--- Real profile links that Aditya pasted for a founder (remembered so he only does it once).
-CREATE TABLE IF NOT EXISTS founder_profiles (
-  guest_key TEXT PRIMARY KEY,
-  guest_name TEXT NOT NULL,
-  linkedin TEXT,
-  x TEXT,
-  instagram TEXT,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
