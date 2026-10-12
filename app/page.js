@@ -9,6 +9,7 @@ import { Hero } from '@/components/Hero';
 import { Banner } from '@/components/Banner';
 import { TopicsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard';
 import { BlockTabs } from '@/components/BlockTabs';
+import { LoginPanel } from '@/components/LoginPanel';
 import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
 import { Marquee } from '@/components/Marquee';
@@ -48,11 +49,13 @@ export default async function Home() {
         <Marquee shows={data.snapshot.meta?.shows || []} />
         <BlockTabs
           label="Dashboard sections"
+          initial="topics"
           tabs={[
-            { id: 'topics', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'guests', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'sponsors', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
-            { id: 'shows', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (
+            { id: 'login', num: '00', label: admin ? 'Logged in' : 'Login', hint: admin ? 'Aditya · manage shows' : 'Aditya only', content: <LoginPanel admin={admin} /> },
+            { id: 'topics', num: '01', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'guests', num: '02', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'sponsors', num: '03', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
+            { id: 'shows', num: '04', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (
               <section className="block" aria-labelledby="h-shows">
             <header className="sec-head">
               <span className="sec-num" aria-hidden="true">04</span>
@@ -62,7 +65,7 @@ export default async function Home() {
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
           </section>
             ) },
-            { id: 'method', label: 'How it works', hint: 'Every number explained', content: <Method /> },
+            { id: 'method', num: '05', label: 'How it works', hint: 'Every number explained', content: <Method /> },
           ]}
         />
       </main>
