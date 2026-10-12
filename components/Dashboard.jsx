@@ -46,27 +46,23 @@ function SectionHead({ num, id, title, children }) {
   );
 }
 
-export function Dashboard({ results, admin, actions, demo }) {
+export function TopicsPanel({ results, admin, actions }) {
   const topics = results.topics;
-  const guests = results.guests || [];
   const totalShows = Math.min(results.counts.channels || 0, 14);
   const st = (type, key) => actions[`${type}:${key}`] || '';
-  const hotGuests = guests.filter((g) => g.mediaRound);
-
   if (!topics.length) {
     return (
-      <section className="block" id="topics">
+      <section className="block">
         <div className="empty">
           <h2>No topics yet</h2>
-          <p>There is not enough recent guest-episode data. Add shows in Settings and refresh.</p>
+          <p>There is not enough recent guest-episode data. Add shows and refresh.</p>
         </div>
       </section>
     );
   }
-
   return (
     <>
-      <section className="block" id="topics" aria-labelledby="h-topics">
+      <section className="block" aria-labelledby="h-topics">
         <SectionHead num="01" id="h-topics" title="Topics to cover">
           The six themes covered by the most shows at the same time in the last 30 days. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Probability is the chance a new video on the topic beats its channel&apos;s typical views.
         </SectionHead>
@@ -107,8 +103,17 @@ export function Dashboard({ results, admin, actions, demo }) {
         </ol>
         {results.notes.fewerTopics && <p className="note">Only {topics.length} topic{topics.length === 1 ? '' : 's'} had enough coverage in the data. We never pad the list with invented items.</p>}
       </section>
+    </>
+  );
+}
 
-      <section className="block" id="guests" aria-labelledby="h-guests">
+export function GuestsPanel({ results, admin, actions }) {
+  const guests = results.guests || [];
+  const st = (type, key) => actions[`${type}:${key}`] || '';
+  const hotGuests = guests.filter((g) => g.mediaRound);
+  return (
+    <>
+      <section className="block" aria-labelledby="h-guests">
         <SectionHead num="02" id="h-guests" title="Founders to track">
           Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
         </SectionHead>
@@ -149,8 +154,15 @@ export function Dashboard({ results, admin, actions, demo }) {
         )}
         {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} founder{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
       </section>
+    </>
+  );
+}
 
-      <section className="block" id="sponsors" aria-labelledby="h-sponsors">
+export function SponsorsPanel({ results, admin, actions, demo }) {
+  const st = (type, key) => actions[`${type}:${key}`] || '';
+  return (
+    <>
+      <section className="block" aria-labelledby="h-sponsors">
         <SectionHead num="03" id="h-sponsors" title="Sponsors to pitch">
           Brands promoted or mentioned across your shows: each appears on two or more shows or shows paid promotion. A founder naming their own company is not counted. <strong>Likely advertiser</strong> means the text showed paid promotion; <strong>Mentioned only</strong> means it was named without a paid signal. Spoken ad reads are not visible, so brand detection is partial.
         </SectionHead>

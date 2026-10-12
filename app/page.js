@@ -7,7 +7,8 @@ import { isAdminPage } from '@/lib/session';
 import { TopBar } from '@/components/TopBar';
 import { Hero } from '@/components/Hero';
 import { Banner } from '@/components/Banner';
-import { Dashboard } from '@/components/Dashboard';
+import { TopicsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard';
+import { BlockTabs } from '@/components/BlockTabs';
 import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
 import { StatStrip } from '@/components/StatStrip';
@@ -35,6 +36,7 @@ export default async function Home() {
   const [data, admin] = await Promise.all([getDashboardData(), isAdminPage()]);
   const actions = admin ? await actionMap() : {};
   const chans = await listChannels();
+  const n = chans.rows?.length || 0;
   const env = getEnv();
   const results = env.showSponsorNames ? data.snapshot.results : maskSponsors(data.snapshot.results);
   return (
@@ -46,18 +48,25 @@ export default async function Home() {
         </Hero>
         <StatStrip results={results} />
         <Marquee shows={data.snapshot.meta?.shows || []} />
-        <div className="wrap">
-          <Dashboard results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} />
-          <section className="block" id="shows" aria-labelledby="h-shows">
+        <BlockTabs
+          label="Dashboard sections"
+          tabs={[
+            { id: 'topics', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'guests', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'sponsors', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
+            { id: 'shows', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (
+              <section className="block" aria-labelledby="h-shows">
             <header className="sec-head">
               <span className="sec-num" aria-hidden="true">04</span>
-              <h2 id="h-shows">Shows we track ({chans.rows?.length || 0}/{cfg.maxChannels})</h2>
+              <h2 id="h-shows">Shows we track ({n}/{cfg.maxChannels})</h2>
               <p className="sec-sub">The podcasts this radar watches. Aditya can add or remove a show any time, up to {cfg.maxChannels}, with no code change.</p>
             </header>
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
           </section>
-          <Method />
-        </div>
+            ) },
+            { id: 'method', label: 'How it works', hint: 'Every number explained', content: <Method /> },
+          ]}
+        />
       </main>
       <footer>
         <div className="wrap">
