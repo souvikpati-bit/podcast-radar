@@ -109,7 +109,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
           ) : (
             <form onSubmit={doPreview} style={{ marginTop: 18 }}>
               <label htmlFor="new-channel">Add a show: YouTube @handle, channel URL, channel ID, or a podcast RSS feed link</label>
-              <input id="new-channel" type="text" value={input} onChange={(e) => { setInput(e.target.value); setPreview(null); }} maxLength={200} placeholder="@LennysPodcast" required />
+              <input id="new-channel" type="text" value={input} onChange={(e) => { setInput(e.target.value); setPreview(null); }} maxLength={200} placeholder="@LennysPodcast, a channel link, or a show name" required />
               <label htmlFor="new-host">Host name (so the host is never listed as a guest)</label>
               <input id="new-host" type="text" value={host} onChange={(e) => setHost(e.target.value)} maxLength={80} />
               <p style={{ marginTop: 14 }}><button className="btn ghost" type="submit" disabled={busy === 'preview'}>{busy === 'preview' ? 'Checking…' : 'Check show'}</button></p>
