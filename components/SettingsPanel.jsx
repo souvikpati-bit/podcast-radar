@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { formatIST } from '@/lib/format';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { ChannelManager } from './ChannelManager';
+import { runRefresh } from './refreshClient';
 import { BlockTabs } from './BlockTabs';
 
 async function post(url, body) {
@@ -29,21 +30,8 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
 
   async function refreshNow() {
     setBusy('refresh');
-    let state = null;
-    setProgress({ pct: 2, label: 'Starting' });
-    for (let i = 0; i < 80; i++) {
-      const r = await post('/api/refresh', { state });
-      if (!r.ok) {
-        toast(r.data.error || 'Refresh failed');
-        break;
-      }
-      setProgress(r.data.progress);
-      if (r.data.done) {
-        toast(r.data.error ? `Refresh stopped: ${r.data.error}` : r.data.progress.label);
-        break;
-      }
-      state = r.data.state;
-    }
+    const out = await runRefresh(setProgress);
+    toast(out.message);
     setBusy('');
     setProgress(null);
     router.refresh();
