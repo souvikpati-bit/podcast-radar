@@ -1,17 +1,15 @@
 {
-  "note": "India-focused business and startup shows with guests. Each needs at least 6 guest episodes in the last 6 months. 'feed' entries are read from a podcast RSS feed (no YouTube quota); the rest from YouTube. Edit in Settings, not here.",
+  "note": "The ten monitored shows, chosen by measured founder-episode counts (episodes whose guest is a founder) over the last six months. 'feed' entries are read from a podcast RSS feed (no YouTube quota); the rest from YouTube. Edit in Settings, not here.",
   "channels": [
-    { "handle": "@RajShamani", "host_name": "Raj Shamani" },
     { "handle": "@YourStoryTV", "host_name": "" },
     { "handle": "@IndianSiliconValley", "host_name": "Jivraj Singh Sachar" },
     { "handle": "@PrimeVenturePartners", "host_name": "" },
-    { "handle": "@ThinkSchool", "host_name": "" },
-    { "handle": "@thebarbershopwithshantanu6670", "host_name": "Shantanu Deshpande" },
-    { "handle": "@JoshTalksHindi", "host_name": "" },
+    { "handle": "@RajShamani", "host_name": "Raj Shamani" },
     { "handle": "@BusinessToday", "host_name": "" },
+    { "handle": "rss:entrepreneurs-live-interviews", "feed": "https://anchor.fm/s/33f31e38/podcast/rss", "host_name": "Priya Ranjan Mohanty" },
     { "handle": "rss:the-neon-show", "feed": "https://rss.buzzsprout.com/1601695.rss", "host_name": "Siddhartha Ahluwalia" },
-    { "handle": "rss:first-principles", "feed": "https://feeds.transistor.fm/first-principles-261f2954-4e6b-4315-973d-17d02efc10f6", "host_name": "Rohin Dharmakumar" },
     { "handle": "rss:the-indian-startup-show", "feed": "https://feeds.simplecast.com/6dj1W8C2", "host_name": "Neil Patel" },
-    { "handle": "rss:wired-in", "feed": "https://anchor.fm/s/991768/podcast/rss", "host_name": "Saanand Warrier" }
+    { "handle": "rss:paisa-vaisa", "feed": "https://www.omnycontent.com/d/playlist/e0dce4b3-2eb8-48cb-822c-af1d00e03e20/b3d9fccc-662e-4aa7-a14a-af4e0097d44b/e2ba1850-2b92-4a77-b08f-af4e0097d46c/podcast.rss", "host_name": "Anupam Gupta" },
+    { "handle": "rss:first-principles", "feed": "https://feeds.transistor.fm/first-principles-261f2954-4e6b-4315-973d-17d02efc10f6", "host_name": "Rohin Dharmakumar" }
   ]
 }

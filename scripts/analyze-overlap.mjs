@@ -24,14 +24,16 @@ for (const s of SEEDS) if (!pool.has(s)) pool.set(s, { name: '', artist: '', fee
 console.log('candidate feeds:', pool.size);
 
 const shows = [];
+const errs = [];
 const cutoff = Date.now() - DAYS * 86400000;
 for (const [url, meta] of pool) {
   try {
     const feed = await fetchFeed(url);
     const eps = feed.items.filter((i) => new Date(i.published_at).getTime() >= cutoff && (i.duration_s === 0 || i.duration_s >= 900));
     if (eps.length >= 3 && eps.length <= 40) shows.push({ name: feed.title || meta.name, artist: meta.artist, url, eps });
-  } catch { /* skip unreachable feeds */ }
+  } catch (e) { errs.push(e.message); }
 }
+console.log('feed errors:', errs.length, [...new Set(errs)].slice(0, 3).join(' | '));
 shows.sort((a, b) => b.eps.length - a.eps.length);
 let total = 0;
 const keep = [];

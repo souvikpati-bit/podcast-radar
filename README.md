@@ -69,6 +69,10 @@ Log in at `/settings`, type a `@handle`, channel URL or channel ID, press **Chec
 
 Gemini Flash is the only AI (a test scans the source for any other AI SDK or URL); no secret uses `NEXT_PUBLIC_`; guest and brand names must appear in the video text; hidden likes are missing, not zero; the brief never sends twice; admin and cron routes return 401 without credentials.
 
+## Components Map
+
+See [components-map.svg](components-map.svg) (lanes: Aditya, GitHub, Vercel, YouTube Data API v3, Podcast RSS + Apple directory, Neon, Code, Gemini API, Review Gate, Resend).
+
 ## Docs
 
 `CLAUDE.md` (context), `DECISIONS.md`, `GLOSSARY.md`, `PROGRESS.md`, `COMPONENTS_MAP.md`.

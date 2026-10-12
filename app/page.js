@@ -10,6 +10,8 @@ import { Banner } from '@/components/Banner';
 import { Dashboard } from '@/components/Dashboard';
 import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
+import { StatStrip } from '@/components/StatStrip';
+import { Marquee } from '@/components/Marquee';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,9 +37,11 @@ export default async function Home() {
     <MotionRoot>
       <TopBar admin={admin} active="home" />
       <main id="main">
-        <Hero>
+        <Hero topics={results.topics}>
           <Banner data={data} />
         </Hero>
+        <StatStrip results={results} />
+        <Marquee shows={data.snapshot.meta?.shows || []} />
         <div className="wrap">
           <Dashboard results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} />
           <Method />
