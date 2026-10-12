@@ -1,1 +1,186 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1296 750" font-family="Arial, Helvetica, sans-serif"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8a9099"/></marker></defs><rect width="1296" height="750" fill="#07090b"/><text x="24" y="38" fill="#edebe4" font-size="22" font-family="Georgia, serif">Podcast Ecosystem Radar: Components Map</text><text x="24" y="58" fill="#8a9099" font-size="12">Weekly intelligence for Aditya. Live data, Gemini Flash only, deployed on Vercel. The system never contacts a guest or sponsor.</text><rect x="12" y="70" width="1272" height="64" fill="#0e1216" stroke="rgba(255,255,255,0.08)"/><text x="24" y="106" fill="#c6f432" font-size="12" font-weight="700">Aditya</text><rect x="12" y="134" width="1272" height="64" fill="#0b0e12" stroke="rgba(255,255,255,0.08)"/><text x="24" y="170" fill="#edebe4" font-size="12" font-weight="700">GitHub</text><rect x="12" y="198" width="1272" height="64" fill="#0e1216" stroke="rgba(255,255,255,0.08)"/><text x="24" y="234" fill="#edebe4" font-size="12" font-weight="700">Vercel</text><rect x="12" y="262" width="1272" height="64" fill="#0b0e12" stroke="rgba(255,255,255,0.08)"/><text x="24" y="298" fill="#edebe4" font-size="12" font-weight="700">YouTube Data API v3</text><rect x="12" y="326" width="1272" height="64" fill="#0e1216" stroke="rgba(255,255,255,0.08)"/><text x="24" y="362" fill="#edebe4" font-size="12" font-weight="700">Podcast RSS + Apple directory</text><rect x="12" y="390" width="1272" height="64" fill="#0b0e12" stroke="rgba(255,255,255,0.08)"/><text x="24" y="426" fill="#edebe4" font-size="12" font-weight="700">Neon (Postgres)</text><rect x="12" y="454" width="1272" height="64" fill="#0e1216" stroke="rgba(255,255,255,0.08)"/><text x="24" y="490" fill="#edebe4" font-size="12" font-weight="700">Code (Next.js server)</text><rect x="12" y="518" width="1272" height="64" fill="#0b0e12" stroke="rgba(255,255,255,0.08)"/><text x="24" y="554" fill="#edebe4" font-size="12" font-weight="700">Gemini API (Flash)</text><rect x="12" y="582" width="1272" height="64" fill="#0e1216" stroke="rgba(255,255,255,0.08)"/><text x="24" y="618" fill="#c6f432" font-size="12" font-weight="700">Review Gate (Aditya)</text><rect x="12" y="646" width="1272" height="64" fill="#0b0e12" stroke="rgba(255,255,255,0.08)"/><text x="24" y="682" fill="#edebe4" font-size="12" font-weight="700">Resend</text><path d="M336 166 H342 V166 H348" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M468 166 H480 V203 H336 V230 H348" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M468 230 H474 V230 H480" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M600 230 H612 V459 H468 V486 H480" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M600 486 H606 V294 H612" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M600 486 H606 V358 H612" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M732 294 H738 V550 H744" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M732 358 H738 V550 H744" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M864 550 H870 V422 H876" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M996 422 H1008 V459 H864 V486 H876" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M996 486 H1002 V678 H1008" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M996 486 H1002 V102 H1008" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M1128 678 H1140 V129 H996 V102 H1008" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M1128 102 H1134 V614 H1140" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M1260 614 H1272 V449 H864 V422 H876" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><path d="M864 102 H876 V459 H468 V486 H480" fill="none" stroke="#8a9099" stroke-width="1.3" marker-end="url(#ah)"/><rect x="216" y="143" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="276" y="162" fill="#edebe4" font-size="10.5" text-anchor="middle">Code pushed</text><text x="276" y="176" fill="#edebe4" font-size="10.5" text-anchor="middle">to GitHub repo</text><rect x="348" y="143" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="408" y="162" fill="#edebe4" font-size="10.5" text-anchor="middle">CI: lint, tests,</text><text x="408" y="176" fill="#edebe4" font-size="10.5" text-anchor="middle">build must pass</text><rect x="348" y="207" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="408" y="226" fill="#edebe4" font-size="10.5" text-anchor="middle">Auto-deploy</text><text x="408" y="240" fill="#edebe4" font-size="10.5" text-anchor="middle">to public URL</text><rect x="480" y="207" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="540" y="226" fill="#edebe4" font-size="10.5" text-anchor="middle">Cron: daily 02:00</text><text x="540" y="240" fill="#edebe4" font-size="10.5" text-anchor="middle">Mon 05:30 IST</text><rect x="480" y="463" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="540" y="482" fill="#edebe4" font-size="10.5" text-anchor="middle">Refresh pipeline</text><text x="540" y="496" fill="#edebe4" font-size="10.5" text-anchor="middle">fetch · read · score</text><rect x="612" y="271" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="672" y="290" fill="#edebe4" font-size="10.5" text-anchor="middle">Uploads + stats</text><text x="672" y="304" fill="#edebe4" font-size="10.5" text-anchor="middle">(quota counted)</text><rect x="612" y="335" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="672" y="354" fill="#edebe4" font-size="10.5" text-anchor="middle">Podcast feeds</text><text x="672" y="368" fill="#edebe4" font-size="10.5" text-anchor="middle">auto-fill thin data</text><rect x="744" y="527" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="804" y="546" fill="#edebe4" font-size="10.5" text-anchor="middle">Guests, roles,</text><text x="804" y="560" fill="#edebe4" font-size="10.5" text-anchor="middle">topics, brands</text><rect x="876" y="399" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="936" y="418" fill="#edebe4" font-size="10.5" text-anchor="middle">Episodes, snapshot,</text><text x="936" y="432" fill="#edebe4" font-size="10.5" text-anchor="middle">briefs, actions</text><rect x="876" y="463" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="936" y="482" fill="#edebe4" font-size="10.5" text-anchor="middle">6 topics · founders</text><text x="936" y="496" fill="#edebe4" font-size="10.5" text-anchor="middle">· sponsors ranked</text><rect x="1008" y="655" width="120" height="46" rx="8" fill="#131920" stroke="rgba(255,255,255,0.22)"/><text x="1068" y="674" fill="#edebe4" font-size="10.5" text-anchor="middle">Monday brief</text><text x="1068" y="688" fill="#edebe4" font-size="10.5" text-anchor="middle">email</text><rect x="1008" y="79" width="120" height="46" rx="8" fill="#131920" stroke="#c6f432"/><text x="1068" y="98" fill="#edebe4" font-size="10.5" text-anchor="middle">Reads dashboard</text><text x="1068" y="112" fill="#edebe4" font-size="10.5" text-anchor="middle">& decides</text><rect x="1140" y="591" width="120" height="46" rx="8" fill="#131920" stroke="#c6f432"/><text x="1200" y="610" fill="#edebe4" font-size="10.5" text-anchor="middle">Shortlist · Confirm</text><text x="1200" y="624" fill="#edebe4" font-size="10.5" text-anchor="middle">· Dismiss</text><rect x="744" y="79" width="120" height="46" rx="8" fill="#131920" stroke="#c6f432"/><text x="804" y="98" fill="#edebe4" font-size="10.5" text-anchor="middle">Settings: add or</text><text x="804" y="112" fill="#edebe4" font-size="10.5" text-anchor="middle">remove shows</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1480" width="1800" height="1480" font-family="'Segoe UI', 'DM Sans', Arial, sans-serif">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6f6155"/></marker></defs>
+<rect width="1800" height="1480" fill="#f3f0f7"/>
+<text x="900.0" y="80" text-anchor="middle" font-size="30" font-weight="700" fill="#3e332b">Podcast Ecosystem Radar — Components Map</text>
+<text x="900.0" y="110" text-anchor="middle" font-size="15" fill="#6f6155">10 shows (YouTube + podcast RSS) → daily scores → Monday brief → Aditya decides</text>
+<path d="M69 137 H1731 Q1745 137 1745 151 V175 H55 V151 Q55 137 69 137 Z" fill="#6b5a4d"/>
+<text x="140.5" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Actor</text>
+<text x="352.5833333333333" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Trigger</text>
+<text x="605.75" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Input</text>
+<text x="858.9166666666666" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Context</text>
+<text x="1112.0833333333333" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Processing</text>
+<text x="1365.25" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">AI</text>
+<text x="1618.4166666666665" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Output</text>
+<rect x="226" y="175" width="1519" height="96" fill="#e6e2f6"/>
+<rect x="55" y="175" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="175" x2="1745" y2="175" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="221.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Aditya</text>
+<text x="140.5" y="239.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Content creator)</text>
+<rect x="226" y="271" width="1519" height="96" fill="#ebe9f0"/>
+<rect x="55" y="271" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="271" x2="1745" y2="271" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="317.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">GitHub</text>
+<text x="140.5" y="335.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Source code)</text>
+<rect x="226" y="367" width="1519" height="96" fill="#dcedee"/>
+<rect x="55" y="367" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="367" x2="1745" y2="367" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="413.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Vercel</text>
+<text x="140.5" y="431.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Host + cron)</text>
+<rect x="226" y="463" width="1519" height="96" fill="#e5efdc"/>
+<rect x="55" y="463" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="463" x2="1745" y2="463" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="509.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">YouTube Data API v3</text>
+<text x="140.5" y="527.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Live data)</text>
+<rect x="226" y="559" width="1519" height="96" fill="#e8f1d6"/>
+<rect x="55" y="559" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="559" x2="1745" y2="559" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="605.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Podcast RSS +</text>
+<text x="140.5" y="623.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Apple directory)</text>
+<rect x="226" y="655" width="1519" height="96" fill="#e0efe6"/>
+<rect x="55" y="655" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="655" x2="1745" y2="655" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="701.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Neon</text>
+<text x="140.5" y="719.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Postgres memory)</text>
+<rect x="226" y="751" width="1519" height="96" fill="#faecd2"/>
+<rect x="55" y="751" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="751" x2="1745" y2="751" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="797.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Code</text>
+<text x="140.5" y="815.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Next.js server)</text>
+<rect x="226" y="847" width="1519" height="96" fill="#f8dfe1"/>
+<rect x="55" y="847" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="847" x2="1745" y2="847" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="893.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Gemini API</text>
+<text x="140.5" y="911.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Flash reasoning)</text>
+<rect x="226" y="943" width="1519" height="96" fill="#e1e7f8"/>
+<rect x="55" y="943" width="171" height="96" fill="#6b5a4d"/>
+<line x1="55" y1="943" x2="1745" y2="943" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="989.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Review Gate</text>
+<text x="140.5" y="1007.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Aditya)</text>
+<path d="M226 1039 H1745 V1121 Q1745 1135 1731 1135 H226 Z" fill="#ece4f4"/>
+<path d="M55 1039 H226 V1135 H69 Q55 1135 55 1121 Z" fill="#6b5a4d"/>
+<line x1="55" y1="1039" x2="1745" y2="1039" stroke="rgba(107,90,77,0.35)" stroke-width="1"/>
+<text x="140.5" y="1085.0" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Resend</text>
+<text x="140.5" y="1103.0" text-anchor="middle" font-size="11" fill="#e9e0d6">(Email)</text>
+<path d="M460.1 223.0 L858.9 223.0 L858.9 663.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="799.9" y="389" width="118.0" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="858.9166666666666" y="404" text-anchor="middle" font-size="11" fill="#5a4d42">saves show list</text>
+<path d="M352.6 359.0 L352.6 375.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M352.6 455.0 L352.6 511.0 L498.2 511.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="388.8" y="482.0" width="79.6" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="428.5833333333333" y="497.0" text-anchor="middle" font-size="11" fill="#5a4d42">every day</text>
+<path d="M352.6 511.0 L352.6 607.0 L498.2 607.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M713.2 511.0 L735.2 511.0 L735.2 703.0 L751.4 703.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="745.5" y="589" width="111.6" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="801.25" y="604" text-anchor="middle" font-size="11" fill="#5a4d42">saves episodes</text>
+<path d="M713.2 607.0 L735.2 607.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<path d="M605.8 759.0 L605.8 647.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="559.5" y="692.0" width="92.4" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="605.75" y="707.0" text-anchor="middle" font-size="11" fill="#5a4d42">finds feeds</text>
+<path d="M858.9 743.0 L858.9 799.0 L1004.6 799.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="877.9" y="770.0" width="118.0" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="936.9166666666666" y="785.0" text-anchor="middle" font-size="11" fill="#5a4d42">reads snapshots</text>
+<path d="M1112.1 839.0 L1112.1 895.0 L1257.8 895.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1142.7" y="866.0" width="98.8" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="1192.0833333333333" y="881.0" text-anchor="middle" font-size="11" fill="#5a4d42">stats + text</text>
+<path d="M1365.2 855.0 L1365.2 799.0 L1510.9 799.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1387.5" y="770.0" width="111.6" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="1443.25" y="785.0" text-anchor="middle" font-size="11" fill="#5a4d42">names + topics</text>
+<path d="M1618.4 759.0 L1618.4 455.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1578.6" y="576.0" width="79.6" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="1618.4166666666665" y="591.0" text-anchor="middle" font-size="11" fill="#5a4d42">hosted on</text>
+<path d="M1618.4 839.0 L1618.4 843.0 L1618.4 951.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1575.4" y="884.0" width="86" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="1618.4" y="899.0" text-anchor="middle" font-size="11" fill="#5a4d42">dashboard</text>
+<path d="M1365.2 935.0 L1365.2 1087.0 L1510.9 1087.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1398.2" y="1058.0" width="86.0" height="22" rx="11" fill="#fbfaf8" stroke="#c9bfb4"/>
+<text x="1441.25" y="1073.0" text-anchor="middle" font-size="11" fill="#5a4d42">brief text</text>
+<path d="M1618.4 1047.0 L1618.4 1031.0" fill="none" stroke="#6f6155" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="245.1" y="183" width="215" height="80" rx="9" fill="#dfe8fb" stroke="#8ea9e6" stroke-width="1.4"/>
+<text x="352.6" y="207.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Sets the show list</text>
+<text x="352.6" y="224.5" text-anchor="middle" font-size="10.8" fill="#4d4137">Add or remove up to 10 shows</text>
+<text x="352.6" y="237.5" text-anchor="middle" font-size="10.8" fill="#4d4137">on the dashboard (admin login)</text>
+<text x="352.6" y="250.5" text-anchor="middle" font-size="10.8" fill="#4d4137">no code change</text>
+<rect x="245.1" y="279" width="215" height="80" rx="9" fill="#e6e4ec" stroke="#a7a3b5" stroke-width="1.4"/>
+<text x="352.6" y="310.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Holds the code</text>
+<text x="352.6" y="327.0" text-anchor="middle" font-size="10.8" fill="#4d4137">Push to main → CI checks → deploy</text>
+<text x="352.6" y="340.0" text-anchor="middle" font-size="10.8" fill="#4d4137">lint, tests and build must pass</text>
+<rect x="245.1" y="375" width="215" height="80" rx="9" fill="#d3eaee" stroke="#85c3cf" stroke-width="1.4"/>
+<text x="352.6" y="406.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Cron wakes the system</text>
+<text x="352.6" y="423.0" text-anchor="middle" font-size="10.8" fill="#4d4137">Daily refresh 02:00 IST</text>
+<text x="352.6" y="436.0" text-anchor="middle" font-size="10.8" fill="#4d4137">Monday brief 05:30 IST</text>
+<rect x="1510.9" y="375" width="215" height="80" rx="9" fill="#d3eaee" stroke="#85c3cf" stroke-width="1.4"/>
+<text x="1618.4" y="406.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Hosts the app</text>
+<text x="1618.4" y="423.0" text-anchor="middle" font-size="10.8" fill="#4d4137">Next.js on serverless functions</text>
+<text x="1618.4" y="436.0" text-anchor="middle" font-size="10.8" fill="#4d4137">public URL, link never changes</text>
+<rect x="498.2" y="471" width="215" height="80" rx="9" fill="#dff0d6" stroke="#8cc77a" stroke-width="1.4"/>
+<text x="605.8" y="495.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Live channel data</text>
+<text x="605.8" y="512.5" text-anchor="middle" font-size="10.8" fill="#4d4137">uploads, views, likes, comments</text>
+<text x="605.8" y="525.5" text-anchor="middle" font-size="10.8" fill="#4d4137">free: 10,000 units a day</text>
+<text x="605.8" y="538.5" text-anchor="middle" font-size="10.8" fill="#4d4137">(about 32 used per refresh)</text>
+<rect x="498.2" y="567" width="215" height="80" rx="9" fill="#e3f0cb" stroke="#a5c76a" stroke-width="1.4"/>
+<text x="605.8" y="598.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Podcast feeds (RSS)</text>
+<text x="605.8" y="615.0" text-anchor="middle" font-size="10.8" fill="#4d4137">episodes + show notes, no quota</text>
+<text x="605.8" y="628.0" text-anchor="middle" font-size="10.8" fill="#4d4137">found via Apple free directory</text>
+<rect x="751.4" y="663" width="215" height="80" rx="9" fill="#d6efe2" stroke="#7ec7a0" stroke-width="1.4"/>
+<text x="858.9" y="694.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Stores everything</text>
+<text x="858.9" y="711.0" text-anchor="middle" font-size="10.8" fill="#4d4137">shows, episodes, snapshots, briefs</text>
+<text x="858.9" y="724.0" text-anchor="middle" font-size="10.8" fill="#4d4137">fallback: last snapshot, then demo</text>
+<rect x="498.2" y="759" width="215" height="80" rx="9" fill="#fde5bd" stroke="#e7b564" stroke-width="1.4"/>
+<text x="605.8" y="790.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Fills thin data by itself</text>
+<text x="605.8" y="807.0" text-anchor="middle" font-size="10.8" fill="#4d4137">few guest episodes? attaches the</text>
+<text x="605.8" y="820.0" text-anchor="middle" font-size="10.8" fill="#4d4137">show's feed, may add up to 3 shows</text>
+<rect x="1004.6" y="759" width="215" height="80" rx="9" fill="#fde5bd" stroke="#e7b564" stroke-width="1.4"/>
+<text x="1112.1" y="790.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Code prepares the data</text>
+<text x="1112.1" y="807.0" text-anchor="middle" font-size="10.8" fill="#4d4137">guest episodes only, drops</text>
+<text x="1112.1" y="820.0" text-anchor="middle" font-size="10.8" fill="#4d4137">YouTube + feed duplicates, batches</text>
+<rect x="1257.8" y="855" width="215" height="80" rx="9" fill="#f9d3d6" stroke="#e58c97" stroke-width="1.4"/>
+<text x="1365.2" y="879.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Gemini Flash reasons</text>
+<text x="1365.2" y="896.5" text-anchor="middle" font-size="10.8" fill="#4d4137">reads guests, role, company,</text>
+<text x="1365.2" y="909.5" text-anchor="middle" font-size="10.8" fill="#4d4137">topics, brands · names checked</text>
+<text x="1365.2" y="922.5" text-anchor="middle" font-size="10.8" fill="#4d4137">against the text · writes brief intro</text>
+<rect x="1510.9" y="759" width="215" height="80" rx="9" fill="#fde5bd" stroke="#e7b564" stroke-width="1.4"/>
+<text x="1618.4" y="783.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Code scores → dashboard</text>
+<text x="1618.4" y="800.5" text-anchor="middle" font-size="10.8" fill="#4d4137">6 topics · up to 7 founders</text>
+<text x="1618.4" y="813.5" text-anchor="middle" font-size="10.8" fill="#4d4137">up to 5 sponsors · media round</text>
+<text x="1618.4" y="826.5" text-anchor="middle" font-size="10.8" fill="#4d4137">= 2+ shows within 30 days</text>
+<rect x="1510.9" y="951" width="215" height="80" rx="9" fill="#dfe6f8" stroke="#8ea9e6" stroke-width="1.4"/>
+<text x="1618.4" y="975.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Aditya decides</text>
+<text x="1618.4" y="992.5" text-anchor="middle" font-size="10.8" fill="#4d4137">shortlist · dismiss · contacted</text>
+<text x="1618.4" y="1005.5" text-anchor="middle" font-size="10.8" fill="#4d4137">Confirmed · sponsored · CSV</text>
+<text x="1618.4" y="1018.5" text-anchor="middle" font-size="10.8" fill="#4d4137">system never contacts anyone</text>
+<rect x="1510.9" y="1047" width="215" height="80" rx="9" fill="#e7dcf3" stroke="#b79bdc" stroke-width="1.4"/>
+<text x="1618.4" y="1078.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Monday brief email</text>
+<text x="1618.4" y="1095.0" text-anchor="middle" font-size="10.8" fill="#4d4137">short summary of the dashboard</text>
+<text x="1618.4" y="1108.0" text-anchor="middle" font-size="10.8" fill="#4d4137">free: 100 emails a day</text>
+<rect x="348.0" y="1173" width="200" height="30" rx="15" fill="#fde5bd" stroke="#e7b564"/>
+<text x="448.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Code does the maths</text>
+<rect x="564.0" y="1173" width="270" height="30" rx="15" fill="#f9d3d6" stroke="#e58c97"/>
+<text x="699.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Gemini Flash does the reasoning</text>
+<rect x="850.0" y="1173" width="150" height="30" rx="15" fill="#dfe6f8" stroke="#8ea9e6"/>
+<text x="925.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Aditya decides</text>
+<rect x="1016.0" y="1173" width="270" height="30" rx="15" fill="#e7dcf3" stroke="#b79bdc"/>
+<text x="1151.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">The system never contacts anyone</text>
+<rect x="1302.0" y="1173" width="150" height="30" rx="15" fill="#dff0d6" stroke="#8cc77a"/>
+<text x="1377.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Free tiers only</text>
+<rect x="55" y="1229" width="1690" height="196" rx="14" fill="#fbfaf8" stroke="#d6cdc3"/>
+<text x="79" y="1259" font-size="15" font-weight="700" fill="#3e332b">What changed from the first version</text>
+<circle cx="89" cy="1283" r="10" fill="#6b5a4d"/><text x="89" y="1287" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">1</text>
+<text x="107" y="1287" font-size="12" fill="#4d4137">Shows come from YouTube and from podcast RSS feeds. Aditya adds or removes</text>
+<text x="107" y="1302" font-size="12" fill="#4d4137">them (max 10) on the dashboard, no code.</text>
+<circle cx="89" cy="1332" r="10" fill="#6b5a4d"/><text x="89" y="1336" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">2</text>
+<text x="107" y="1336" font-size="12" fill="#4d4137">Thin data fixes itself: a show with few guest episodes gets its podcast</text>
+<text x="107" y="1351" font-size="12" fill="#4d4137">feed attached (Apple free directory); up to 3 shows may be added.</text>
+<circle cx="89" cy="1381" r="10" fill="#6b5a4d"/><text x="89" y="1385" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">3</text>
+<text x="107" y="1385" font-size="12" fill="#4d4137">Founders are ranked on their own, not per topic. Founders only. Media</text>
+<text x="107" y="1400" font-size="12" fill="#4d4137">round = same founder on 2+ shows within 30 days.</text>
+<circle cx="934.0" cy="1283" r="10" fill="#6b5a4d"/><text x="934.0" y="1287" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">4</text>
+<text x="952.0" y="1287" font-size="12" fill="#4d4137">Topics are ranked by how many shows cover them at the same time (last 30</text>
+<text x="952.0" y="1302" font-size="12" fill="#4d4137">days). Exactly 6, never padded.</text>
+<circle cx="934.0" cy="1332" r="10" fill="#6b5a4d"/><text x="934.0" y="1336" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">5</text>
+<text x="952.0" y="1336" font-size="12" fill="#4d4137">Review Gate: shortlist, dismiss, contacted, Confirmed (removes a guest</text>
+<text x="952.0" y="1351" font-size="12" fill="#4d4137">from the list), sponsored. CSV export. Sends nothing.</text>
+<circle cx="934.0" cy="1381" r="10" fill="#6b5a4d"/><text x="934.0" y="1385" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">6</text>
+<text x="952.0" y="1385" font-size="12" fill="#4d4137">Fallback chain: live data → last good snapshot → demo data, labelled in a</text>
+<text x="952.0" y="1400" font-size="12" fill="#4d4137">banner. Two crons (daily, Monday). CI must pass before deploy.</text>
+<text x="900.0" y="1455" text-anchor="middle" font-size="12" fill="#7a6d61">Stack: Next.js on Vercel · GitHub · Neon (Postgres) · YouTube Data API v3 · Podcast RSS · Gemini Flash · Resend</text>
+</svg>
