@@ -1,8 +1,7 @@
-// "This week at a glance": four big numbers that answer the three questions in the brief.
+// "This week at a glance": three big numbers that answer the three questions in the brief.
 export function StatStrip({ results }) {
   const hot = results.topics.filter((t) => (t.simultaneous?.shows || 0) >= 3).length;
   const stats = [
-    { n: results.mediaRounds || 0, label: 'Founders on a media round', note: results.mediaRounds ? 'on 2+ shows in 30 days' : 'none this month yet', accent: true },
     { n: hot, label: 'Topics on 3+ shows now', note: 'covered at the same time' },
     { n: results.counts.channels, label: 'Shows monitored', note: 'configurable in Settings' },
     { n: results.counts.videos, label: 'Guest episodes read', note: 'last 60 days' },
