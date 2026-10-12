@@ -1,5 +1,5 @@
 {
-  "maxChannels": 15,
+  "maxChannels": 10,
   "fetchWindowDays": 90,
   "sparseFetchWindowDays": 180,
   "sparseChannelMinVideos": 12,

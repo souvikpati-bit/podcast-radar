@@ -12,6 +12,9 @@ import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
 import { StatStrip } from '@/components/StatStrip';
 import { Marquee } from '@/components/Marquee';
+import { ChannelManager } from '@/components/ChannelManager';
+import { listChannels } from '@/lib/channels';
+import cfg from '@/config/pipeline.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +34,7 @@ function maskSponsors(results) {
 export default async function Home() {
   const [data, admin] = await Promise.all([getDashboardData(), isAdminPage()]);
   const actions = admin ? await actionMap() : {};
+  const chans = await listChannels();
   const env = getEnv();
   const results = env.showSponsorNames ? data.snapshot.results : maskSponsors(data.snapshot.results);
   return (
@@ -44,6 +48,14 @@ export default async function Home() {
         <Marquee shows={data.snapshot.meta?.shows || []} />
         <div className="wrap">
           <Dashboard results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} />
+          <section className="block" id="shows" aria-labelledby="h-shows">
+            <header className="sec-head">
+              <span className="sec-num" aria-hidden="true">04</span>
+              <h2 id="h-shows">Shows we track ({chans.rows?.length || 0}/{cfg.maxChannels})</h2>
+              <p className="sec-sub">The podcasts this radar watches. Aditya can add or remove a show any time, up to {cfg.maxChannels}, with no code change.</p>
+            </header>
+            <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
+          </section>
           <Method />
         </div>
       </main>

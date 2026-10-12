@@ -46,7 +46,7 @@ export default async function Settings() {
           impact={impactCounts(actions)}
           confirmed={actions.filter((a) => a.entity_type === 'guest' && a.status === 'booked').map((a) => a.entity_key)}
           emailReady={Boolean(env.resendKey && env.briefTo)}
-          maxChannels={15}
+          maxChannels={10}
         />
       </main>
     </>

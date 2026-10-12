@@ -2,7 +2,7 @@
 export function Method() {
   return (
     <section className="block" id="method" aria-labelledby="h-method">
-      <div className="sec-head"><span className="sec-num">04</span><h2 id="h-method">How it is calculated</h2></div>
+      <div className="sec-head"><span className="sec-num">05</span><h2 id="h-method">How it is calculated</h2></div>
       <details className="method" data-method>
         <summary>Every number explained</summary>
         <div className="method-body" data-method-body>

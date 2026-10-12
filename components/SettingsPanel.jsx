@@ -1,12 +1,9 @@
 'use client';
-/* eslint-disable @next/next/no-img-element -- channel thumbnails come from YouTube and are tiny */
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { formatIST } from '@/lib/format';
 import { gsap, useGSAP } from '@/lib/gsap';
-
-// A podcast RSS feed link (anything http(s) that is not a YouTube address).
-const isFeed = (s) => /^https?:\/\//i.test(s.trim()) && !/youtube\.com|youtu\.be/i.test(s);
+import { ChannelManager } from './ChannelManager';
 
 async function post(url, body) {
   const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body || {}) });
@@ -16,9 +13,6 @@ async function post(url, body) {
 
 export function SettingsPanel({ channels, dbError, health, missing, impact, confirmed = [], emailReady, maxChannels }) {
   const router = useRouter();
-  const [input, setInput] = useState('');
-  const [host, setHost] = useState('');
-  const [preview, setPreview] = useState(null);
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
   const [progress, setProgress] = useState(null);
@@ -32,37 +26,6 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
     setTimeout(() => setMsg(''), 6000);
   };
 
-  async function doPreview(e) {
-    e.preventDefault();
-    setBusy('preview');
-    setPreview(null);
-    const r = await post('/api/channels', { action: isFeed(input) ? 'preview-feed' : 'preview', input });
-    setBusy('');
-    if (r.ok) setPreview(r.data.channel);
-    else toast(r.data.error || 'Could not check that channel');
-  }
-  async function confirmAdd() {
-    setBusy('add');
-    const r = await post('/api/channels', { action: isFeed(input) ? 'add-feed' : 'add', input, host });
-    setBusy('');
-    if (r.ok) {
-      setInput('');
-      setHost('');
-      setPreview(null);
-      toast(`Added ${r.data.channel.title}`);
-      router.refresh();
-    } else toast(r.data.error || 'Could not add');
-  }
-  async function remove(c) {
-    if (!window.confirm(`Remove ${c.title || c.handle}? Its videos are removed from the dashboard.`)) return;
-    const r = await post('/api/channels', { action: 'remove', id: c.id });
-    if (r.ok) router.refresh();
-    else toast(r.data.error || 'Could not remove');
-  }
-  async function saveHost(c, value) {
-    const r = await post('/api/channels', { action: 'host', id: c.id, host: value });
-    toast(r.ok ? 'Host saved' : r.data.error || 'Could not save');
-  }
   async function refreshNow() {
     setBusy('refresh');
     let state = null;
@@ -139,34 +102,7 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
 
       <div className="card">
         <h2 style={{ fontSize: 18 }}>Monitored channels ({channels.length}/{maxChannels})</h2>
-        {dbError && <p className="note">Database not available: {dbError}. Channels cannot be saved until DATABASE_URL is set.</p>}
-        {channels.length === 0 && !dbError && <p className="muted" style={{ marginTop: 8 }}>No channels yet. The default list is added on the first refresh, or add your own below.</p>}
-        {channels.map((c) => (
-          <div className="chan" key={c.id}>
-            {c.thumbnail ? <img src={c.thumbnail} alt="" width="40" height="40" /> : <span style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--line)' }} />}
-            <div className="grow"><strong>{c.title || c.handle}</strong><div className="muted mono" style={{ fontSize: 12 }}>{c.feed_url ? (c.youtube_channel_id ? `${c.handle} + podcast feed` : 'Podcast RSS feed (no YouTube quota)') : c.handle}{c.auto_added ? ' · added automatically' : ''}</div></div>
-            <div>
-              <label htmlFor={`host-${c.id}`} style={{ margin: 0 }}>Host</label>
-              <input id={`host-${c.id}`} type="text" defaultValue={c.host_name || ''} maxLength={80} placeholder="Host name" onBlur={(e) => e.target.value !== (c.host_name || '') && saveHost(c, e.target.value)} />
-            </div>
-            <button className="btn ghost" onClick={() => remove(c)} aria-label={`Remove ${c.title || c.handle}`}>Remove</button>
-          </div>
-        ))}
-        <form onSubmit={doPreview} style={{ marginTop: 18 }}>
-          <label htmlFor="new-channel">Add a show: YouTube @handle, channel URL, channel ID, or a podcast RSS feed link</label>
-          <input id="new-channel" type="text" value={input} onChange={(e) => { setInput(e.target.value); setPreview(null); }} maxLength={200} placeholder="@LennysPodcast" required />
-          <label htmlFor="new-host">Host name (so the host is never listed as a guest)</label>
-          <input id="new-host" type="text" value={host} onChange={(e) => setHost(e.target.value)} maxLength={80} />
-          <p style={{ marginTop: 14 }}><button className="btn ghost" type="submit" disabled={busy === 'preview'}>{busy === 'preview' ? 'Checking with YouTube…' : 'Check channel'}</button></p>
-        </form>
-        {busy === 'preview' && <div className="skeleton" style={{ marginTop: 12, width: 220 }} />}
-        {preview && (
-          <div className="chan" style={{ marginTop: 10 }}>
-            {preview.thumbnail && <img src={preview.thumbnail} alt="" width="40" height="40" />}
-            <div className="grow"><strong>{preview.title}</strong><div className="muted">Is this the right show?{preview.episodes ? ` ${preview.episodes} episodes found.` : ''}</div></div>
-            <button className="btn" onClick={confirmAdd} disabled={busy === 'add'}>{busy === 'add' ? 'Saving…' : 'Yes, add it'}</button>
-          </div>
-        )}
+        <ChannelManager channels={channels} maxChannels={maxChannels} admin dbError={dbError} />
       </div>
 
       <div className="card">
