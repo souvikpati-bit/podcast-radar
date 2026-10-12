@@ -3,6 +3,7 @@ import { ProbRing } from './ProbRing';
 import { Sparkline } from './Sparkline';
 import { TrendChart } from './TrendChart';
 import { FounderLinks } from './FounderLinks';
+import { FounderSummary } from './FounderSummary';
 import { searchLinks } from '@/lib/profiles';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
@@ -157,6 +158,7 @@ export function GuestsPanel({ results, admin, actions }) {
         ) : (
           guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No founder is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest founders on a single show.</span></div>
         )}
+        {admin && <FounderSummary initial={Object.fromEntries(Object.entries(actions).filter(([k]) => k.startsWith('guest:')).map(([k, v]) => [k.slice(6), v]))} />}
         {guests.length === 0 ? (
           <p className="note">No founders were found in the data. We never invent a person.</p>
         ) : (
