@@ -2,6 +2,9 @@ import { ReviewGate } from './ReviewGate';
 import { ProbRing } from './ProbRing';
 import { Sparkline } from './Sparkline';
 import { TrendChart } from './TrendChart';
+import { FounderLinks } from './FounderLinks';
+import { searchLinks } from '@/lib/profiles';
+import { normKey } from '@/lib/text';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
 const day = (iso) => new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).format(new Date(iso));
@@ -108,7 +111,7 @@ export function TopicsPanel({ results, admin, actions }) {
   );
 }
 
-function FounderCards({ items, admin, st }) {
+function FounderCards({ items, admin, st, profiles = {} }) {
   return (
     <ol className="founders">
             {items.map((g) => (
@@ -130,6 +133,7 @@ function FounderCards({ items, admin, st }) {
                 <p className="why">{g.why}. Last seen {day(g.lastSeen)}.</p>
                 <p className="shows-line"><span className="muted mono">On</span> {g.shows.join(' · ')}</p>
                 <Evidence items={g.evidence} />
+                <FounderLinks guest={g.guest} search={searchLinks(g.guest, g.company)} saved={profiles[normKey(g.guest)] || {}} admin={admin} />
                 <span className="est">model estimate from the data</span>
                 {admin && <ReviewGate type="guest" name={g.guest} current={st('guest', g.guest)} />}
               </li>
@@ -138,9 +142,8 @@ function FounderCards({ items, admin, st }) {
   );
 }
 
-export function GuestsPanel({ results, admin, actions }) {
+export function GuestsPanel({ results, admin, actions, profiles = {} }) {
   const guests = results.guests || [];
-  const more = results.moreGuests || [];
   const st = (type, key) => actions[`${type}:${key}`] || '';
   const hotGuests = guests.filter((g) => g.mediaRound);
   return (
@@ -158,14 +161,7 @@ export function GuestsPanel({ results, admin, actions }) {
         {guests.length === 0 ? (
           <p className="note">No founders were found in the data. We never invent a person.</p>
         ) : (
-          <FounderCards items={guests} admin={admin} st={st} />
-        )}
-        {more.length > 0 && (
-          <>
-            <h3 className="tier-h">More to consider <span className="tier-n mono">{more.length}</span></h3>
-            <p className="sec-sub" style={{ marginTop: 0 }}>Real founders from your shows with a weaker booking signal than the top picks: usually one show and an older episode. Worth a look when the top picks do not convert.</p>
-            <FounderCards items={more} admin={admin} st={st} />
-          </>
+          <FounderCards items={guests} admin={admin} st={st} profiles={profiles} />
         )}
         {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} founder{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
       </section>
