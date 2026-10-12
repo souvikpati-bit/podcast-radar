@@ -2,7 +2,6 @@
 /* eslint-disable @next/next/no-img-element -- channel thumbnails come from YouTube and are tiny */
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { runRefresh } from './refreshClient';
 
 // A podcast RSS feed link (anything http(s) that is not a YouTube address).
 const isFeed = (s) => /^https?:\/\//i.test(s.trim()) && !/youtube\.com|youtu\.be/i.test(s);
@@ -27,7 +26,6 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
   const [key, setKey] = useState('');
-  const [progress, setProgress] = useState(null);
   const full = channels.length >= maxChannels;
 
   const toast = (t) => {
@@ -47,31 +45,20 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
   async function confirmAdd() {
     setBusy('add');
     const r = await post('/api/channels', { action: isFeed(input) ? 'add-feed' : 'add', input, host });
-    if (!r.ok) {
-      setBusy('');
-      toast(r.data.error || 'Could not add');
-      return;
-    }
-    const title = r.data.channel.title;
-    setInput('');
-    setHost('');
-    setPreview(null);
-    router.refresh();
-    // bring in the new show's episodes straight away
-    setBusy('refresh');
-    const out = await runRefresh(setProgress);
-    setProgress(null);
     setBusy('');
-    toast(out.ok ? `Added ${title}. The dashboard now includes it.` : `Added ${title}, but the data refresh stopped (${out.message}). It will finish in the daily refresh.`);
-    router.refresh();
+    if (r.ok) {
+      setInput('');
+      setHost('');
+      setPreview(null);
+      toast(`Added ${r.data.channel.title}. Press "Refresh data now" in Settings to bring in its episodes.`);
+      router.refresh();
+    } else toast(r.data.error || 'Could not add');
   }
   async function remove(c) {
     if (!window.confirm(`Remove ${c.title || c.handle}? Its episodes are removed from the dashboard.`)) return;
-    setBusy('remove');
     const r = await post('/api/channels', { action: 'remove', id: c.id });
-    setBusy('');
     if (r.ok) {
-      toast(`Removed ${c.title || c.handle}. The dashboard has been updated.`);
+      toast(`Removed ${c.title || c.handle}`);
       router.refresh();
     } else toast(r.data.error || 'Could not remove');
   }
@@ -109,7 +96,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
                 <label htmlFor={`host-${c.id}`} style={{ margin: 0 }}>Host</label>
                 <input id={`host-${c.id}`} type="text" defaultValue={c.host_name || ''} maxLength={80} placeholder="Host name" onBlur={(e) => e.target.value !== (c.host_name || '') && saveHost(c, e.target.value)} />
               </div>
-              <button className="btn ghost" onClick={() => remove(c)} disabled={Boolean(busy)} aria-label={`Remove ${c.title || c.handle}`}>Remove</button>
+              <button className="btn ghost" onClick={() => remove(c)} aria-label={`Remove ${c.title || c.handle}`}>Remove</button>
             </>
           )}
         </div>
@@ -133,7 +120,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
             <div className="chan" style={{ marginTop: 10 }}>
               {preview.thumbnail && <img src={preview.thumbnail} alt="" width="40" height="40" />}
               <div className="grow"><strong>{preview.title}</strong><div className="muted">Is this the right show?{preview.episodes ? ` ${preview.episodes} episodes found.` : ''}</div></div>
-              <button className="btn" onClick={confirmAdd} disabled={Boolean(busy)}>{busy === 'add' ? 'Saving…' : busy === 'refresh' ? 'Refreshing data…' : 'Yes, add it'}</button>
+              <button className="btn" onClick={confirmAdd} disabled={busy === 'add'}>{busy === 'add' ? 'Saving…' : 'Yes, add it'}</button>
             </div>
           )}
         </>
@@ -145,13 +132,6 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
           <input id="edit-key" type="password" autoComplete="current-password" value={key} onChange={(e) => setKey(e.target.value)} required />
           <p style={{ marginTop: 14 }}><button className="btn" type="submit" disabled={busy === 'login'}>{busy === 'login' ? 'Checking…' : 'Log in to edit shows'}</button></p>
         </form>
-      )}
-      {busy === 'remove' && <p className="muted mono" role="status" style={{ marginTop: 12 }}>Removing and updating the dashboard…</p>}
-      {progress && (
-        <div role="status" aria-live="polite" style={{ marginTop: 14 }}>
-          <div className="progress"><i style={{ transform: `scaleX(${(progress.pct || 0) / 100})` }} /></div>
-          <p className="muted mono" style={{ fontSize: 13, marginTop: 6 }}>Bringing in the new show: {progress.label}. Please keep this page open.</p>
-        </div>
       )}
       {msg && <div className="toast" role="status">{msg}</div>}
     </div>

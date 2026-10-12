@@ -311,4 +311,3 @@ Paste this:
 - Google Trends is NOT used: the official API is alpha-by-application and scraping is unreliable. Wikipedia page views are the stand-in.
 - Removed from the front page at the user's request: the intro paragraph, the scrolling show ticker, and the media-round stat.
 - Components Map was redrawn: `components-map.pdf/png/svg`. `CODE_FLOW.md` explains the code flow.
-- Auto-refresh on show changes: adding a show runs the full staged refresh straight away from the browser (progress bar, `components/refreshClient.js`); removing a show or changing a host re-scores instantly on the server (`/api/channels` -> `rescoreAndSave`, no API quota). The daily cron (`30 20 * * *`) still refreshes everything once a day regardless. `scripts/refresh.mjs` runs a full refresh from the command line.

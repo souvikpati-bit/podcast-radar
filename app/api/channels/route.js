@@ -3,20 +3,8 @@ import { addChannel, addFeedChannel, removeChannel, setChannelHost } from '@/lib
 import { fetchFeed } from '@/lib/rss';
 import { newUnitCounter, resolveChannel } from '@/lib/youtube';
 import { query } from '@/lib/db';
-import { rescoreAndSave } from '@/lib/pipeline';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 60;
-
-// A show was removed or a host name changed: rebuild the dashboard from the stored episodes right away. Costs no API quota.
-async function rescoreNow() {
-  try {
-    const r = await rescoreAndSave();
-    return r.saved;
-  } catch {
-    return false; // the daily refresh will catch up
-  }
-}
 
 async function recordUnits(units) {
   if (!units) return;
@@ -56,11 +44,11 @@ export async function POST(request) {
     }
     if (b.action === 'remove') {
       await removeChannel(b.id);
-      return Response.json({ ok: true, rescored: await rescoreNow() });
+      return Response.json({ ok: true });
     }
     if (b.action === 'host') {
       await setChannelHost(b.id, String(b.host || ''));
-      return Response.json({ ok: true, rescored: await rescoreNow() });
+      return Response.json({ ok: true });
     }
     return Response.json({ error: 'Unknown action' }, { status: 400 });
   } catch (err) {
