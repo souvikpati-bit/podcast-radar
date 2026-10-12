@@ -25,6 +25,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
   const [preview, setPreview] = useState(null);
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
+  const [key, setKey] = useState('');
   const full = channels.length >= maxChannels;
 
   const toast = (t) => {
@@ -61,6 +62,16 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
       router.refresh();
     } else toast(r.data.error || 'Could not remove');
   }
+  async function login(e) {
+    e.preventDefault();
+    setBusy('login');
+    const r = await post('/api/login', { key });
+    setBusy('');
+    if (r.ok) {
+      setKey('');
+      router.refresh();
+    } else toast(r.data.error || 'Wrong key');
+  }
   async function saveHost(c, value) {
     const r = await post('/api/channels', { action: 'host', id: c.id, host: value });
     toast(r.ok ? 'Host saved' : r.data.error || 'Could not save');
@@ -78,6 +89,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
             <strong>{c.title || c.handle}</strong>
             <div className="muted mono" style={{ fontSize: 12 }}>{kind(c)}{c.host_name ? ` · host: ${c.host_name}` : ''}{c.auto_added ? ' · added automatically' : ''}</div>
           </div>
+          {!admin && <a className="btn ghost" href="#edit-shows" aria-label={`Remove ${c.title || c.handle} (log in first)`}>Remove</a>}
           {admin && (
             <>
               <div>
@@ -113,7 +125,13 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
           )}
         </>
       ) : (
-        <p className="muted" style={{ marginTop: 16 }}>Aditya can add or remove shows (up to {maxChannels}) after logging in. No code change needed. <a href="/settings">Log in</a></p>
+        <form id="edit-shows" onSubmit={login} className="card" style={{ marginTop: 18 }}>
+          <h3 style={{ fontSize: 18 }}>Aditya: log in to add or remove shows</h3>
+          <p className="muted" style={{ marginTop: 6 }}>Swap any of the {maxChannels} shows for your own choice. No code needed. Enter your admin key and the Remove, Host and Add controls appear here.</p>
+          <label htmlFor="edit-key">Admin key</label>
+          <input id="edit-key" type="password" autoComplete="current-password" value={key} onChange={(e) => setKey(e.target.value)} required />
+          <p style={{ marginTop: 14 }}><button className="btn" type="submit" disabled={busy === 'login'}>{busy === 'login' ? 'Checking…' : 'Log in to edit shows'}</button></p>
+        </form>
       )}
       {msg && <div className="toast" role="status">{msg}</div>}
     </div>
