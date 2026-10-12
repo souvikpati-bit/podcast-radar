@@ -11,7 +11,6 @@ import { TopicsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard'
 import { BlockTabs } from '@/components/BlockTabs';
 import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
-import { StatStrip } from '@/components/StatStrip';
 import { Marquee } from '@/components/Marquee';
 import { ChannelManager } from '@/components/ChannelManager';
 import { listChannels } from '@/lib/channels';
@@ -46,7 +45,6 @@ export default async function Home() {
         <Hero topics={results.topics}>
           <Banner data={data} />
         </Hero>
-        <StatStrip results={results} />
         <Marquee shows={data.snapshot.meta?.shows || []} />
         <BlockTabs
           label="Dashboard sections"
