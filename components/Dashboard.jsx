@@ -108,27 +108,10 @@ export function TopicsPanel({ results, admin, actions }) {
   );
 }
 
-export function GuestsPanel({ results, admin, actions }) {
-  const guests = results.guests || [];
-  const st = (type, key) => actions[`${type}:${key}`] || '';
-  const hotGuests = guests.filter((g) => g.mediaRound);
+function FounderCards({ items, admin, st }) {
   return (
-    <>
-      <section className="block" aria-labelledby="h-guests">
-        <SectionHead num="04" id="h-guests" title="Founders to track">
-          Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
-        </SectionHead>
-        {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
-        {hotGuests.length > 0 ? (
-          <div className="spotlight-banner" role="status"><span className="dot" aria-hidden="true" /><strong>{results.mediaRounds} founder{results.mediaRounds === 1 ? ' is' : 's are'} on a media round</strong> in the last 30 days. Reach them while the moment lasts.</div>
-        ) : (
-          guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No founder is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest founders on a single show.</span></div>
-        )}
-        {guests.length === 0 ? (
-          <p className="note">No founders were found in the data. We never invent a person.</p>
-        ) : (
-          <ol className="founders">
-            {guests.map((g) => (
+    <ol className="founders">
+            {items.map((g) => (
               <li key={g.guest} className={`fcard${g.mediaRound ? ' hot' : ''}${st('guest', g.guest) === 'dismissed' ? ' dismissed' : ''}`} data-card>
                 <div className="f-top">
                   <div className="avatar" aria-hidden="true" style={{ background: `linear-gradient(135deg, hsl(${hueOf(g.guest)} 55% 38%), hsl(${(hueOf(g.guest) + 50) % 360} 60% 22%))` }}>{initials(g.guest)}</div>
@@ -152,6 +135,37 @@ export function GuestsPanel({ results, admin, actions }) {
               </li>
             ))}
           </ol>
+  );
+}
+
+export function GuestsPanel({ results, admin, actions }) {
+  const guests = results.guests || [];
+  const more = results.moreGuests || [];
+  const st = (type, key) => actions[`${type}:${key}`] || '';
+  const hotGuests = guests.filter((g) => g.mediaRound);
+  return (
+    <>
+      <section className="block" aria-labelledby="h-guests">
+        <SectionHead num="04" id="h-guests" title="Founders to track">
+          Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
+        </SectionHead>
+        {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
+        {hotGuests.length > 0 ? (
+          <div className="spotlight-banner" role="status"><span className="dot" aria-hidden="true" /><strong>{results.mediaRounds} founder{results.mediaRounds === 1 ? ' is' : 's are'} on a media round</strong> in the last 30 days. Reach them while the moment lasts.</div>
+        ) : (
+          guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No founder is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest founders on a single show.</span></div>
+        )}
+        {guests.length === 0 ? (
+          <p className="note">No founders were found in the data. We never invent a person.</p>
+        ) : (
+          <FounderCards items={guests} admin={admin} st={st} />
+        )}
+        {more.length > 0 && (
+          <>
+            <h3 className="tier-h">More to consider <span className="tier-n mono">{more.length}</span></h3>
+            <p className="sec-sub" style={{ marginTop: 0 }}>Real founders from your shows with a weaker booking signal than the top picks: usually one show and an older episode. Worth a look when the top picks do not convert.</p>
+            <FounderCards items={more} admin={admin} st={st} />
+          </>
         )}
         {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} founder{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
       </section>

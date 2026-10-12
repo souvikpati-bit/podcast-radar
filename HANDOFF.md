@@ -311,3 +311,4 @@ Paste this:
 - Google Trends is NOT used: the official API is alpha-by-application and scraping is unreliable. Wikipedia page views are the stand-in.
 - Removed from the front page at the user's request: the intro paragraph, the scrolling show ticker, and the media-round stat.
 - Components Map was redrawn: `components-map.pdf/png/svg`. `CODE_FLOW.md` explains the code flow.
+- Founders are now two tiers: 7 top picks (`results.guests`) and up to 8 'More to consider' (`results.moreGuests`, config `counts.moreGuests`), ranked in one order; the Monday email still uses the top picks. The new tier shows after the next re-score or refresh. Sponsors are unchanged for now (data supports about 9 real ones; a 'likely advertisers first' layout was proposed, not built).

@@ -218,3 +218,14 @@ test('sponsors: need two shows or a paid flag; one-off mentions never qualify', 
   assert.ok(names.includes('TwoShows') && names.includes('PaidOnce'));
   assert.ok(!names.includes('OneOff'));
 });
+
+test('founders come as 7 top picks plus a "more to consider" tier, ranked in one order', () => {
+  const info = (name) => [{ name, role: 'founder', company: `${name} Co` }];
+  const vs = Array.from({ length: 12 }, (_, i) => vid({ guests: [`Founder ${String.fromCharCode(65 + i)}`], guest_info: info(`Founder ${String.fromCharCode(65 + i)}`), channel_key: `s${i}`, channel_title: `S${i}`, published_at: daysAgo(2 + i * 3) }));
+  const r = buildResults(vs, NOW);
+  assert.equal(r.guests.length, 7);
+  assert.equal(r.moreGuests.length, 5);
+  assert.equal(r.moreGuests[0].rank, 8);
+  assert.ok(r.guests[6].probability >= r.moreGuests[0].probability, 'the extra tier never outranks the top picks');
+  assert.equal(scoreGuests(vs, NOW).length, 7, 'scoreGuests still returns the top picks only');
+});

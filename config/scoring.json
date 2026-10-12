@@ -7,7 +7,7 @@
   "maxEpisodesPerChannel": 25,
   "baselineMinVideos": 5,
   "baselineFallbackRecent": 20,
-  "counts": { "topics": 6, "guests": 7, "sponsors": 5 },
+  "counts": { "topics": 6, "guests": 7, "moreGuests": 8, "sponsors": 5 },
   "probabilityClamp": { "min": 0.03, "max": 0.97 },
   "topic": {
     "simultaneousDays": 30,
