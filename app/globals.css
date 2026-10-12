@@ -11,6 +11,10 @@
   --signal-dim: rgba(198, 244, 50, 0.12);
   --amber: #ffb547;
   --red: #ff7a6b;
+  --link: #7db7ff;
+  --violet: #c3a6ff;
+  --mint: #7ee0c0;
+  --pink: #ff8fc2;
   --serif: var(--font-serif), 'Times New Roman', serif;
   --sans: var(--font-sans), system-ui, sans-serif;
   --mono: var(--font-mono), ui-monospace, Menlo, monospace;
@@ -285,3 +289,29 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .fsum-l { font-size: 14px; color: var(--text); margin-top: 6px; }
 .fsum-note { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
 @media (max-width: 760px) { .fsum { grid-template-columns: 1fr; } }
+
+/* ---- colour with a meaning: links blue, shows violet, companies gold, numbers amber, choices by colour ---- */
+.chip { color: var(--link); }
+.chip:hover { color: #b9d7ff; }
+.ev-ch { font-weight: 600; color: var(--violet); }
+.ev-v { color: var(--amber); }
+.f-role .co { color: var(--amber); font-weight: 600; }
+.shows-line .show-n { color: var(--violet); font-weight: 600; }
+.reach-l { color: var(--muted); }
+.find { font-family: var(--mono); font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid currentColor; text-decoration: none; background: rgba(255, 255, 255, 0.02); transition: background .2s, transform .2s; }
+.find:hover { transform: translateY(-1px); background: rgba(255, 255, 255, 0.08); }
+.find-google { color: #ffd166; }
+.find-linkedin { color: var(--link); }
+.find-x { color: #e6e6e6; }
+.find-instagram { color: var(--pink); }
+.gate button[data-s="shortlisted"][aria-pressed='true'] { background: var(--signal); border-color: var(--signal); color: #0b0f06; }
+.gate button[data-s="dismissed"][aria-pressed='true'] { background: var(--red); border-color: var(--red); color: #1a0907; }
+.gate button[data-s="contacted"][aria-pressed='true'] { background: var(--link); border-color: var(--link); color: #06111f; }
+.gate button[data-s="booked"][aria-pressed='true'], .gate button[data-s="sponsored"][aria-pressed='true'] { background: var(--mint); border-color: var(--mint); color: #04150f; }
+.gate button[data-s="shortlisted"]:hover { color: var(--signal); border-color: var(--signal); }
+.gate button[data-s="dismissed"]:hover { color: var(--red); border-color: var(--red); }
+.gate button[data-s="contacted"]:hover { color: var(--link); border-color: var(--link); }
+.gate button[data-s="booked"]:hover, .gate button[data-s="sponsored"]:hover { color: var(--mint); border-color: var(--mint); }
+.fsum-t:nth-child(1) .fsum-n { color: var(--signal); }
+.fsum-t:nth-child(2) .fsum-n { color: var(--link); }
+.fsum-t:nth-child(3) .fsum-n { color: var(--mint); }

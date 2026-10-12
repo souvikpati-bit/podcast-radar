@@ -20,8 +20,8 @@ function Evidence({ items }) {
     <div className="chips" aria-label="Source videos">
       {items.map((e) => (
         <a key={e.video_id} className="chip" href={e.url} target="_blank" rel="noopener noreferrer" title={`${e.title} (${e.channel})`}>
-          {e.channel}: {e.title.length > 40 ? `${e.title.slice(0, 38)}…` : e.title}
-          {e.views !== null && e.views !== undefined ? ` · ${nf(e.views)} views` : ''}
+          <b className="ev-ch">{e.channel}</b> {e.title.length > 40 ? `${e.title.slice(0, 38)}…` : e.title}
+          {e.views !== null && e.views !== undefined ? <span className="ev-v"> · {nf(e.views)} views</span> : ''}
         </a>
       ))}
     </div>
@@ -121,7 +121,7 @@ function FounderCards({ items, admin, st }) {
                   <div className="f-id">
                     <span className="f-rank mono" aria-hidden="true">{String(g.rank).padStart(2, '0')}</span>
                     <h3>{g.guest}</h3>
-                    <p className="f-role">{g.company ? `${g.role === 'founder' ? 'Founder' : 'Guest'} at ${g.company}` : g.role === 'founder' ? 'Founder' : 'Guest'}</p>
+                    <p className="f-role">{g.company ? <>{g.role === 'founder' ? 'Founder' : 'Guest'} at <span className="co">{g.company}</span></> : g.role === 'founder' ? 'Founder' : 'Guest'}</p>
                   </div>
                   <ProbRing value={g.probability} />
                 </div>
@@ -131,7 +131,7 @@ function FounderCards({ items, admin, st }) {
                   {g.saturated && <span className="badge">Heavily booked</span>}
                 </div>
                 <p className="why">{g.why}. Last seen {day(g.lastSeen)}.</p>
-                <p className="shows-line"><span className="muted mono">On</span> {g.shows.join(' · ')}</p>
+                <p className="shows-line"><span className="muted mono">On</span> {g.shows.map((n, i) => <span key={n}>{i > 0 && <span className="muted"> · </span>}<span className="show-n">{n}</span></span>)}</p>
                 <Evidence items={g.evidence} />
                 <FounderLinks search={searchLinks(g.guest, g.company)} />
                 <span className="est">model estimate from the data</span>

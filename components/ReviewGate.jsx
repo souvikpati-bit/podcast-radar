@@ -32,7 +32,7 @@ export function ReviewGate({ type, name, label, current }) {
   return (
     <div className="gate" role="group" aria-label={`Review ${label || name}`} aria-busy={saving}>
       {OPTIONS[type].map(([key, text]) => (
-        <button key={key} type="button" aria-pressed={status === key} disabled={saving} onClick={() => choose(key)}>{text}</button>
+        <button key={key} type="button" data-s={key} aria-pressed={status === key} disabled={saving} onClick={() => choose(key)}>{text}</button>
       ))}
       {saving && <span className="mono" style={{ fontSize: 12, color: 'var(--muted)' }} role="status">Saving…</span>}
       {err && <span className="status-bad mono" role="alert">{err}</span>}
