@@ -2,7 +2,7 @@
 export function Method() {
   return (
     <section className="block" id="method" aria-labelledby="h-method">
-      <div className="sec-head"><span className="sec-num">06</span><h2 id="h-method">How it is calculated</h2></div>
+      <div className="sec-head"><span className="sec-num">07</span><h2 id="h-method">How it is calculated</h2></div>
       <details className="method" data-method>
         <summary>Every number explained</summary>
         <div className="method-body" data-method-body>
@@ -21,6 +21,8 @@ export function Method() {
             <li><strong>Trend</strong>: the topic&apos;s guest episodes in the last 14 days against the 14 days before: rising, steady, cooling, or new. It is shown next to the rank and does not change the score.</li>
             <li><strong>Probability</strong>: out of the mature videos on the topic, how many beat their channel&apos;s typical views. It is smoothed as (hits + 1) / (videos + 2) so a tiny sample never shows 0% or 100%.</li>
           </ul>
+          <h3>Topic trends</h3>
+          <p>The Trends block compares the six topics over the last eight weeks. <strong>Episodes per week</strong> counts guest episodes on each topic across all monitored shows. <strong>Public interest</strong> uses daily Wikipedia page views for a matching article (for example &ldquo;Artificial intelligence&rdquo; for AI and agents), averaged per week and shown as an index where 100 is that topic&apos;s own eight-week average. It is a free, live stand-in for how much the public cares; it is not Google search data. If Wikipedia cannot be reached, the interest lines are left out and the episode lines still show.</p>
           <h3>Guests</h3>
           <ul>
             <li>Only <strong>founders</strong> are listed, because that is who you host. The AI reads each guest&apos;s role (founder, investor, analyst, public figure and so on) and company from the episode text. Analysts, investors and celebrities are left out; a guest whose role is not stated gets the benefit of the doubt.</li>

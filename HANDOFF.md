@@ -301,3 +301,13 @@ Other issues and limits:
 Paste this:
 
 > I'm continuing the Podcast Ecosystem Radar project in `C:\Users\Souvik PI\Desktop\Agent_Workspace\podcast-radar`. Before doing anything, read `HANDOFF.md` and `CLAUDE.md` in that folder completely. Then tell me in five lines what the project is, what is live, and what you plan to do first. Rules: never ask me to paste keys in chat (keys live only in `.env.local` and Vercel), never print secrets, be careful with API quota (YouTube 10,000 units/day, report units used), do not touch mobile layout, and ask before anything that needs a card or a paid plan. Start with the "Next steps" list in HANDOFF.md section 9.
+
+---
+
+## Addendum (2026-10-13): Trends block, login block, dashboard blocks
+- Main page is now seven clickable blocks (01 Login, 02 Topics, 03 Trends, 04 Founders, 05 Sponsors, 06 Shows, 07 How it works); Settings has four. Component: `components/BlockTabs.jsx`.
+- Show list max is 10 (`config/pipeline.json` maxChannels); add/remove is on the main page and in Settings after login (`components/ChannelManager.jsx`).
+- Trends: `lib/trends.js` + `config/trend-articles.json` fetch Wikipedia daily page views (no key, polite pacing, failures never break a refresh) and are stored in the snapshot as `results.trends`; each topic also has `weekly8` (episodes per week). Chart: `components/TrendChart.jsx`. `scripts/rescore.mjs` re-scores and refreshes trends with no YouTube/Gemini quota.
+- Google Trends is NOT used: the official API is alpha-by-application and scraping is unreliable. Wikipedia page views are the stand-in.
+- Removed from the front page at the user's request: the intro paragraph, the scrolling show ticker, and the media-round stat.
+- Components Map was redrawn: `components-map.pdf/png/svg`. `CODE_FLOW.md` explains the code flow.

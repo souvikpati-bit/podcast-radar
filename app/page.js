@@ -7,7 +7,7 @@ import { isAdminPage } from '@/lib/session';
 import { TopBar } from '@/components/TopBar';
 import { Hero } from '@/components/Hero';
 import { Banner } from '@/components/Banner';
-import { TopicsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard';
+import { TopicsPanel, TrendsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard';
 import { BlockTabs } from '@/components/BlockTabs';
 import { LoginPanel } from '@/components/LoginPanel';
 import { Method } from '@/components/Method';
@@ -51,19 +51,20 @@ export default async function Home() {
           tabs={[
             { id: 'login', num: '01', label: admin ? 'Logged in' : 'Login', hint: admin ? 'Aditya · manage shows' : 'Aditya only', content: <LoginPanel admin={admin} /> },
             { id: 'topics', num: '02', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'guests', num: '03', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'sponsors', num: '04', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
-            { id: 'shows', num: '05', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (
+            { id: 'trends', num: '03', label: 'Trends', hint: 'Topics over 8 weeks', content: <TrendsPanel results={results} /> },
+            { id: 'guests', num: '04', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'sponsors', num: '05', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
+            { id: 'shows', num: '06', label: 'Shows', hint: `${n} of ${cfg.maxChannels} tracked · add or remove`, content: (
               <section className="block" aria-labelledby="h-shows">
             <header className="sec-head">
-              <span className="sec-num" aria-hidden="true">05</span>
+              <span className="sec-num" aria-hidden="true">06</span>
               <h2 id="h-shows">Shows we track ({n}/{cfg.maxChannels})</h2>
               <p className="sec-sub">The podcasts this radar watches. Aditya can add or remove a show any time, up to {cfg.maxChannels}, with no code change.</p>
             </header>
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
           </section>
             ) },
-            { id: 'method', num: '06', label: 'How it works', hint: 'Every number explained', content: <Method /> },
+            { id: 'method', num: '07', label: 'How it works', hint: 'Every number explained', content: <Method /> },
           ]}
         />
       </main>

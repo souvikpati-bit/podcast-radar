@@ -1,6 +1,7 @@
 import { ReviewGate } from './ReviewGate';
 import { ProbRing } from './ProbRing';
 import { Sparkline } from './Sparkline';
+import { TrendChart } from './TrendChart';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
 const day = (iso) => new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).format(new Date(iso));
@@ -114,7 +115,7 @@ export function GuestsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-guests">
-        <SectionHead num="03" id="h-guests" title="Founders to track">
+        <SectionHead num="04" id="h-guests" title="Founders to track">
           Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
         </SectionHead>
         {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
@@ -163,7 +164,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
   return (
     <>
       <section className="block" aria-labelledby="h-sponsors">
-        <SectionHead num="04" id="h-sponsors" title="Sponsors to pitch">
+        <SectionHead num="05" id="h-sponsors" title="Sponsors to pitch">
           Brands promoted or mentioned across your shows: each appears on two or more shows or shows paid promotion. A founder naming their own company is not counted. <strong>Likely advertiser</strong> means the text showed paid promotion; <strong>Mentioned only</strong> means it was named without a paid signal. Spoken ad reads are not visible, so brand detection is partial.
         </SectionHead>
         {results.sponsors.length === 0 ? (
@@ -194,5 +195,27 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
         {demo && <p className="note">These brands are fictional demo data.</p>}
       </section>
     </>
+  );
+}
+
+export function TrendsPanel({ results }) {
+  const tr = results.trends;
+  const topics = (results.topics || []).filter((t) => t.weekly8).map((t) => ({ topic: t.topic, shows: t.simultaneous?.shows || 0, episodes: t.weekly8, interest: tr?.interest?.[t.topic] || null }));
+  const weeks = tr?.weeks || topics[0]?.episodes.map((_, i, a) => (i === a.length - 1 ? 'now' : `-${a.length - 1 - i}w`)) || [];
+  return (
+    <section className="block">
+      <SectionHead num="03" id="h-trends" title="Topic trends over time">
+        The six topics compared week by week for the last eight weeks: how often guests talked about each one across your shows, and how much the public is reading about it (Wikipedia page views, a free live signal for hype). Click a topic name to hide or show its line; hover the chart to read a week.
+      </SectionHead>
+      {topics.length === 0 ? (
+        <p className="note">Trend lines appear after the next data refresh.</p>
+      ) : (
+        <>
+          <TrendChart weeks={weeks} topics={topics} source={tr?.source} />
+          {tr?.error && <p className="note">Some public-interest lines are missing this time ({tr.error}). They return on the next refresh.</p>}
+          {!tr && <p className="note">Public-interest lines appear after the next data refresh.</p>}
+        </>
+      )}
+    </section>
   );
 }
