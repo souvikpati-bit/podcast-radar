@@ -12,7 +12,6 @@ import { BlockTabs } from '@/components/BlockTabs';
 import { LoginPanel } from '@/components/LoginPanel';
 import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
-import { Marquee } from '@/components/Marquee';
 import { ChannelManager } from '@/components/ChannelManager';
 import { listChannels } from '@/lib/channels';
 import cfg from '@/config/pipeline.json';
@@ -46,7 +45,6 @@ export default async function Home() {
         <Hero topics={results.topics}>
           <Banner data={data} />
         </Hero>
-        <Marquee shows={data.snapshot.meta?.shows || []} />
         <BlockTabs
           label="Dashboard sections"
           initial="topics"

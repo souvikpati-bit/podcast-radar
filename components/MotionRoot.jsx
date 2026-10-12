@@ -75,11 +75,9 @@ export function MotionRoot({ children }) {
                 onSplit: (self) => tl.from(self.lines, { yPercent: 115, duration: 0.95, stagger: 0.12 }, 0.2),
               });
             }
-            tl.from(q('.lede'), { y: 16, opacity: 0, duration: 0.7 }, 0.55);
             tl.from(q('[data-banner]'), { y: -16, opacity: 0, duration: 0.6 }, 0.75);
             tl.from(q('[data-stat]'), { y: 26, opacity: 0, duration: 0.65, stagger: 0.09 }, 0.9);
             q('[data-stat] [data-count]').forEach((c, i) => countUp(c, 1 + i * 0.09));
-            tl.from(q('.marquee'), { opacity: 0, duration: 0.8 }, 1.3);
           }
 
           // ---- scroll reveals ----

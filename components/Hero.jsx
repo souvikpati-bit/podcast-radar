@@ -51,7 +51,6 @@ export function Hero({ topics = [], children }) {
       <div className="wrap hero-copy">
         <p className="eyebrow"><span className="dot" aria-hidden="true" /> Podcast Ecosystem Radar · weekly intelligence for Aditya</p>
         <h1 data-split>Catch the <em>moment</em> before it passes.</h1>
-        <p className="lede">Which topics several shows are covering at once. Which founders are doing the media rounds this month. Which brands are being promoted across shows. You make every call. Nothing here ever contacts anyone.</p>
         {children}
       </div>
     </div>
