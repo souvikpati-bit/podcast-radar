@@ -19,7 +19,7 @@ export function LoginForm() {
   return (
     <form onSubmit={submit} className="card" style={{ maxWidth: 480, margin: '40px auto' }}>
       <h1 style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 40 }}>Aditya&apos;s login</h1>
-      <p className="muted" style={{ marginTop: 6 }}>Enter the admin key to manage channels, refresh data and use the Review Gate.</p>
+      <p className="muted" style={{ marginTop: 6 }}>Enter the admin key to manage shows and use the Review Gate.</p>
       <label htmlFor="key">Admin key</label>
       <input id="key" type="password" autoComplete="current-password" value={key} onChange={(e) => setKey(e.target.value)} required />
       {err && <p className="status-bad" role="alert" style={{ marginTop: 10 }}>{err}</p>}

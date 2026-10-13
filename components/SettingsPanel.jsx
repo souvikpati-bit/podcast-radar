@@ -16,7 +16,6 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
   const router = useRouter();
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
-  const [progress, setProgress] = useState(null);
 
   useGSAP(() => {
     if (msg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.from('[data-toast]', { y: 24, opacity: 0, duration: 0.4, ease: 'power3.out' });
@@ -27,27 +26,6 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
     setTimeout(() => setMsg(''), 6000);
   };
 
-  async function refreshNow() {
-    setBusy('refresh');
-    let state = null;
-    setProgress({ pct: 2, label: 'Starting' });
-    for (let i = 0; i < 80; i++) {
-      const r = await post('/api/refresh', { state });
-      if (!r.ok) {
-        toast(r.data.error || 'Refresh failed');
-        break;
-      }
-      setProgress(r.data.progress);
-      if (r.data.done) {
-        toast(r.data.error ? `Refresh stopped: ${r.data.error}` : r.data.progress.label);
-        break;
-      }
-      state = r.data.state;
-    }
-    setBusy('');
-    setProgress(null);
-    router.refresh();
-  }
   async function sendBrief() {
     setBusy('brief');
     const r = await post('/api/brief/send', {});
@@ -68,28 +46,21 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
   return (
     <div>
       <div className="sec-head"><span className="sec-num">S</span><h1 style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(34px,7vw,56px)' }}>Settings</h1></div>
-      <p className="sec-sub">Everything here is private to Aditya. Monitored shows, data refresh, the Monday brief and system health.</p>
+      <p className="sec-sub">Everything here is private to Aditya. Monitored shows, the Monday brief and system health. The data updates by itself once a day, and whenever you add or remove a show.</p>
 
       <BlockTabs
         bare
         label="Settings sections"
         tabs={[
-          { id: 'actions', label: 'Actions', hint: 'Check for new episodes · send the brief', content: (
+          { id: 'actions', label: 'Actions', hint: 'Send the brief · download your marks', content: (
             <>
           <div className="card">
             <h2 style={{ fontSize: 18 }}>Actions</h2>
             <p style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 12 }}>
-              <button className="btn" onClick={refreshNow} disabled={Boolean(busy)}>{busy === 'refresh' ? 'Checking…' : 'Check for new episodes now'}</button>
-              <button className="btn ghost" onClick={sendBrief} disabled={Boolean(busy)}>{busy === 'brief' ? 'Sending…' : 'Send brief now'}</button>
+              <button className="btn" onClick={sendBrief} disabled={Boolean(busy)}>{busy === 'brief' ? 'Sending…' : 'Send brief now'}</button>
               <a className="btn ghost" href="/api/actions/export">Download Review Gate CSV</a>
               <button className="btn ghost" onClick={logout}>Log out</button>
             </p>
-            {progress && (
-              <div role="status" aria-live="polite">
-                <div className="progress"><i style={{ transform: `scaleX(${(progress.pct || 0) / 100})` }} /></div>
-                <p className="muted mono" style={{ fontSize: 13, marginTop: 6 }}>{progress.label}</p>
-              </div>
-            )}
             {!emailReady && <p className="note">Email is not ready: set RESEND_API_KEY and BRIEF_TO_EMAIL, then redeploy. &ldquo;Send brief now&rdquo; will explain what is missing.</p>}
           </div>
 
