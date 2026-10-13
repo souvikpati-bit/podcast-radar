@@ -332,3 +332,18 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .tier-label.weak { color: var(--red); }
 .tier-label.early { color: var(--muted); }
 .topic.tier-first:not(:first-child) { margin-top: 34px; }
+
+/* ---- shortlist block and status tags ---- */
+.fsum.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fsum.topics .fsum-t:nth-child(2) .fsum-n { color: var(--red); }
+.badge.st-shortlisted { border-color: var(--signal); color: var(--signal); background: var(--signal-dim); }
+.badge.st-contacted { border-color: var(--link); color: var(--link); background: rgba(125, 183, 255, 0.1); }
+.badge.st-dismissed { border-color: var(--red); color: var(--red); background: rgba(255, 122, 107, 0.08); }
+.badge.st-sponsored { border-color: var(--mint); color: var(--mint); background: rgba(126, 224, 192, 0.1); }
+.sl-group { margin-top: 8px; }
+.sl { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+.sl-item { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); }
+.sl-main { min-width: 0; flex: 1; }
+.sl-top { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.sl-item .reach { margin-top: 10px; padding-top: 10px; }
+@media (max-width: 760px) { .fsum.two { grid-template-columns: 1fr; } .sl-item { flex-direction: column; } }

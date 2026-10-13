@@ -3,7 +3,8 @@ import { ProbRing } from './ProbRing';
 import { Sparkline } from './Sparkline';
 import { TrendChart } from './TrendChart';
 import { FounderLinks } from './FounderLinks';
-import { FounderSummary } from './FounderSummary';
+import { GateSummary } from './GateSummary';
+import { StatusTag } from './StatusTag';
 import { topicVerdict, topicEvidenceLine, VERDICT_LABEL } from '@/lib/scoring';
 import { searchLinks } from '@/lib/profiles';
 
@@ -11,6 +12,9 @@ const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('e
 const day = (iso) => new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).format(new Date(iso));
 const TREND = { rising: '↑ Rising', cooling: '↓ Cooling', new: 'New' };
 const STANCE = { ride: ['Ride it', 'signal'], counter: ['Crowded: counter-programme', 'amber'], emerging: ['Emerging', ''] };
+
+// { name: status } for one kind of Review Gate mark, from the { 'type:name': status } map
+const marksOf = (actions, type) => Object.fromEntries(Object.entries(actions).filter(([k]) => k.startsWith(`${type}:`)).map(([k, v]) => [k.slice(type.length + 1), v]));
 
 const initials = (name) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 const hueOf = (name) => [...name].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
@@ -71,6 +75,7 @@ export function TopicsPanel({ results, admin, actions }) {
         <SectionHead num="02" id="h-topics" title="Topics to cover">
           This week&apos;s top six of all the themes tracked across your shows: the ones covered by the most shows at the same time in the last 30 days. They are grouped by audience response, <strong>High response</strong> first, then <strong>Steady</strong>, then <strong>Mixed</strong>, and never mixed together. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic shows how audiences are responding, with the evidence underneath.
         </SectionHead>
+        {admin && <GateSummary type="topic" variant="two topics" label="Your progress with topics" initial={marksOf(actions, 'topic')} tiles={[['shortlisted', 'Shortlisted', 'Topics you plan to cover'], ['dismissed', 'Dismissed', 'Topics you passed on']]} />}
         <ol className="topics">
           {topics.map((t, idx) => {
             const on = t.simultaneous?.shows || 0;
@@ -87,6 +92,7 @@ export function TopicsPanel({ results, admin, actions }) {
                     <div className="badges">
                       {STANCE[t.stance] && <span className={`badge ${STANCE[t.stance][1]}`}>{STANCE[t.stance][0]}</span>}
                       {TREND[t.trend?.label] && <span className={`badge ${t.trend.label === 'cooling' ? '' : 'signal'}`}>{TREND[t.trend.label]}</span>}
+                      {admin && <StatusTag type="topic" name={t.topic} initial={st('topic', t.topic)} />}
                     </div>
                   </div>
                   <div className="t-viz">
@@ -134,6 +140,7 @@ function FounderCards({ items, admin, st }) {
                   {g.mediaRound && <span className="badge amber">Media round</span>}
                   {g.fresh && <span className="badge signal">New voice</span>}
                   {g.saturated && <span className="badge">Heavily booked</span>}
+                  {admin && <StatusTag type="guest" name={g.guest} initial={st('guest', g.guest)} />}
                 </div>
                 <p className="why">{g.why}. Last seen {day(g.lastSeen)}.</p>
                 <p className="shows-line"><span className="muted mono">On</span> {g.shows.map((n, i) => <span key={n}>{i > 0 && <span className="muted"> · </span>}<span className="show-n">{n}</span></span>)}</p>
@@ -163,7 +170,7 @@ export function GuestsPanel({ results, admin, actions }) {
         ) : (
           guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No founder is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest founders on a single show.</span></div>
         )}
-        {admin && <FounderSummary initial={Object.fromEntries(Object.entries(actions).filter(([k]) => k.startsWith('guest:')).map(([k, v]) => [k.slice(6), v]))} />}
+        {admin && <GateSummary type="guest" label="Your progress with founders" initial={marksOf(actions, 'guest')} tiles={[['shortlisted', 'Shortlisted', 'Founders you want to approach'], ['contacted', 'Contacted outside the app', 'You have already messaged them'], ['booked', 'Confirmed', 'Agreed to come on; removed from the list']]} />}
         {guests.length === 0 ? (
           <p className="note">No founders were found in the data. We never invent a person.</p>
         ) : (
@@ -195,7 +202,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
                   <div className="s-main">
                     <div className="t-head">
                       <h3>{s.brand}</h3>
-                      <div className="badges"><span className={`badge ${s.likelyAdvertiser ? 'signal' : ''}`}>{s.likelyAdvertiser ? 'Likely advertiser' : 'Mentioned only'}</span></div>
+                      <div className="badges"><span className={`badge ${s.likelyAdvertiser ? 'signal' : ''}`}>{s.likelyAdvertiser ? 'Likely advertiser' : 'Mentioned only'}</span>{admin && <StatusTag type="sponsor" name={sk} initial={st('sponsor', sk)} />}</div>
                     </div>
                     <p className="why">{s.why}. Carried by: {s.shows.join(', ')}.</p>
                     <Evidence items={s.evidence} />

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const OPTIONS = {
   topic: [['shortlisted', 'Shortlist'], ['dismissed', 'Dismiss']],
@@ -12,6 +12,14 @@ export function ReviewGate({ type, name, label, current }) {
   const [status, setStatus] = useState(current);
   const [err, setErr] = useState('');
   const [saving, setSaving] = useState(false);
+  useEffect(() => {
+    const onChange = (e) => {
+      const d = e.detail || {};
+      if (d.type === type && d.key === name) setStatus(d.status);
+    };
+    window.addEventListener('gate-change', onChange);
+    return () => window.removeEventListener('gate-change', onChange);
+  }, [type, name]);
   async function choose(next) {
     if (saving) return; // a second click while a save is running would send the wrong choice
     const value = status === next ? 'clear' : next;

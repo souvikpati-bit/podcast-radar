@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto';
 import Link from 'next/link';
 import { getEnv } from '@/lib/env';
 import { orderTopics } from '@/lib/scoring';
+import { ShortlistPanel } from '@/components/ShortlistPanel';
+import { shortlistDetails, SHORTLIST_STATUSES } from '@/lib/shortlist';
 import { getDashboardData } from '@/lib/snapshot';
 import { actionMap } from '@/lib/actions';
 import { isAdminPage } from '@/lib/session';
@@ -66,7 +68,8 @@ export default async function Home() {
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
           </section>
             ) },
-            { id: 'method', num: '07', label: 'How it works', hint: 'Every number explained', content: <Method /> },
+            ...(admin ? [{ id: 'shortlist', num: '07', label: 'Your shortlist', hint: 'Topics, founders, sponsors you marked', content: <ShortlistPanel num="07" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(data.snapshot.results, env.showSponsorNames)} /> }] : []),
+            { id: 'method', num: admin ? '08' : '07', label: 'How it works', hint: 'Every number explained', content: <Method num={admin ? '08' : '07'} /> },
           ]}
         />
       </main>
