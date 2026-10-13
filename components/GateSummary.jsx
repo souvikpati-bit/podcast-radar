@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-// Aditya's progress on a list (topics or founders). Updates the moment a Review Gate button is pressed, no reload needed.
+// Aditya's progress on a list (topics or guests). Updates the moment a Review Gate button is pressed, no reload needed.
 // tiles: [[status, title, hint], ...]
 export function GateSummary({ type, initial, tiles, label, variant = '' }) {
   const [map, setMap] = useState(initial);

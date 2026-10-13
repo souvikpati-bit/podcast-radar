@@ -5,7 +5,7 @@ import { shortlistItems, countItems, SHORTLIST_STATUSES } from '@/lib/shortlist-
 
 const GROUPS = [
   ['topic', 'Topics to cover', 'Press Shortlist on a topic to plan an episode on it.'],
-  ['guest', 'Founders to approach', 'Press Shortlist or Contacted on a founder to keep them here.'],
+  ['guest', 'Guests to approach', 'Press Shortlist or Contacted on a guest to keep them here.'],
   ['sponsor', 'Sponsors to pitch', 'Press Shortlist or Contacted on a sponsor to keep it here.'],
 ];
 const STATUS_TEXT = { shortlisted: '★ Shortlisted', contacted: 'Contacted' };
@@ -58,12 +58,12 @@ export function ShortlistPanel({ num, initial, details }) {
       </header>
       <div className="fsum" role="group" aria-label="Shortlist totals">
         <div className="fsum-t"><span className="fsum-n mono">{items.topic.length}</span><span className="fsum-l">Topics</span><span className="fsum-note">episodes to make</span></div>
-        <div className="fsum-t"><span className="fsum-n mono" style={{ color: 'var(--link)' }}>{items.guest.length}</span><span className="fsum-l">Founders</span><span className="fsum-note">people to approach</span></div>
+        <div className="fsum-t"><span className="fsum-n mono" style={{ color: 'var(--link)' }}>{items.guest.length}</span><span className="fsum-l">Guests</span><span className="fsum-note">people to approach</span></div>
         <div className="fsum-t"><span className="fsum-n mono" style={{ color: 'var(--mint)' }}>{items.sponsor.length}</span><span className="fsum-l">Sponsors</span><span className="fsum-note">brands to pitch</span></div>
       </div>
       <p style={{ margin: '4px 0 0' }}><a className="btn ghost" href="/api/actions/export">Download all marks (CSV)</a></p>
       {err && <p className="status-bad" role="alert">{err}</p>}
-      {total === 0 && <p className="note">Nothing shortlisted yet. Press <strong>Shortlist</strong> on any topic, founder or sponsor and it will appear here.</p>}
+      {total === 0 && <p className="note">Nothing shortlisted yet. Press <strong>Shortlist</strong> on any topic, guest or sponsor and it will appear here.</p>}
       {GROUPS.map(([type, title, hint]) => (
         <div key={type} className="sl-group">
           <h3 className="tier-h">{title} <span className="tier-n mono">{items[type].length}</span></h3>

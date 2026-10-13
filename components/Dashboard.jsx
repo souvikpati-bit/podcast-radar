@@ -162,22 +162,22 @@ export function GuestsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-guests">
-        <SectionHead num="03" id="h-guests" title="Founders to track">
-          Founders from your shows, ranked on their own. A <strong>media round</strong> means on 2+ shows this month.
+        <SectionHead num="03" id="h-guests" title="Guests to track">
+          Guests from your shows, ranked on their own. A <strong>media round</strong> means on 2+ shows this month.
         </SectionHead>
-        {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
+        {results.excluded > 0 && <p className="note">{results.excluded} confirmed guest{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
         {hotGuests.length > 0 ? (
-          <div className="spotlight-banner" role="status"><span className="dot" aria-hidden="true" /><strong>{results.mediaRounds} founder{results.mediaRounds === 1 ? ' is' : 's are'} on a media round</strong> in the last 30 days. Reach them while the moment lasts.</div>
+          <div className="spotlight-banner" role="status"><span className="dot" aria-hidden="true" /><strong>{results.mediaRounds} guest{results.mediaRounds === 1 ? ' is' : 's are'} on a media round</strong> in the last 30 days. Reach them while the moment lasts.</div>
         ) : (
-          guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No founder is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest founders on a single show.</span></div>
+          guests.length > 0 && <div className="spotlight-banner quiet" role="status"><span className="dot amber" aria-hidden="true" /><span><strong>No guest is on a media round yet.</strong> Nobody has appeared on two or more of your monitored shows in the last 30 days. These are the strongest guests on a single show.</span></div>
         )}
-        {admin && <GateSummary type="guest" label="Your progress with founders" initial={marksOf(actions, 'guest')} tiles={[['shortlisted', 'Shortlisted', 'Founders you want to approach'], ['contacted', 'Contacted outside the app', 'You have already messaged them'], ['booked', 'Confirmed', 'Agreed to come on; removed from the list']]} />}
+        {admin && <GateSummary type="guest" label="Your progress with guests" initial={marksOf(actions, 'guest')} tiles={[['shortlisted', 'Shortlisted', 'Guests you want to approach'], ['contacted', 'Contacted outside the app', 'You have already messaged them'], ['booked', 'Confirmed', 'Agreed to come on; removed from the list']]} />}
         {guests.length === 0 ? (
-          <p className="note">No founders were found in the data. We never invent a person.</p>
+          <p className="note">No guests were found in the data. We never invent a person.</p>
         ) : (
           <FounderCards items={guests} admin={admin} st={st} />
         )}
-        {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} founder{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
+        {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} guest{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
       </section>
     </>
   );
