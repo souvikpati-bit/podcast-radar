@@ -4,7 +4,7 @@ import { FounderLinks } from './FounderLinks';
 import { GateSummary } from './GateSummary';
 import { StatusTag } from './StatusTag';
 import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, guestRating, GUEST_RATING_LABEL } from '@/lib/scoring';
-import { searchLinks } from '@/lib/profiles';
+import { searchLinks, brandLinks } from '@/lib/profiles';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
 const day = (iso) => new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).format(new Date(iso));
@@ -215,6 +215,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
                     </div>
                     <p className="why">{s.why}. Carried by: {s.shows.join(', ')}.</p>
                     <Evidence items={s.evidence} />
+                    {!s.key && <FounderLinks search={brandLinks(s.brand)} />}
                     {admin && <ReviewGate type="sponsor" name={sk} label={s.brand} current={st('sponsor', sk)} />}
                   </div>
                   <div className="s-prob"><Prob value={s.probability} /></div>
