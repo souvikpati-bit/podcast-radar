@@ -54,7 +54,7 @@ export function ShortlistPanel({ num, initial, details }) {
       <header className="sec-head">
         <span className="sec-num" aria-hidden="true">{num}</span>
         <h2 id="h-shortlist">Your shortlist</h2>
-        <p className="sec-sub">Everything you have marked <strong>Shortlist</strong> or <strong>Contacted</strong> on the Topics, Founders and Sponsors blocks, in one place. It is your private plan for the week and also appears in your Monday email. Nothing here contacts anyone.</p>
+        <p className="sec-sub">Everything you marked <strong>Shortlist</strong> or <strong>Contacted</strong>. It also appears in your Monday email.</p>
       </header>
       <div className="fsum" role="group" aria-label="Shortlist totals">
         <div className="fsum-t"><span className="fsum-n mono">{items.topic.length}</span><span className="fsum-l">Topics</span><span className="fsum-note">episodes to make</span></div>

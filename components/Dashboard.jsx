@@ -10,6 +10,8 @@ import { searchLinks } from '@/lib/profiles';
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
 const day = (iso) => new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).format(new Date(iso));
 const TREND = { rising: '↑ Rising', cooling: '↓ Cooling', new: 'New' };
+const TREND_TIP = { rising: 'More guest episodes on this in the last 2 weeks than in the 2 weeks before', cooling: 'Fewer guest episodes on this in the last 2 weeks than in the 2 weeks before', new: 'Barely covered before the last 2 weeks' };
+const STANCE_TIP = { ride: 'Ride it: 3 or more shows are on this topic right now', counter: 'Crowded: so widely covered that a fresh angle will stand out more than another take', emerging: 'Emerging: fewer than 3 shows are on it so far' };
 const STANCE = { ride: ['Ride it', 'signal'], counter: ['Crowded: counter-programme', 'amber'], emerging: ['Emerging', ''] };
 
 // { name: status } for one kind of Review Gate mark, from the { 'type:name': status } map
@@ -72,7 +74,7 @@ export function TopicsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-topics">
         <SectionHead num="02" id="h-topics" title="Topics to cover">
-          This week&apos;s top six of all the themes tracked across your shows: the ones covered by the most shows at the same time in the last 30 days. They are grouped by audience response, <strong>High response</strong> first, then <strong>Steady</strong>, then <strong>Mixed</strong>, and never mixed together. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic shows how audiences are responding, with the evidence underneath.
+          This week&apos;s top six, grouped by audience response.
         </SectionHead>
         {admin && <GateSummary type="topic" variant="two topics" label="Your progress with topics" initial={marksOf(actions, 'topic')} tiles={[['shortlisted', 'Shortlisted', 'Topics you plan to cover'], ['dismissed', 'Dismissed', 'Topics you passed on']]} />}
         <ol className="topics">
@@ -89,8 +91,8 @@ export function TopicsPanel({ results, admin, actions }) {
                   <div className="t-head">
                     <h3>{t.topic}</h3>
                     <div className="badges">
-                      {STANCE[t.stance] && <span className={`badge ${STANCE[t.stance][1]}`}>{STANCE[t.stance][0]}</span>}
-                      {TREND[t.trend?.label] && <span className={`badge ${t.trend.label === 'cooling' ? '' : 'signal'}`}>{TREND[t.trend.label]}</span>}
+                      {STANCE[t.stance] && <span className={`badge ${STANCE[t.stance][1]}`} title={STANCE_TIP[t.stance]}>{STANCE[t.stance][0]}</span>}
+                      {TREND[t.trend?.label] && <span className={`badge ${t.trend.label === 'cooling' ? '' : 'signal'}`} title={TREND_TIP[t.trend.label]}>{TREND[t.trend.label]}</span>}
                       {admin && <StatusTag type="topic" name={t.topic} initial={st('topic', t.topic)} />}
                     </div>
                   </div>
@@ -136,9 +138,9 @@ function FounderCards({ items, admin, st }) {
                   <ProbRing value={g.probability} />
                 </div>
                 <div className="badges">
-                  {g.mediaRound && <span className="badge amber">Media round</span>}
-                  {g.fresh && <span className="badge signal">New voice</span>}
-                  {g.saturated && <span className="badge">Heavily booked</span>}
+                  {g.mediaRound && <span className="badge amber" title="On 2 or more shows within the last 30 days: available, media-willing, easiest to book now">Media round</span>}
+                  {g.fresh && <span className="badge signal" title="Few appearances so far, so not yet flooded with requests">New voice</span>}
+                  {g.saturated && <span className="badge" title="On 6 or more shows, so likely already getting many requests">Heavily booked</span>}
                   {admin && <StatusTag type="guest" name={g.guest} initial={st('guest', g.guest)} />}
                 </div>
                 <p className="why">{g.why}. Last seen {day(g.lastSeen)}.</p>
@@ -161,7 +163,7 @@ export function GuestsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-guests">
         <SectionHead num="03" id="h-guests" title="Founders to track">
-          Founders appearing across the shows, ranked on their own: no topic is involved, so whoever joins you, you can talk through the trending topics with them. A founder on two or more shows within the same month is on a <strong>media round</strong>: available, media-willing, and easiest to book now.
+          Founders from your shows, ranked on their own. A <strong>media round</strong> means on 2+ shows this month.
         </SectionHead>
         {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
         {hotGuests.length > 0 ? (
@@ -187,7 +189,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
     <>
       <section className="block" aria-labelledby="h-sponsors">
         <SectionHead num="04" id="h-sponsors" title="Sponsors to pitch">
-          Brands promoted or mentioned across your shows: each appears on two or more shows or shows paid promotion. A founder naming their own company is not counted. <strong>Likely advertiser</strong> means the text showed paid promotion; <strong>Mentioned only</strong> means it was named without a paid signal. Spoken ad reads are not visible, so brand detection is partial.
+          Brands carried by 2+ shows or showing paid promotion. Spoken ads are invisible, so this list is partial.
         </SectionHead>
         {results.sponsors.length === 0 ? (
           <p className="note">No brands qualified in the last 90 days.</p>
@@ -201,7 +203,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
                   <div className="s-main">
                     <div className="t-head">
                       <h3>{s.brand}</h3>
-                      <div className="badges"><span className={`badge ${s.likelyAdvertiser ? 'signal' : ''}`}>{s.likelyAdvertiser ? 'Likely advertiser' : 'Mentioned only'}</span>{admin && <StatusTag type="sponsor" name={sk} initial={st('sponsor', sk)} />}</div>
+                      <div className="badges"><span className={`badge ${s.likelyAdvertiser ? 'signal' : ''}`} title={s.likelyAdvertiser ? 'The text showed paid promotion (sponsored by, promo code, and similar)' : 'Named without any paid-promotion wording'}>{s.likelyAdvertiser ? 'Likely advertiser' : 'Mentioned only'}</span>{admin && <StatusTag type="sponsor" name={sk} initial={st('sponsor', sk)} />}</div>
                     </div>
                     <p className="why">{s.why}. Carried by: {s.shows.join(', ')}.</p>
                     <Evidence items={s.evidence} />

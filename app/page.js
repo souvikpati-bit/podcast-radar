@@ -62,7 +62,7 @@ export default async function Home() {
             <header className="sec-head">
               <span className="sec-num" aria-hidden="true">05</span>
               <h2 id="h-shows">Shows we track ({n}/{cfg.maxChannels})</h2>
-              <p className="sec-sub">The podcasts this radar watches. Aditya can add or remove a show any time, up to {cfg.maxChannels}, with no code change.</p>
+              <p className="sec-sub">The podcasts this radar watches. Add or remove up to {cfg.maxChannels}, no code needed.</p>
             </header>
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} />
           </section>

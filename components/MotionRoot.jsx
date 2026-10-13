@@ -98,12 +98,9 @@ export function MotionRoot({ children }) {
           batchIn('.fcard', { y: 48 });
           batchIn('.srow', { y: 32 });
 
-          // section titles rise in; the big outlined numerals drift against the scroll
+          // section titles rise in
           q('.sec-head h2, .sec-head .sec-sub').forEach((el) => {
             gsap.from(el, { y: 36, opacity: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
-          });
-          q('.sec-num').forEach((n) => {
-            gsap.fromTo(n, { y: 40 }, { y: -40, ease: 'none', scrollTrigger: { trigger: n.closest('section') || n, start: 'top bottom', end: 'bottom top', scrub: true } });
           });
           const method = q('#method .sec-head, #method details');
           gsap.set(method, { opacity: 0, y: 20 });
