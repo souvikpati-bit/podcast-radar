@@ -1,10 +1,9 @@
 import { ReviewGate } from './ReviewGate';
-import { ProbRing } from './ProbRing';
 import { Sparkline } from './Sparkline';
 import { FounderLinks } from './FounderLinks';
 import { GateSummary } from './GateSummary';
 import { StatusTag } from './StatusTag';
-import { topicVerdict, topicEvidenceLine, VERDICT_LABEL } from '@/lib/scoring';
+import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, guestRating, GUEST_RATING_LABEL } from '@/lib/scoring';
 import { searchLinks } from '@/lib/profiles';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
@@ -16,6 +15,12 @@ const STANCE = { ride: ['Ride it', 'signal'], counter: ['Crowded: counter-progra
 
 // { name: status } for one kind of Review Gate mark, from the { 'type:name': status } map
 const marksOf = (actions, type) => Object.fromEntries(Object.entries(actions).filter(([k]) => k.startsWith(`${type}:`)).map(([k, v]) => [k.slice(type.length + 1), v]));
+
+// 'Appeared yesterday', 'Appeared 5 days ago': why this guest is worth contacting now
+const ago = (iso) => {
+  const d = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 86400000));
+  return d === 0 ? 'Appeared today' : d === 1 ? 'Appeared yesterday' : `Appeared ${d} days ago`;
+};
 
 const initials = (name) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 const hueOf = (name) => [...name].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
@@ -123,7 +128,7 @@ export function TopicsPanel({ results, admin, actions }) {
   );
 }
 
-function FounderCards({ items, admin, st }) {
+function FounderCards({ items, admin, st, pool }) {
   return (
     <ol className="founders">
             {items.map((g) => (
@@ -135,19 +140,22 @@ function FounderCards({ items, admin, st }) {
                     <h3>{g.guest}</h3>
                     <p className="f-role">{g.company ? <>{g.role === 'founder' ? 'Founder' : 'Guest'} at <span className="co">{g.company}</span></> : g.role === 'founder' ? 'Founder' : 'Guest'}</p>
                   </div>
-                  <ProbRing value={g.probability} />
+                  <div className="rate" title={`${GUEST_RATING_LABEL[guestRating(g)]}. Booking-readiness index ${Math.round(g.probability)} out of 100: a model estimate from how recently and how widely this guest appeared. It is not a measured chance of saying yes.`}>
+                    <span className={`rate-w ${guestRating(g)}`}>{GUEST_RATING_LABEL[guestRating(g)]}</span>
+                    {pool ? <span className="rate-n mono">#{g.rank} of {pool} guests</span> : null}
+                  </div>
                 </div>
                 <div className="badges">
                   {g.mediaRound && <span className="badge amber" title="On 2 or more shows within the last 30 days: available, media-willing, easiest to book now">Media round</span>}
                   {g.fresh && <span className="badge signal" title="Few appearances so far, so not yet flooded with requests">New voice</span>}
                   {g.saturated && <span className="badge" title="On 6 or more shows, so likely already getting many requests">Heavily booked</span>}
+                  <span className="badge" title={`Last seen ${day(g.lastSeen)}`}>{ago(g.lastSeen)}</span>
+                  <span className="badge" title="Number of different shows this guest appeared on in the last 30 days">On {g.monthShows.length} show{g.monthShows.length === 1 ? '' : 's'} this month</span>
                   {admin && <StatusTag type="guest" name={g.guest} initial={st('guest', g.guest)} />}
                 </div>
-                <p className="why">{g.why}. Last seen {day(g.lastSeen)}.</p>
                 <p className="shows-line"><span className="muted mono">On</span> {g.shows.map((n, i) => <span key={n}>{i > 0 && <span className="muted"> · </span>}<span className="show-n">{n}</span></span>)}</p>
                 <Evidence items={g.evidence} />
                 <FounderLinks search={searchLinks(g.guest, g.company)} />
-                <span className="est">model estimate from the data</span>
                 {admin && <ReviewGate type="guest" name={g.guest} current={st('guest', g.guest)} />}
               </li>
             ))}
@@ -163,7 +171,7 @@ export function GuestsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-guests">
         <SectionHead num="03" id="h-guests" title="Founders to track">
-          Founders from your shows, ranked on their own. A <strong>media round</strong> means on 2+ shows this month.
+          {results.guestPool ? `The best ${guests.length} of ${results.guestPool} founders found in the last 60 days, ranked on their own.` : 'Founders from your shows, ranked on their own.'} A <strong>media round</strong> means on 2+ shows this month.
         </SectionHead>
         {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
         {hotGuests.length > 0 ? (
@@ -175,7 +183,7 @@ export function GuestsPanel({ results, admin, actions }) {
         {guests.length === 0 ? (
           <p className="note">No founders were found in the data. We never invent a person.</p>
         ) : (
-          <FounderCards items={guests} admin={admin} st={st} />
+          <FounderCards items={guests} admin={admin} st={st} pool={results.guestPool} />
         )}
         {guests.length > 0 && guests.length < 7 && <p className="note">Only {guests.length} founder{guests.length === 1 ? '' : 's'} could be found in the data. The list is never padded.</p>}
       </section>

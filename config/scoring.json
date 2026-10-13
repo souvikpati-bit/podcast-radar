@@ -24,6 +24,7 @@
   },
   "guest": {
     "mediaRoundDays": 30,
+    "rating": { "top": 50, "strong": 40 },
     "requireFounder": true,
     "freshMaxAppearances": 2,
     "weights": { "mediaWilling": 0.4, "recency": 0.3 },
