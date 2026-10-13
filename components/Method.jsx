@@ -1,5 +1,5 @@
 // "How it is calculated": plain-English explanation of every number. A native <details> works without JavaScript.
-export function Method({ num = '06' }) {
+export function Method({ num = '05' }) {
   return (
     <section className="block" id="method" aria-labelledby="h-method">
       <div className="sec-head"><span className="sec-num">{num}</span><h2 id="h-method">How it is calculated</h2></div>

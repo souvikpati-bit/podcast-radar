@@ -1,6 +1,7 @@
 'use client';
 /* eslint-disable @next/next/no-img-element -- channel thumbnails come from YouTube and are tiny */
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // A podcast RSS feed link (anything http(s) that is not a YouTube address).
@@ -18,7 +19,7 @@ function kind(c) {
 }
 
 // The list of monitored shows. Everyone can see it; Aditya (logged in) can add, remove and set hosts without touching code.
-export function ChannelManager({ channels, maxChannels, admin, dbError }) {
+export function ChannelManager({ channels, maxChannels, admin, dbError, showAccount = false }) {
   const router = useRouter();
   const [input, setInput] = useState('');
   const [host, setHost] = useState('');
@@ -72,6 +73,10 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
       router.refresh();
     } else toast(r.data.error || 'Wrong key');
   }
+  async function logout() {
+    await post('/api/logout');
+    router.refresh();
+  }
   async function saveHost(c, value) {
     const r = await post('/api/channels', { action: 'host', id: c.id, host: value });
     toast(r.ok ? 'Host saved' : r.data.error || 'Could not save');
@@ -79,6 +84,21 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
 
   return (
     <div>
+      {showAccount && (admin ? (
+        <div className="acct" role="group" aria-label="Account">
+          <span className="acct-who"><i aria-hidden="true" />Logged in as Aditya. You can add, remove and rename shows below.</span>
+          <span className="acct-act"><Link className="btn ghost" href="/settings">Open Settings</Link><button className="btn ghost" type="button" onClick={logout}>Log out</button></span>
+        </div>
+      ) : (
+        <form id="edit-shows" onSubmit={login} className="acct" aria-label="Log in to edit shows">
+          <span className="acct-who"><strong>Aditya:</strong> log in to add or remove shows. No code needed.</span>
+          <span className="acct-act">
+            <label htmlFor="edit-key" className="sr-only">Admin key</label>
+            <input id="edit-key" type="password" autoComplete="current-password" placeholder="Admin key" value={key} onChange={(e) => setKey(e.target.value)} required />
+            <button className="btn" type="submit" disabled={busy === 'login'}>{busy === 'login' ? 'Checking…' : 'Log in'}</button>
+          </span>
+        </form>
+      ))}
       {dbError && <p className="note">Database not available: {dbError}. Shows cannot be saved until DATABASE_URL is set.</p>}
       {channels.length === 0 && !dbError && <p className="muted">No shows yet. The default list is added on the first refresh{admin ? ', or add your own below' : ''}.</p>}
       {channels.map((c, i) => (
@@ -124,15 +144,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError }) {
             </div>
           )}
         </>
-      ) : (
-        <form id="edit-shows" onSubmit={login} className="card" style={{ marginTop: 18 }}>
-          <h3 style={{ fontSize: 18 }}>Aditya: log in to add or remove shows</h3>
-          <p className="muted" style={{ marginTop: 6 }}>Swap any of the {maxChannels} shows for your own choice. No code needed. Enter your admin key and the Remove, Host and Add controls appear here.</p>
-          <label htmlFor="edit-key">Admin key</label>
-          <input id="edit-key" type="password" autoComplete="current-password" value={key} onChange={(e) => setKey(e.target.value)} required />
-          <p style={{ marginTop: 14 }}><button className="btn" type="submit" disabled={busy === 'login'}>{busy === 'login' ? 'Checking…' : 'Log in to edit shows'}</button></p>
-        </form>
-      )}
+      ) : null}
       {msg && <div className="toast" role="status">{msg}</div>}
     </div>
   );
