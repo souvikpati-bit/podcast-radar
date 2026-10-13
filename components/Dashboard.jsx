@@ -73,7 +73,7 @@ export function TopicsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-topics">
-        <SectionHead num="01" id="h-topics" title="Topics to cover">
+        <SectionHead num="02" id="h-topics" title="Topics to cover">
           This week&apos;s top six, grouped by audience response.
         </SectionHead>
         {admin && <GateSummary type="topic" variant="two topics" label="Your progress with topics" initial={marksOf(actions, 'topic')} tiles={[['shortlisted', 'Shortlisted', 'Topics you plan to cover'], ['dismissed', 'Dismissed', 'Topics you passed on']]} />}
@@ -162,7 +162,7 @@ export function GuestsPanel({ results, admin, actions }) {
   return (
     <>
       <section className="block" aria-labelledby="h-guests">
-        <SectionHead num="02" id="h-guests" title="Founders to track">
+        <SectionHead num="03" id="h-guests" title="Founders to track">
           Founders from your shows, ranked on their own. A <strong>media round</strong> means on 2+ shows this month.
         </SectionHead>
         {results.excluded > 0 && <p className="note">{results.excluded} confirmed founder{results.excluded === 1 ? ' is' : 's are'} hidden from this list. You can put them back in Settings.</p>}
@@ -188,7 +188,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
   return (
     <>
       <section className="block" aria-labelledby="h-sponsors">
-        <SectionHead num="03" id="h-sponsors" title="Sponsors to pitch">
+        <SectionHead num="04" id="h-sponsors" title="Sponsors to pitch">
           Brands carried by 2+ shows or showing paid promotion. Spoken ads are invisible, so this list is partial.
         </SectionHead>
         {results.sponsors.length === 0 ? (

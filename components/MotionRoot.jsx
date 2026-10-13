@@ -102,9 +102,6 @@ export function MotionRoot({ children }) {
           q('.sec-head h2, .sec-head .sec-sub').forEach((el) => {
             gsap.from(el, { y: 36, opacity: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
           });
-          const method = q('#method .sec-head, #method details');
-          gsap.set(method, { opacity: 0, y: 20 });
-          ScrollTrigger.batch(method, { start: 'top 92%', once: true, onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }) });
 
           // progress rail and a radar sweep tied to the scroll position
           const rail = document.querySelector('[data-progress]');
@@ -122,18 +119,6 @@ export function MotionRoot({ children }) {
               card.addEventListener('pointermove', move);
               cleanups.push(() => card.removeEventListener('pointermove', move));
             });
-          }
-
-          // collapsible method: fade and slide the content in on open
-          const det = q('[data-method]')[0];
-          const body = q('[data-method-body]')[0];
-          if (det && body) {
-            const onToggle = contextSafe(() => {
-              if (det.open) gsap.fromTo(body, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', onComplete: () => ScrollTrigger.refresh() });
-              else ScrollTrigger.refresh();
-            });
-            det.addEventListener('toggle', onToggle);
-            cleanups.push(() => det.removeEventListener('toggle', onToggle));
           }
 
           // magnetic primary buttons (desktop only)

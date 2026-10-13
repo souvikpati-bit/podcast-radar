@@ -195,16 +195,6 @@ section.block + section.block { margin-top: 24px; }
 @media (min-width: 860px) { .srow { grid-template-columns: 48px minmax(0, 1fr) 240px; gap: 24px; } .s-prob { grid-column: auto; padding-top: 6px; } }
 
 /* ---------- method ---------- */
-details.method { border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, var(--surface-2), var(--surface)); }
-details.method summary { cursor: pointer; padding: 18px 20px; min-height: 56px; list-style: none; font-family: var(--mono); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-details.method summary::-webkit-details-marker { display: none; }
-details.method summary::after { content: '+'; color: var(--signal); font-size: 20px; }
-details.method[open] summary::after { content: '–'; }
-.method-body { padding: 4px 22px 24px; color: var(--muted); font-size: 15px; max-width: 80ch; }
-.method-body h3 { color: var(--text); font-size: 15px; margin: 20px 0 4px; }
-.method-body ul { padding-left: 18px; margin: 6px 0; list-style: disc; }
-.method-body li { margin: 5px 0; }
-.method-body strong { color: var(--text); }
 
 footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 30px 0 52px; color: var(--muted); font-size: 13px; }
 

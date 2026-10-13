@@ -12,7 +12,6 @@ import { Hero } from '@/components/Hero';
 import { Banner } from '@/components/Banner';
 import { TopicsPanel, GuestsPanel, SponsorsPanel } from '@/components/Dashboard';
 import { BlockTabs } from '@/components/BlockTabs';
-import { Method } from '@/components/Method';
 import { MotionRoot } from '@/components/MotionRoot';
 import { ChannelManager } from '@/components/ChannelManager';
 import { listChannels } from '@/lib/channels';
@@ -52,21 +51,20 @@ export default async function Home() {
           label="Dashboard sections"
           initial="topics"
           tabs={[
-            { id: 'topics', num: '01', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'guests', num: '02', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'sponsors', num: '03', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
-            { id: 'shows', num: '04', label: 'Shows', hint: admin ? `${n} of ${cfg.maxChannels} tracked · add or remove` : `${n} of ${cfg.maxChannels} tracked · log in to edit`, content: (
+            { id: 'shows', num: '01', label: 'Shows', hint: admin ? `${n} of ${cfg.maxChannels} tracked · add or remove` : `${n} of ${cfg.maxChannels} tracked · log in to edit`, content: (
               <section className="block" aria-labelledby="h-shows">
             <header className="sec-head">
-              <span className="sec-num" aria-hidden="true">04</span>
+              <span className="sec-num" aria-hidden="true">01</span>
               <h2 id="h-shows">Shows we track ({n}/{cfg.maxChannels})</h2>
               <p className="sec-sub">The podcasts this radar watches. Add or remove up to {cfg.maxChannels}, no code needed.</p>
             </header>
             <ChannelManager channels={chans.rows || []} maxChannels={cfg.maxChannels} admin={admin} dbError={chans.ok ? '' : chans.error} showAccount />
           </section>
             ) },
+            { id: 'topics', num: '02', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'guests', num: '03', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'sponsors', num: '04', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
             ...(admin ? [{ id: 'shortlist', num: '05', label: 'Your shortlist', hint: 'Topics, founders, sponsors you marked', content: <ShortlistPanel num="05" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(data.snapshot.results, env.showSponsorNames)} /> }] : []),
-            { id: 'method', num: admin ? '06' : '05', label: 'How it works', hint: 'Every number explained', content: <Method num={admin ? '06' : '05'} /> },
           ]}
         />
       </main>

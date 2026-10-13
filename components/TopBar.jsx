@@ -13,10 +13,10 @@ export function TopBar({ admin, active, backHref }) {
           <BackButton href={to || undefined} label={toLabel} />
         </div>
         <nav className="nav" aria-label="Main">
+          <Link className="sec" href="/#shows">Shows</Link>
           <Link className="sec" href="/#topics" aria-current={active === 'home' ? 'page' : undefined}>Topics</Link>
           <Link className="sec" href="/#guests">Founders</Link>
           <Link className="sec" href="/#sponsors">Sponsors</Link>
-          <Link className="sec" href="/#shows">Shows</Link>
           <Link href="/briefs" aria-current={active === 'briefs' ? 'page' : undefined}>Briefs</Link>
           <Link href="/settings" aria-current={active === 'settings' ? 'page' : undefined}>{admin ? 'Settings' : 'Login'}</Link>
         </nav>
