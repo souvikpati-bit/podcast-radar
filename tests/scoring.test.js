@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
+import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
 import { buildDemoDataset } from '../lib/demo.js';
 
 const NOW = new Date('2026-10-11T06:00:00Z');
@@ -217,4 +217,18 @@ test('sponsors: need two shows or a paid flag; one-off mentions never qualify', 
   const names = scoreSponsors(vs, NOW).map((s) => s.brand);
   assert.ok(names.includes('TwoShows') && names.includes('PaidOnce'));
   assert.ok(!names.includes('OneOff'));
+});
+
+test('a topic is rated Strong, Average or Weak from its score, with the real count as evidence', () => {
+  const t = (score, hits, n) => ({ score, parts: { hits, n } });
+  assert.equal(topicVerdict(t(7.2, 9, 14)), 'strong');
+  assert.equal(topicVerdict(t(6.5, 9, 14)), 'strong');
+  assert.equal(topicVerdict(t(6.0, 7, 17)), 'average');
+  assert.equal(topicVerdict(t(4.9, 3, 14)), 'weak');
+  assert.equal(topicVerdict(t(9.0, 1, 2)), 'early', 'fewer than 3 judged videos is too small to call');
+  assert.equal(topicVerdict({ score: 9 }), 'early', 'no view data (podcast feeds) is too early, not strong');
+  assert.equal(VERDICT_LABEL.early, 'Too early');
+  assert.equal(topicEvidenceLine(t(6.8, 7, 17)), "7 of 17 videos beat their channel's usual views");
+  assert.equal(topicEvidenceLine(t(6.8, 0, 1)), "0 of 1 video beat their channel's usual views");
+  assert.equal(topicEvidenceLine({ score: 5, parts: { hits: 0, n: 0 } }), 'Too new to judge views yet');
 });

@@ -4,6 +4,7 @@ import { Sparkline } from './Sparkline';
 import { TrendChart } from './TrendChart';
 import { FounderLinks } from './FounderLinks';
 import { FounderSummary } from './FounderSummary';
+import { topicVerdict, topicEvidenceLine, VERDICT_LABEL } from '@/lib/scoring';
 import { searchLinks } from '@/lib/profiles';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
@@ -68,7 +69,7 @@ export function TopicsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-topics">
         <SectionHead num="02" id="h-topics" title="Topics to cover">
-          The six themes covered by the most shows at the same time in the last 30 days. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Probability is the chance a new video on the topic beats its channel&apos;s typical views.
+          The six themes covered by the most shows at the same time in the last 30 days. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic is rated <strong>Strong</strong>, <strong>Average</strong> or <strong>Weak</strong>, with the evidence underneath.
         </SectionHead>
         <ol className="topics">
           {topics.map((t) => {
@@ -98,8 +99,8 @@ export function TopicsPanel({ results, admin, actions }) {
                   {admin && <ReviewGate type="topic" name={t.topic} current={st('topic', t.topic)} />}
                 </div>
                 <div className="t-nums">
-                  <div className="score"><span className="mono big" data-count={t.score.toFixed(1)} data-dec="1">{t.score.toFixed(1)}</span><span className="muted mono">/10 score</span></div>
-                  <Prob value={t.probability} />
+                  <span className={`verdict ${topicVerdict(t)}`}>{VERDICT_LABEL[topicVerdict(t)]}</span>
+                  <p className="verdict-why">{topicEvidenceLine(t)}</p>
                 </div>
               </li>
             );

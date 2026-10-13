@@ -15,6 +15,7 @@
     "crowdedShare": 0.25,
     "minVideos": 5,
     "weights": { "performance": 0.4, "engagement": 0.2, "coverage": 0.25, "recency": 0.15 },
+    "verdict": { "strong": 6.5, "weak": 5.0, "minVideos": 3 },
     "performanceCap": 2,
     "engagementCap": 2,
     "coverageChannels": 6,
