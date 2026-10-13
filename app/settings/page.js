@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getEnv, missingKeys } from '@/lib/env';
 import { isAdminPage } from '@/lib/session';
 import { TopBar } from '@/components/TopBar';
@@ -28,6 +29,7 @@ export default async function Settings() {
       <>
         <TopBar admin={false} active="settings" />
         <main id="main" className="wrap" style={{ paddingTop: 48 }}>
+          <p className="back"><Link href="/">← Back to the dashboard</Link></p>
           <LoginForm />
         </main>
       </>

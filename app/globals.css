@@ -338,3 +338,8 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .acct-who i { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); flex: none; }
 .acct-act { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .acct-act input { width: 200px; margin: 0; }
+
+/* ---- back links on the sub-pages ---- */
+.back { margin: 0 0 14px; font-family: var(--mono); font-size: 13px; }
+.back a { color: var(--link); text-decoration: none; padding: 8px 0; display: inline-block; }
+.back a:hover { color: #b9d7ff; text-decoration: underline; }

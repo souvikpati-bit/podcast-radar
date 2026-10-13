@@ -9,26 +9,34 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
   const [active, setActive] = useState(initial || ids[0]);
   const top = useRef(null);
   const userMoved = useRef(false);
+  const current = useRef(active);
+  const home = initial || ids[0];
 
+  // Choosing a different block adds a step to the browser history, so the Back button returns to the block you came from.
   const select = useCallback((id, fromUser = true) => {
     if (!ids.includes(id)) return;
     userMoved.current = fromUser;
-    setActive(id);
-    try {
-      window.history.replaceState(null, '', `#${id}`);
-    } catch {
-      /* address bar not available: the block still switches */
+    if (id !== current.current) {
+      try {
+        window.history.pushState(null, '', `#${id}`);
+      } catch {
+        /* address bar not available: the block still switches */
+      }
     }
+    current.current = id;
+    setActive(id);
   }, [ids]);
 
   // Open the block named in the address, and follow later changes (back button, top-bar links).
   useEffect(() => {
+    // The address decides the block: Back or Forward land here. No block in the address means the first block.
     const fromHash = () => {
       const h = window.location.hash.replace('#', '');
-      if (ids.includes(h)) {
-        userMoved.current = true;
-        setActive(h);
-      }
+      const next = ids.includes(h) ? h : home;
+      if (next === current.current) return;
+      userMoved.current = true;
+      current.current = next;
+      setActive(next);
     };
     fromHash();
     const onClick = (e) => {
@@ -53,7 +61,7 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
       window.removeEventListener('popstate', fromHash);
       document.removeEventListener('click', onClick);
     };
-  }, [ids, select]);
+  }, [ids, select, home]);
 
   // After the user picks a block, bring the block row to the top of the screen so the panel is right below it.
   useEffect(() => {
