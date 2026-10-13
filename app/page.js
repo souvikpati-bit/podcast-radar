@@ -1,5 +1,4 @@
 import { createHash } from 'node:crypto';
-import Link from 'next/link';
 import { getEnv } from '@/lib/env';
 import { orderTopics, orderSponsors } from '@/lib/scoring';
 import { ShortlistPanel } from '@/components/ShortlistPanel';
@@ -72,7 +71,7 @@ export default async function Home() {
       </main>
       <footer>
         <div className="wrap">
-          <p>Data: public YouTube metadata for the monitored shows. Every probability is a model estimate from the data, not a guarantee. This tool never contacts a guest or a sponsor. <Link href="/briefs">Past briefs</Link></p>
+          <p>Data: public YouTube metadata for the monitored shows. Every probability is a model estimate from the data, not a guarantee. This tool never contacts a guest or a sponsor.</p>
         </div>
       </footer>
     </MotionRoot>

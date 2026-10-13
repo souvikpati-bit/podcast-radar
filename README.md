@@ -9,7 +9,7 @@ Live: https://podcast-radar-alpha.vercel.app
 1. **Refresh** (once a day by cron, plus automatically when a show is added): fetches recent uploads per channel (YouTube Data API v3, never `search.list`) and, for shows that are thin on YouTube, reads their podcast RSS feed (free, no quota; paste a feed link in Settings), reads the video text with Gemini Flash (keyword fallback), and scores everything in `lib/scoring.js` (weights in `config/scoring.json`).
 2. The result is saved as a **snapshot** in Neon. The dashboard and the email both read that same snapshot, so numbers never differ.
 3. **Fallback chain**: live data, then the last good snapshot, then bundled demo data. The banner always says which one you are seeing.
-4. **Monday brief** (cron): sends the email via Resend and stores it for `/briefs/<date>`. Idempotent per week.
+4. **Monday brief** (cron): sends the email via Resend and keeps a copy in the database. Idempotent per week. (The public Briefs pages were removed from the website at the user's request; the email itself is unchanged.)
 
 ## Setup
 

@@ -4,7 +4,7 @@ import { BackButton } from './BackButton';
 export function TopBar({ admin, active, backHref }) {
   // Sub-pages go back to their parent; the dashboard steps back through the blocks you opened.
   const to = backHref !== undefined ? backHref : active === 'home' ? null : '/';
-  const toLabel = to === '/briefs' ? 'All briefs' : 'Dashboard';
+  const toLabel = 'Dashboard';
   return (
     <header className="topbar" data-topbar>
       <div className="wrap">
@@ -17,7 +17,6 @@ export function TopBar({ admin, active, backHref }) {
           <Link className="sec" href="/#topics" aria-current={active === 'home' ? 'page' : undefined}>Topics</Link>
           <Link className="sec" href="/#guests">Founders</Link>
           <Link className="sec" href="/#sponsors">Sponsors</Link>
-          <Link href="/briefs" aria-current={active === 'briefs' ? 'page' : undefined}>Briefs</Link>
           <Link href="/settings" aria-current={active === 'settings' ? 'page' : undefined}>{admin ? 'Settings' : 'Login'}</Link>
         </nav>
       </div>

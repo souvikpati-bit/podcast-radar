@@ -62,14 +62,14 @@ Result saved as a snapshot in Neon  →  this is what app/page.js reads
    │
    ▼
 Monday only: lib/brief.js builds the email and sends it through Resend,
-and stores a copy for the /briefs pages
+and keeps a copy in the database
 ```
 
 ## 3. Folder guide
 
 | Folder | What lives there |
 |---|---|
-| `app/` | The pages (`/`, `/settings`, `/briefs`) and the API routes |
+| `app/` | The pages (`/` and `/settings`) and the API routes |
 | `components/` | The visible pieces of the page |
 | `lib/` | All the logic: fetching, AI, scoring, email, database |
 | `config/` | The numbers you can tune, plus the default list of shows |
