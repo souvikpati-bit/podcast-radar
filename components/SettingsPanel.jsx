@@ -48,10 +48,9 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
     setProgress(null);
     router.refresh();
   }
-  async function sendBrief(force) {
-    if (force && !window.confirm('Send this week’s brief again?')) return;
+  async function sendBrief() {
     setBusy('brief');
-    const r = await post('/api/brief/send', { force });
+    const r = await post('/api/brief/send', {});
     setBusy('');
     toast(r.ok ? r.data.message : r.data.error || 'Could not send');
     router.refresh();
@@ -75,14 +74,13 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
         bare
         label="Settings sections"
         tabs={[
-          { id: 'actions', label: 'Actions', hint: 'Refresh data · send the brief', content: (
+          { id: 'actions', label: 'Actions', hint: 'Check for new episodes · send the brief', content: (
             <>
           <div className="card">
             <h2 style={{ fontSize: 18 }}>Actions</h2>
             <p style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 12 }}>
-              <button className="btn" onClick={refreshNow} disabled={Boolean(busy)}>{busy === 'refresh' ? 'Refreshing…' : 'Refresh data now'}</button>
-              <button className="btn ghost" onClick={() => sendBrief(false)} disabled={Boolean(busy)}>{busy === 'brief' ? 'Sending…' : 'Send brief now'}</button>
-              <button className="btn ghost" onClick={() => sendBrief(true)} disabled={Boolean(busy)}>Resend brief</button>
+              <button className="btn" onClick={refreshNow} disabled={Boolean(busy)}>{busy === 'refresh' ? 'Checking…' : 'Check for new episodes now'}</button>
+              <button className="btn ghost" onClick={sendBrief} disabled={Boolean(busy)}>{busy === 'brief' ? 'Sending…' : 'Send brief now'}</button>
               <a className="btn ghost" href="/api/actions/export">Download Review Gate CSV</a>
               <button className="btn ghost" onClick={logout}>Log out</button>
             </p>

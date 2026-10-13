@@ -7,12 +7,6 @@ export const dynamic = 'force-dynamic';
 export async function POST(request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
-  let b = {};
-  try {
-    b = await request.json();
-  } catch {
-    /* default */
-  }
-  const out = await sendBrief({ force: b.force === true });
+  const out = await sendBrief();
   return Response.json(out, { status: out.ok ? 200 : 400 });
 }

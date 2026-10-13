@@ -48,9 +48,6 @@ test('brief sends once, never twice; failure is stored then retried', async () =
   const row = (await db.query('SELECT status, html, text_body FROM briefs')).rows[0];
   assert.equal(row.status, 'sent');
   assert.ok(row.html.includes('Podcast Ecosystem Radar') && row.text_body.includes('TOPICS TO COVER'));
-  const forced = await sendBrief({ now: NOW, data: data(), fetchImpl: f, force: true });
-  assert.equal(forced.ok, true);
-  assert.equal(calls, 3);
 });
 
 test('email escapes untrusted text, obeys sponsor-name setting, falls back without Gemini', async () => {

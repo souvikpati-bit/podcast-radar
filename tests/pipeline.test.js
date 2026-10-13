@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { PGlite } from '@electric-sql/pglite';
 import { __setTestClient, query } from '../lib/db.js';
 import { addChannel } from '../lib/channels.js';
-import { refreshStep, runRefreshToCompletion } from '../lib/pipeline.js';
+import { refreshStep, runRefreshToCompletion, refreshOneShow, runningRefresh, latestRefreshStatus } from '../lib/pipeline.js';
 import { getDashboardData } from '../lib/snapshot.js';
 
 const db = new PGlite();
@@ -128,4 +128,38 @@ test('a refresh where every channel fails keeps the previous snapshot', async ()
   // a channel preview must not hide the failed refresh
   await d2.query(`INSERT INTO runs (kind, status, units_used) VALUES ('check','ok',1)`);
   assert.ok((await getDashboardData()).snapshot.meta.failedChannels.length > 0);
+});
+
+test('adding a show reads only that show, notes how many guest episodes it found, and is safe to follow', async () => {
+  const d3 = new PGlite();
+  __setTestClient(async (t, p) => (await d3.query(t, p)).rows);
+  process.env.DATABASE_URL = 'postgres://test';
+  process.env.YOUTUBE_API_KEY = 'k';
+  const f = fakeFetch('@none');
+  const a = await addChannel('@old1', '', undefined, f);
+  await runRefreshToCompletion({ fetchImpl: f }); // the existing show is already in
+  const unitsBefore = (await d3.query('SELECT COALESCE(SUM(units_used),0)::int u FROM runs')).rows[0].u;
+  const oldVideos = (await d3.query('SELECT count(*)::int c FROM videos')).rows[0].c;
+  const b = await addChannel('@newone', 'Host New', undefined, f);
+  assert.ok(b.id && b.id !== a.id, 'adding a show returns its id');
+
+  assert.equal(await runningRefresh(), null);
+  const calls = [];
+  const spy = async (url, o) => (calls.push(String(url)), f(url, o));
+  const out = await refreshOneShow(b.id, { fetchImpl: spy });
+  assert.ok(out.done, JSON.stringify(out));
+  // it asked YouTube about the new show only
+  assert.ok(calls.some((u) => u.includes('newone')), 'the new show was read');
+  assert.ok(!calls.some((u) => u.includes('old1')), 'the other show was not read again');
+  const newVideos = (await d3.query('SELECT count(*)::int c FROM videos WHERE channel_id = $1', [b.id])).rows[0].c;
+  assert.ok(newVideos > 0, 'the new show has episodes');
+  assert.equal((await d3.query('SELECT count(*)::int c FROM videos')).rows[0].c, oldVideos + newVideos);
+
+  const st = await latestRefreshStatus();
+  assert.equal(st.running, false);
+  assert.equal(st.status, 'ok');
+  assert.match(st.notes.join(' '), /guest episodes? found in the last 6 months|no guest episodes found/);
+  const units = (await d3.query('SELECT COALESCE(SUM(units_used),0)::int u FROM runs')).rows[0].u - unitsBefore;
+  assert.ok(units > 0 && units <= 8, `a single new show should cost only a few units, used ${units}`);
+  assert.equal((await getDashboardData()).kind, 'live');
 });

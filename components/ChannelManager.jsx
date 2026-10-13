@@ -1,6 +1,6 @@
 'use client';
 /* eslint-disable @next/next/no-img-element -- channel thumbnails come from YouTube and are tiny */
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -27,7 +27,45 @@ export function ChannelManager({ channels, maxChannels, admin, dbError, showAcco
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState('');
   const [key, setKey] = useState('');
+  const [job, setJob] = useState(null); // { label } while the dashboard is updating after a change
+  const timer = useRef(null);
   const full = channels.length >= maxChannels;
+
+
+  // Follow the server while it brings in a new show; refresh the page when it is done.
+  const watch = useCallback(() => {
+    clearInterval(timer.current);
+    const tick = async () => {
+      let st = null;
+      try {
+        const res = await fetch('/api/refresh/status', { cache: 'no-store' });
+        if (res.ok) st = await res.json();
+      } catch {
+        /* try again on the next tick */
+      }
+      if (!st) return;
+      if (st.running) {
+        setJob({ label: st.label });
+        return;
+      }
+      clearInterval(timer.current);
+      setJob(null);
+      const note = (st.notes || []).slice(-1)[0];
+      setMsg(note || (st.failures?.[0] ? `The update stopped: ${st.failures[0]}` : 'The dashboard is up to date.'));
+      setTimeout(() => setMsg(''), 9000);
+      router.refresh();
+    };
+    setJob((j) => j || { label: 'Starting' });
+    timer.current = setInterval(tick, 2000);
+    tick();
+  }, [router]);
+
+  useEffect(() => {
+    if (!admin) return undefined;
+    // If a refresh is already working (for example the page was reloaded), show it
+    fetch('/api/refresh/status', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((st) => st?.running && watch()).catch(() => {});
+    return () => clearInterval(timer.current);
+  }, [admin, watch]);
 
   const toast = (t) => {
     setMsg(t);
@@ -51,15 +89,18 @@ export function ChannelManager({ channels, maxChannels, admin, dbError, showAcco
       setInput('');
       setHost('');
       setPreview(null);
-      toast(`Added ${r.data.channel.title}. Press "Refresh data now" in Settings to bring in its episodes.`);
       router.refresh();
+      if (r.data.refreshing) {
+        toast(`Added ${r.data.channel.title}. Bringing in its episodes now.`);
+        watch();
+      } else toast(`Added ${r.data.channel.title}. Its episodes arrive with the next daily update.`);
     } else toast(r.data.error || 'Could not add');
   }
   async function remove(c) {
     if (!window.confirm(`Remove ${c.title || c.handle}? Its episodes are removed from the dashboard.`)) return;
     const r = await post('/api/channels', { action: 'remove', id: c.id });
     if (r.ok) {
-      toast(`Removed ${c.title || c.handle}`);
+      toast(`Removed ${c.title || c.handle}. The dashboard is updated.`);
       router.refresh();
     } else toast(r.data.error || 'Could not remove');
   }
@@ -99,6 +140,12 @@ export function ChannelManager({ channels, maxChannels, admin, dbError, showAcco
           </span>
         </form>
       ))}
+      {job && (
+        <div className="acct" role="status" aria-live="polite">
+          <span className="acct-who"><i aria-hidden="true" />Updating the dashboard: {job.label}…</span>
+          <span className="muted mono" style={{ fontSize: 12 }}>You can leave this page; it keeps going.</span>
+        </div>
+      )}
       {dbError && <p className="note">Database not available: {dbError}. Shows cannot be saved until DATABASE_URL is set.</p>}
       {channels.length === 0 && !dbError && <p className="muted">No shows yet. The default list is added on the first refresh{admin ? ', or add your own below' : ''}.</p>}
       {channels.map((c, i) => (
@@ -116,7 +163,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError, showAcco
                 <label htmlFor={`host-${c.id}`} style={{ margin: 0 }}>Host</label>
                 <input id={`host-${c.id}`} type="text" defaultValue={c.host_name || ''} maxLength={80} placeholder="Host name" onBlur={(e) => e.target.value !== (c.host_name || '') && saveHost(c, e.target.value)} />
               </div>
-              <button className="btn ghost" onClick={() => remove(c)} aria-label={`Remove ${c.title || c.handle}`}>Remove</button>
+              <button className="btn ghost" onClick={() => remove(c)} disabled={Boolean(job) || busy === 'add'} aria-label={`Remove ${c.title || c.handle}`}>Remove</button>
             </>
           )}
         </div>
@@ -140,7 +187,7 @@ export function ChannelManager({ channels, maxChannels, admin, dbError, showAcco
             <div className="chan" style={{ marginTop: 10 }}>
               {preview.thumbnail && <img src={preview.thumbnail} alt="" width="40" height="40" />}
               <div className="grow"><strong>{preview.title}</strong><div className="muted">Is this the right show?{preview.episodes ? ` ${preview.episodes} episodes found.` : ''}</div></div>
-              <button className="btn" onClick={confirmAdd} disabled={busy === 'add'}>{busy === 'add' ? 'Saving…' : 'Yes, add it'}</button>
+              <button className="btn" onClick={confirmAdd} disabled={busy === 'add' || Boolean(job)}>{busy === 'add' ? 'Saving…' : job ? 'Updating…' : 'Yes, add it'}</button>
             </div>
           )}
         </>
