@@ -3,7 +3,7 @@ import { Sparkline } from './Sparkline';
 import { FounderLinks } from './FounderLinks';
 import { GateSummary } from './GateSummary';
 import { StatusTag } from './StatusTag';
-import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, guestRating, GUEST_RATING_LABEL } from '@/lib/scoring';
+import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, guestRating, GUEST_RATING_LABEL, sponsorTier, SPONSOR_TIER_LABEL } from '@/lib/scoring';
 import { searchLinks, brandLinks } from '@/lib/profiles';
 
 const nf = (n) => (n === null || n === undefined ? '' : new Intl.NumberFormat('en-IN', { notation: 'compact' }).format(n));
@@ -35,18 +35,6 @@ function Evidence({ items }) {
           {e.views !== null && e.views !== undefined ? <span className="ev-v"> · {nf(e.views)} views</span> : ''}
         </a>
       ))}
-    </div>
-  );
-}
-
-function Prob({ value }) {
-  return (
-    <div className="prob">
-      <div className="meta">
-        <span className="mono" style={{ color: 'var(--signal)' }} data-count={Math.round(value)} data-dec="0" data-suffix="%">{Math.round(value)}%</span>
-        <span className="est">model estimate from the data</span>
-      </div>
-      <div className="bar" aria-hidden="true"><i data-bar style={{ width: `${Math.max(2, Math.min(100, value))}%` }} /></div>
     </div>
   );
 }
@@ -211,14 +199,23 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
                   <div className="s-main">
                     <div className="t-head">
                       <h3>{s.brand}</h3>
-                      <div className="badges"><span className={`badge ${s.likelyAdvertiser ? 'signal' : ''}`} title={s.likelyAdvertiser ? 'The text showed paid promotion (sponsored by, promo code, and similar)' : 'Named without any paid-promotion wording'}>{s.likelyAdvertiser ? 'Likely advertiser' : 'Mentioned only'}</span>{admin && <StatusTag type="sponsor" name={sk} initial={st('sponsor', sk)} />}</div>
+                      <div className="badges">
+                        {s.likelyAdvertiser && <span className="badge signal" title="The text showed paid promotion (sponsored by, promo code, and similar)">Paid promotion seen</span>}
+                        <span className="badge" title="Number of different shows that carried this brand in the last 90 days">On {s.shows.length} show{s.shows.length === 1 ? '' : 's'}</span>
+                        <span className="badge" title="Times this brand was named across episodes in the last 90 days">Mentioned {s.mentions}×</span>
+                        {s.lastSeen && <span className="badge" title={`Last seen ${day(s.lastSeen)}`}>{ago(s.lastSeen).replace('Appeared', 'Seen')}</span>}
+                        {admin && <StatusTag type="sponsor" name={sk} initial={st('sponsor', sk)} />}
+                      </div>
                     </div>
-                    <p className="why">{s.why}. Carried by: {s.shows.join(', ')}.</p>
+                    <p className="shows-line"><span className="muted mono">Carried by</span> {s.shows.map((n, i) => <span key={n}>{i > 0 && <span className="muted"> · </span>}<span className="show-n">{n}</span></span>)}</p>
                     <Evidence items={s.evidence} />
                     {!s.key && <FounderLinks search={brandLinks(s.brand)} />}
                     {admin && <ReviewGate type="sponsor" name={sk} label={s.brand} current={st('sponsor', sk)} />}
                   </div>
-                  <div className="s-prob"><Prob value={s.probability} /></div>
+                  <div className="rate" title={`${SPONSOR_TIER_LABEL[sponsorTier(s)]}. Index ${Math.round(s.probability)} out of 100: a model estimate from how many shows carried the brand, how recently, how much of it showed paid promotion and how often it was named. It is not a measured chance of sponsoring.`}>
+                    <span className={`rate-w st-${sponsorTier(s)}`}>{SPONSOR_TIER_LABEL[sponsorTier(s)]}</span>
+                    {results.sponsorPool ? <span className="rate-n mono">#{s.rank} of {results.sponsorPool} brands</span> : null}
+                  </div>
                 </li>
               );
             })}

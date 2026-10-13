@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import Link from 'next/link';
 import { getEnv } from '@/lib/env';
-import { orderTopics } from '@/lib/scoring';
+import { orderTopics, orderSponsors } from '@/lib/scoring';
 import { ShortlistPanel } from '@/components/ShortlistPanel';
 import { shortlistDetails, SHORTLIST_STATUSES } from '@/lib/shortlist';
 import { getDashboardData } from '@/lib/snapshot';
@@ -38,8 +38,8 @@ export default async function Home() {
   const chans = await listChannels();
   const n = chans.rows?.length || 0;
   const env = getEnv();
-  const shown = env.showSponsorNames ? data.snapshot.results : maskSponsors(data.snapshot.results);
-  const results = { ...shown, topics: orderTopics(shown.topics) };
+  const base = { ...data.snapshot.results, topics: orderTopics(data.snapshot.results.topics), sponsors: orderSponsors(data.snapshot.results.sponsors) };
+  const results = env.showSponsorNames ? base : maskSponsors(base);
   return (
     <MotionRoot>
       <TopBar admin={admin} active="home" />
@@ -64,7 +64,7 @@ export default async function Home() {
             { id: 'topics', num: '02', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
             { id: 'guests', num: '03', label: 'Guests', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
             { id: 'sponsors', num: '04', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
-            ...(admin ? [{ id: 'shortlist', num: '05', label: 'Your shortlist', hint: 'Topics, founders, sponsors you marked', content: <ShortlistPanel num="05" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(data.snapshot.results, env.showSponsorNames)} /> }] : []),
+            ...(admin ? [{ id: 'shortlist', num: '05', label: 'Your shortlist', hint: 'Topics, founders, sponsors you marked', content: <ShortlistPanel num="05" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(base, env.showSponsorNames)} /> }] : []),
           ]}
         />
       </main>

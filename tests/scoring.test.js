@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, TIER_ORDER, buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
+import { sponsorTier, orderSponsors, SPONSOR_TIER_LABEL, topicVerdict, topicEvidenceLine, VERDICT_LABEL, TIER_ORDER, buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
 import { buildDemoDataset } from '../lib/demo.js';
 
 const NOW = new Date('2026-10-11T06:00:00Z');
@@ -249,4 +249,16 @@ test('topics are listed High response first, then Steady, then Mixed, then Early
   const order = r.map((x) => TIER_ORDER.indexOf(topicVerdict(x)));
   assert.deepEqual(order, [...order].sort((p, q) => p - q), 'tiers are in order');
   assert.deepEqual(r.map((x) => x.rank), r.map((_, i) => i + 1));
+});
+
+test('sponsors are listed Active advertiser first, then Possible, then Mentioned only', () => {
+  const mk = (brand, shows, paid, p) => ({ brand, shows, likelyAdvertiser: paid, probability: p, mentions: 2, rank: 0 });
+  const list = [mk('Talked', ['A'], false, 60), mk('Maybe', ['A', 'B', 'C'], false, 53), mk('Pays', ['A'], true, 41), mk('Pays2', ['A', 'B'], true, 47)];
+  assert.equal(sponsorTier(list[0]), 'mentioned');
+  assert.equal(sponsorTier(list[1]), 'possible');
+  assert.equal(sponsorTier(list[2]), 'active');
+  const out = orderSponsors(list);
+  assert.deepEqual(out.map((x) => x.brand), ['Pays2', 'Pays', 'Maybe', 'Talked'], 'paid first even with a lower index');
+  assert.deepEqual(out.map((x) => x.rank), [1, 2, 3, 4]);
+  assert.equal(SPONSOR_TIER_LABEL.active, 'Active advertiser');
 });

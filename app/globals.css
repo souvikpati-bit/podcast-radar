@@ -342,3 +342,8 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .rate-w.strong { color: var(--mint); }
 .rate-w.good { color: var(--link); }
 .rate-n { font-size: 11.5px; color: var(--muted); }
+
+/* ---- sponsor rating tiers ---- */
+.rate-w.st-active { color: var(--signal); }
+.rate-w.st-possible { color: var(--amber); }
+.rate-w.st-mentioned { color: var(--muted); }
