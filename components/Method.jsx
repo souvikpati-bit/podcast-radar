@@ -1,5 +1,5 @@
 // "How it is calculated": plain-English explanation of every number. A native <details> works without JavaScript.
-export function Method({ num = '07' }) {
+export function Method({ num = '06' }) {
   return (
     <section className="block" id="method" aria-labelledby="h-method">
       <div className="sec-head"><span className="sec-num">{num}</span><h2 id="h-method">How it is calculated</h2></div>
@@ -22,8 +22,6 @@ export function Method({ num = '07' }) {
             <li><strong>Trend</strong>: the topic&apos;s guest episodes in the last 14 days against the 14 days before: rising, steady, cooling, or new. It is shown next to the rank and does not change the score.</li>
             <li><strong>Probability</strong>: out of the mature videos on the topic, how many beat their channel&apos;s typical views. It is smoothed as (hits + 1) / (videos + 2) so a tiny sample never shows 0% or 100%.</li>
           </ul>
-          <h3>Topic trends</h3>
-          <p>The Trends block compares the six topics week by week. <strong>Shows covering it</strong> counts how many different monitored shows had a guest episode on the topic in each of the last 12 weeks (shows, not episodes, so one busy show cannot fake a spike; older history is not stored reliably). <strong>Public interest</strong> uses daily Wikipedia page views for a matching article (for example &ldquo;Artificial intelligence&rdquo; for AI and agents), averaged per week over the last 16 weeks and shown as an index where 100 is that topic&apos;s own 16-week average. The table compares the latest week with that average. A change of a few percent is ordinary wobble, and a falling line is context, not a reason to skip a topic. It is a free, live stand-in for how much the public cares; it is not Google search data. If Wikipedia cannot be reached, the interest lines are left out and the coverage lines still show.</p>
           <h3>Guests</h3>
           <ul>
             <li>Only <strong>founders</strong> are listed, because that is who you host. The AI reads each guest&apos;s role (founder, investor, analyst, public figure and so on) and company from the episode text. Analysts, investors and celebrities are left out; a guest whose role is not stated gets the benefit of the doubt.</li>
