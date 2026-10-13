@@ -40,7 +40,7 @@ ol, ul { list-style: none; margin: 0; padding: 0; }
 .est { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
 
 /* ---------- top bar ---------- */
-.topbar { position: sticky; top: 0; z-index: 40; background: rgba(7, 9, 11, 0.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.topbar { position: sticky; top: 0; z-index: 40; background: rgba(7, 9, 11, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 56px; gap: 12px; }
 .brand { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 10px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 0 rgba(198, 244, 50, 0.6); animation: pulse 2.4s infinite; flex: none; display: inline-block; }
@@ -245,20 +245,20 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 
 /* ---- block tabs: one block at a time ---- */
 .blocks-anchor { scroll-margin-top: 64px; height: 0; }
-.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 10px; margin: 28px 0 8px; position: sticky; top: 56px; z-index: 5; padding: 10px 0; background: linear-gradient(var(--ink) 70%, transparent); }
-.block-btn { appearance: none; text-align: left; cursor: pointer; font: inherit; color: var(--text); padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: linear-gradient(180deg, var(--surface-2), var(--surface)); display: flex; flex-direction: column; gap: 3px; min-width: 0; transition: border-color .2s, background .2s, transform .2s; }
+.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 8px; margin: 22px calc(var(--gutter) * -1) 14px; position: sticky; top: 58px; z-index: 30; padding: 10px var(--gutter); background: var(--ink); border-bottom: 1px solid var(--line-strong); box-shadow: 0 14px 22px -14px rgba(0, 0, 0, 0.8); }
+.block-btn { appearance: none; text-align: left; cursor: pointer; font: inherit; color: var(--text); padding: 9px 14px; border-radius: 14px; border: 1px solid var(--line); background: linear-gradient(180deg, var(--surface-2), var(--surface)); display: flex; flex-direction: column; gap: 3px; min-width: 0; transition: border-color .2s, background .2s, transform .2s; }
 .block-btn:hover { border-color: var(--line-strong); transform: translateY(-2px); }
 .block-btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .block-btn[aria-selected="true"] { border-color: var(--signal); background: linear-gradient(180deg, rgba(198, 244, 50, 0.14), var(--surface)); }
 .bb-num { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
 .block-btn[aria-selected="true"] .bb-num { color: var(--signal); }
-.bb-label { font-family: var(--serif); font-size: 22px; line-height: 1.1; }
-.bb-hint { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.bb-label { font-family: var(--serif); font-size: 20px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bb-hint { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .block-panel { animation: panelin .35s ease both; }
 .block-panel[hidden] { display: none; }
 @keyframes panelin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .block-panel { animation: none; } .block-btn { transition: none; } }
-@media (max-width: 760px) { .blocks { grid-template-columns: repeat(2, minmax(0, 1fr)); position: static; } }
+@media (max-width: 760px) { .blocks { grid-template-columns: repeat(2, minmax(0, 1fr)); position: static; } .blocks { margin-inline: 0; padding-inline: 0; } }
 
 /* ---- founder reach-out links ---- */
 .reach { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line-strong); display: flex; flex-direction: column; gap: 8px; }
