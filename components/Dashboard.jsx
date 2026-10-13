@@ -69,7 +69,7 @@ export function TopicsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-topics">
         <SectionHead num="02" id="h-topics" title="Topics to cover">
-          The six themes covered by the most shows at the same time in the last 30 days, grouped by rating: <strong>Strong</strong> first, then <strong>Average</strong>, and so on, never mixed. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic is rated <strong>Strong</strong>, <strong>Average</strong> or <strong>Weak</strong>, with the evidence underneath.
+          This week&apos;s top six of all the themes tracked across your shows: the ones covered by the most shows at the same time in the last 30 days. They are grouped by audience response, <strong>High response</strong> first, then <strong>Steady</strong>, then <strong>Mixed</strong>, and never mixed together. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic shows how audiences are responding, with the evidence underneath.
         </SectionHead>
         <ol className="topics">
           {topics.map((t, idx) => {

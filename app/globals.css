@@ -317,12 +317,12 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .fsum-t:nth-child(3) .fsum-n { color: var(--mint); }
 
 /* ---- topic verdict ---- */
-.verdict { display: inline-block; font-family: var(--serif); font-size: 40px; line-height: 1; letter-spacing: -0.01em; }
+.verdict { display: inline-block; font-family: var(--serif); font-size: 30px; line-height: 1; letter-spacing: -0.01em; }
 .verdict.strong { color: var(--signal); }
 .verdict.average { color: var(--amber); }
 .verdict.weak { color: var(--red); }
-.verdict.early { color: var(--muted); font-size: 30px; }
-.verdict-why { color: var(--muted); font-size: 13.5px; margin-top: 6px; max-width: 28ch; }
+.verdict.early { color: var(--muted); }
+.verdict-why { color: var(--muted); font-size: 13.5px; margin-top: 6px; max-width: 30ch; }
 
 /* ---- rating groups on the topic list ---- */
 .topic[data-tier] { position: relative; }

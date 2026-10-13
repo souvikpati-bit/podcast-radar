@@ -224,7 +224,7 @@ test('sponsors: need two shows or a paid flag; one-off mentions never qualify', 
   assert.ok(!names.includes('OneOff'));
 });
 
-test('a topic is rated Strong, Average or Weak from its score, with the real count as evidence', () => {
+test('a topic is rated High, Steady or Mixed response from its score, with the real count as evidence', () => {
   const t = (score, hits, n) => ({ score, parts: { hits, n } });
   assert.equal(topicVerdict(t(7.2, 9, 14)), 'strong');
   assert.equal(topicVerdict(t(6.5, 9, 14)), 'strong');
@@ -232,13 +232,14 @@ test('a topic is rated Strong, Average or Weak from its score, with the real cou
   assert.equal(topicVerdict(t(4.9, 3, 14)), 'weak');
   assert.equal(topicVerdict(t(9.0, 1, 2)), 'early', 'fewer than 3 judged videos is too small to call');
   assert.equal(topicVerdict({ score: 9 }), 'early', 'no view data (podcast feeds) is too early, not strong');
-  assert.equal(VERDICT_LABEL.early, 'Too early');
+  assert.equal(VERDICT_LABEL.early, 'Early signal');
+  assert.deepEqual(Object.values(VERDICT_LABEL), ['High response', 'Steady response', 'Mixed response', 'Early signal']);
   assert.equal(topicEvidenceLine(t(6.8, 7, 17)), "7 of 17 videos beat their channel's usual views");
   assert.equal(topicEvidenceLine(t(6.8, 0, 1)), "0 of 1 video beat their channel's usual views");
   assert.equal(topicEvidenceLine({ score: 5, parts: { hits: 0, n: 0 } }), 'Too new to judge views yet');
 });
 
-test('topics are listed Strong first, then Average, then Weak, then Too early, never mixed', () => {
+test('topics are listed High response first, then Steady, then Mixed, then Early signal, never mixed', () => {
   const mk = (topic, channels, n, rating) => {
     // build videos so a topic has a known number of shows and a known rating
     return Array.from({ length: channels * 2 }, (_, i) => vid({ topics: [topic], channel_key: `${topic}-${i % channels}`, channel_title: `${topic} show ${i % channels}`, published_at: daysAgo(3 + (i % 5)), views: rating === 'strong' ? 5000 : rating === 'weak' ? 10 : 1000 }));
