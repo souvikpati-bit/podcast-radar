@@ -62,9 +62,9 @@ export default async function Home() {
           </section>
             ) },
             { id: 'topics', num: '02', label: 'Topics', hint: `${results.topics.length} to cover`, content: <TopicsPanel results={results} admin={admin} actions={actions} /> },
-            { id: 'guests', num: '03', label: 'Guests', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
+            { id: 'guests', num: '03', label: 'Founders', hint: `${(results.guests || []).length} to track${results.mediaRounds ? ` · ${results.mediaRounds} on a media round` : ''}`, content: <GuestsPanel results={results} admin={admin} actions={actions} /> },
             { id: 'sponsors', num: '04', label: 'Sponsors', hint: `${results.sponsors.length} to pitch`, content: <SponsorsPanel results={results} admin={admin} actions={actions} demo={data.kind === 'demo'} /> },
-            ...(admin ? [{ id: 'shortlist', num: '05', label: 'Your shortlist', hint: 'Topics, guests, sponsors you marked', content: <ShortlistPanel num="05" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(data.snapshot.results, env.showSponsorNames)} /> }] : []),
+            ...(admin ? [{ id: 'shortlist', num: '05', label: 'Your shortlist', hint: 'Topics, founders, sponsors you marked', content: <ShortlistPanel num="05" initial={Object.fromEntries(Object.entries(actions).filter(([, v]) => SHORTLIST_STATUSES.includes(v)))} details={shortlistDetails(data.snapshot.results, env.showSponsorNames)} /> }] : []),
           ]}
         />
       </main>

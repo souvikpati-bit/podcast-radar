@@ -20,7 +20,7 @@ test('only shortlisted and contacted marks reach the shortlist, with real names 
   const items = shortlistItems({ 'topic:Fundraising': 'shortlisted', 'topic:Pricing': 'dismissed', 'guest:Ann Lee': 'contacted', 'guest:Bob Ray': 'shortlisted', 'guest:Cy Doe': 'booked', 'sponsor:abc123': 'shortlisted' }, details);
   assert.deepEqual(items.topic.map((i) => i.label), ['Fundraising']);
   assert.deepEqual(items.guest.map((i) => i.key), ['Bob Ray', 'Ann Lee'], 'shortlisted before contacted');
-  assert.equal(items.guest[0].links.google.startsWith('https://www.google.com/search'), true, 'a guest not on this week list still gets search links');
+  assert.equal(items.guest[0].links.google.startsWith('https://www.google.com/search'), true, 'a founder not on this week list still gets search links');
   assert.match(items.sponsor[0].label, /no longer on this week/);
   assert.equal(countItems(items), 4, 'dismissed and confirmed are not part of the shortlist');
 });
@@ -51,6 +51,6 @@ test('the Monday email lists what Aditya marked, and leaves the section out when
   assert.equal(countItems(p.shortlist), 2);
   const mail = renderEmail(p, 'https://x.test', '12 Oct');
   assert.ok(mail.html.includes('Your shortlist so far') && mail.html.includes(topic) && mail.html.includes('Contacted'));
-  assert.ok(mail.text.includes('YOUR SHORTLIST SO FAR') && mail.text.includes(`Guest: ${guest}`));
+  assert.ok(mail.text.includes('YOUR SHORTLIST SO FAR') && mail.text.includes(`Founder: ${guest}`));
   assert.ok(!mail.html.includes('Someone Else'), 'dismissed marks stay out of the email');
 });
