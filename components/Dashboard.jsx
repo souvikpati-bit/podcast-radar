@@ -69,13 +69,17 @@ export function TopicsPanel({ results, admin, actions }) {
     <>
       <section className="block" aria-labelledby="h-topics">
         <SectionHead num="02" id="h-topics" title="Topics to cover">
-          The six themes covered by the most shows at the same time in the last 30 days. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic is rated <strong>Strong</strong>, <strong>Average</strong> or <strong>Weak</strong>, with the evidence underneath.
+          The six themes covered by the most shows at the same time in the last 30 days, grouped by rating: <strong>Strong</strong> first, then <strong>Average</strong>, and so on, never mixed. <strong>Ride it</strong>: several shows are on it now. <strong>Crowded</strong>: so widely covered that a fresh angle will stand out more than another take. Each topic is rated <strong>Strong</strong>, <strong>Average</strong> or <strong>Weak</strong>, with the evidence underneath.
         </SectionHead>
         <ol className="topics">
-          {topics.map((t) => {
+          {topics.map((t, idx) => {
             const on = t.simultaneous?.shows || 0;
+            const v = topicVerdict(t);
+            const first = idx === 0 || topicVerdict(topics[idx - 1]) !== v;
+            const inGroup = topics.filter((x) => topicVerdict(x) === v).length;
             return (
-              <li key={t.topic} className={`topic${st('topic', t.topic) === 'dismissed' ? ' dismissed' : ''}`} data-row>
+              <li key={t.topic} className={`topic${st('topic', t.topic) === 'dismissed' ? ' dismissed' : ''}${first ? ' tier-first' : ''}`} data-row data-tier={v}>
+                {first && <div className={`tier-label ${v}`}>{VERDICT_LABEL[v]} · {inGroup} topic{inGroup === 1 ? '' : 's'}</div>}
                 <div className="t-rank mono" aria-hidden="true">{String(t.rank).padStart(2, '0')}</div>
                 <div className="t-main">
                   <div className="t-head">

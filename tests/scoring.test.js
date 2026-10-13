@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
+import { topicVerdict, topicEvidenceLine, VERDICT_LABEL, TIER_ORDER, buildResults, scoreTopics, scoreGuests, guestRanking, scoreSponsors, median, clamp, engagementRate, channelBaselines } from '../lib/scoring.js';
 import { buildDemoDataset } from '../lib/demo.js';
 
 const NOW = new Date('2026-10-11T06:00:00Z');
@@ -23,7 +23,8 @@ test('demo data gives 6 topics, 7 guests, 5 sponsors in range and sorted', () =>
   }
   for (let i = 1; i < r.topics.length; i++) {
     const a = r.topics[i - 1], b = r.topics[i];
-    assert.ok(a.simultaneous.shows > b.simultaneous.shows || (a.simultaneous.shows === b.simultaneous.shows && a.score >= b.score), 'ranked by shows covering it at the same time, then score');
+    const ta = TIER_ORDER.indexOf(topicVerdict(a)), tb = TIER_ORDER.indexOf(topicVerdict(b));
+    assert.ok(ta < tb || (ta === tb && (a.simultaneous.shows > b.simultaneous.shows || (a.simultaneous.shows === b.simultaneous.shows && a.score >= b.score))), 'rating groups never mix; inside a group more shows first, then score');
   }
   for (let i = 1; i < r.guests.length; i++) assert.ok(r.guests[i - 1].probability >= r.guests[i].probability, 'guests sorted by probability');
   console.log('\nTOPICS');
@@ -186,7 +187,7 @@ test('guests: fresh voice and heavily booked tags', () => {
   assert.equal(rows.find((g) => g.guest === 'Everywhere Eve').fresh, false);
 });
 
-test('topics: ranked by how many shows cover them at the same time; ride vs counter-programme vs emerging', () => {
+test('topics: the six are those covered by most shows at the same time; ride vs counter-programme vs emerging', () => {
   const eps = (topic, shows, days) => shows.flatMap((s) => days.map((d, i) => vid({ topics: [topic], guests: [`G ${topic} ${s} ${i}`], channel_key: s, channel_title: s, published_at: daysAgo(d) })));
   const vs = [
     ...eps('Crowded', ['s1', 's2', 's3', 's4'], [2, 6, 9, 14]),
@@ -204,7 +205,11 @@ test('topics: ranked by how many shows cover them at the same time; ride vs coun
   assert.equal(by.Crowded.stance, 'counter');
   assert.equal(by.Rideable.stance, 'ride');
   assert.equal(by.Solo.stance, 'emerging');
-  assert.deepEqual(rows.map((r) => r.topic).slice(0, 3), ['Crowded', 'Rideable', 'Solo']);
+  // listed by rating group first; inside a group the topic covered by more shows comes first
+  for (let i = 1; i < rows.length; i++) {
+    const ta = TIER_ORDER.indexOf(topicVerdict(rows[i - 1])), tb = TIER_ORDER.indexOf(topicVerdict(rows[i]));
+    assert.ok(ta < tb || (ta === tb && rows[i - 1].simultaneous.shows >= rows[i].simultaneous.shows));
+  }
 });
 
 test('sponsors: need two shows or a paid flag; one-off mentions never qualify', () => {
@@ -231,4 +236,16 @@ test('a topic is rated Strong, Average or Weak from its score, with the real cou
   assert.equal(topicEvidenceLine(t(6.8, 7, 17)), "7 of 17 videos beat their channel's usual views");
   assert.equal(topicEvidenceLine(t(6.8, 0, 1)), "0 of 1 video beat their channel's usual views");
   assert.equal(topicEvidenceLine({ score: 5, parts: { hits: 0, n: 0 } }), 'Too new to judge views yet');
+});
+
+test('topics are listed Strong first, then Average, then Weak, then Too early, never mixed', () => {
+  const mk = (topic, channels, n, rating) => {
+    // build videos so a topic has a known number of shows and a known rating
+    return Array.from({ length: channels * 2 }, (_, i) => vid({ topics: [topic], channel_key: `${topic}-${i % channels}`, channel_title: `${topic} show ${i % channels}`, published_at: daysAgo(3 + (i % 5)), views: rating === 'strong' ? 5000 : rating === 'weak' ? 10 : 1000 }));
+  };
+  const vs = [...mk('Alpha', 5, 10, 'average'), ...mk('Beta', 2, 10, 'strong'), ...mk('Gamma', 6, 10, 'weak')];
+  const r = scoreTopics(vs, NOW);
+  const order = r.map((x) => TIER_ORDER.indexOf(topicVerdict(x)));
+  assert.deepEqual(order, [...order].sort((p, q) => p - q), 'tiers are in order');
+  assert.deepEqual(r.map((x) => x.rank), r.map((_, i) => i + 1));
 });

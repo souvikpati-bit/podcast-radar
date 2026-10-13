@@ -323,3 +323,12 @@ table.t th { font-family: var(--mono); font-size: 11px; color: var(--muted); tex
 .verdict.weak { color: var(--red); }
 .verdict.early { color: var(--muted); font-size: 30px; }
 .verdict-why { color: var(--muted); font-size: 13.5px; margin-top: 6px; max-width: 28ch; }
+
+/* ---- rating groups on the topic list ---- */
+.topic[data-tier] { position: relative; }
+.tier-label { grid-column: 1 / -1; font-family: var(--mono); font-size: 12px; letter-spacing: .09em; text-transform: uppercase; padding: 4px 0 14px; border-bottom: 1px solid var(--line-strong); margin-bottom: 14px; }
+.tier-label.strong { color: var(--signal); }
+.tier-label.average { color: var(--amber); }
+.tier-label.weak { color: var(--red); }
+.tier-label.early { color: var(--muted); }
+.topic.tier-first:not(:first-child) { margin-top: 34px; }

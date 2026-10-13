@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import Link from 'next/link';
 import { getEnv } from '@/lib/env';
+import { orderTopics } from '@/lib/scoring';
 import { getDashboardData } from '@/lib/snapshot';
 import { actionMap } from '@/lib/actions';
 import { isAdminPage } from '@/lib/session';
@@ -37,7 +38,8 @@ export default async function Home() {
   const chans = await listChannels();
   const n = chans.rows?.length || 0;
   const env = getEnv();
-  const results = env.showSponsorNames ? data.snapshot.results : maskSponsors(data.snapshot.results);
+  const shown = env.showSponsorNames ? data.snapshot.results : maskSponsors(data.snapshot.results);
+  const results = { ...shown, topics: orderTopics(shown.topics) };
   return (
     <MotionRoot>
       <TopBar admin={admin} active="home" />
