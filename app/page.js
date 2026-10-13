@@ -27,6 +27,8 @@ function maskSponsors(results) {
       ...s,
       key: createHash('sha1').update(s.brand).digest('hex').slice(0, 10),
       brand: `Sponsor ${s.rank}`,
+      website: undefined, // a brand's address would give its name away
+      lastSeen: s.lastSeen,
       evidence: s.evidence.map((e) => ({ ...e, title: 'Video that mentions this brand' })),
     })),
   };

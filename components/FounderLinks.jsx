@@ -2,6 +2,7 @@
 export function FounderLinks({ search }) {
   const links = [
     ['Google', 'google', search.google],
+    ...(search.website ? [['Website', 'website', search.website]] : []),
     ['LinkedIn', 'linkedin', search.linkedin],
     ['X', 'x', search.x],
     ['Instagram', 'instagram', search.instagram],

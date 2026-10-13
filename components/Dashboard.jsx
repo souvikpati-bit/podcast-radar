@@ -209,7 +209,7 @@ export function SponsorsPanel({ results, admin, actions, demo }) {
                     </div>
                     <p className="shows-line"><span className="muted mono">Carried by</span> {s.shows.map((n, i) => <span key={n}>{i > 0 && <span className="muted"> · </span>}<span className="show-n">{n}</span></span>)}</p>
                     <Evidence items={s.evidence} />
-                    {!s.key && <FounderLinks search={brandLinks(s.brand)} />}
+                    {!s.key && <FounderLinks search={brandLinks(s.brand, s.website)} />}
                     {admin && <ReviewGate type="sponsor" name={sk} label={s.brand} current={st('sponsor', sk)} />}
                   </div>
                   <div className="rate" title={`${SPONSOR_TIER_LABEL[sponsorTier(s)]}. Index ${Math.round(s.probability)} out of 100: a model estimate from how many shows carried the brand, how recently, how much of it showed paid promotion and how often it was named. It is not a measured chance of sponsoring.`}>
