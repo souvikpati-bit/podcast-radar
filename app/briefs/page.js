@@ -13,7 +13,6 @@ export default async function Briefs() {
     <>
       <TopBar admin={admin} active="briefs" />
       <main id="main" className="wrap" style={{ paddingTop: 48 }}>
-        <p className="back"><Link href="/">← Back to the dashboard</Link></p>
         <div className="sec-head"><span className="sec-num">H</span><h1 style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(34px,7vw,56px)' }}>Past briefs</h1></div>
         <p className="sec-sub">Every Monday brief, exactly as it was emailed.</p>
         {!r.ok && <p className="note">The archive needs the database to be connected.</p>}

@@ -10,6 +10,8 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
   const top = useRef(null);
   const userMoved = useRef(false);
   const current = useRef(active);
+  const trail = useRef([]); // blocks left behind, newest last
+  const emit = () => window.dispatchEvent(new CustomEvent('block-trail', { detail: { depth: trail.current.length } }));
   const home = initial || ids[0];
 
   // Choosing a different block adds a step to the browser history, so the Back button returns to the block you came from.
@@ -17,6 +19,7 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
     if (!ids.includes(id)) return;
     userMoved.current = fromUser;
     if (id !== current.current) {
+      trail.current.push(current.current);
       try {
         window.history.pushState(null, '', `#${id}`);
       } catch {
@@ -25,6 +28,7 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
     }
     current.current = id;
     setActive(id);
+    emit();
   }, [ids]);
 
   // Open the block named in the address, and follow later changes (back button, top-bar links).
@@ -35,8 +39,12 @@ export function BlockTabs({ tabs, initial, label = 'Sections', bare = false }) {
       const next = ids.includes(h) ? h : home;
       if (next === current.current) return;
       userMoved.current = true;
+      // going back to the block we left, or forward to a new one
+      if (trail.current[trail.current.length - 1] === next) trail.current.pop();
+      else trail.current.push(current.current);
       current.current = next;
       setActive(next);
+      emit();
     };
     fromHash();
     const onClick = (e) => {

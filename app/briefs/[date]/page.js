@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { safeQuery } from '@/lib/db';
 import { isAdminPage } from '@/lib/session';
@@ -14,9 +13,8 @@ export default async function BriefPage({ params }) {
   const b = r.rows[0];
   return (
     <>
-      <TopBar admin={admin} active="briefs" />
+      <TopBar admin={admin} active="briefs" backHref="/briefs" />
       <main id="main" className="wrap" style={{ paddingTop: 32 }}>
-        <p className="back"><Link href="/">← Dashboard</Link> <span className="muted"> · </span> <Link href="/briefs">← All briefs</Link></p>
         <p className="muted mono" style={{ fontSize: 13 }}>Week of {date} · {b.status}</p>
         {admin && b.error && <p className="note">Delivery problem: {b.error}</p>}
         {/* The stored HTML is shown in a sandboxed frame so it looks exactly as emailed and cannot run scripts. */}

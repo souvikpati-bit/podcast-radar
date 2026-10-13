@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { formatIST } from '@/lib/format';
 import { gsap, useGSAP } from '@/lib/gsap';
@@ -46,7 +45,6 @@ export function SettingsPanel({ channels, dbError, health, missing, impact, conf
 
   return (
     <div>
-      <p className="back"><Link href="/">← Back to the dashboard</Link></p>
       <div className="sec-head"><span className="sec-num">S</span><h1 style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(34px,7vw,56px)' }}>Settings</h1></div>
       <p className="sec-sub">Everything here is private to Aditya. Monitored shows, the Monday brief and system health. The data updates by itself once a day, and whenever you add or remove a show.</p>
 
