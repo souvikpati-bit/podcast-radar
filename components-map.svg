@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1480" width="1800" height="1480" font-family="'Segoe UI', 'DM Sans', Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1534" width="1800" height="1534" font-family="'Segoe UI', 'DM Sans', Arial, sans-serif">
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6f6155"/></marker></defs>
-<rect width="1800" height="1480" fill="#f3f0f7"/>
+<rect width="1800" height="1534" fill="#f3f0f7"/>
 <text x="900.0" y="80" text-anchor="middle" font-size="30" font-weight="700" fill="#3e332b">Podcast Ecosystem Radar — Components Map</text>
 <text x="900.0" y="110" text-anchor="middle" font-size="15" fill="#6f6155">10 shows (YouTube + podcast RSS) → daily scores → Monday brief → Aditya decides</text>
 <path d="M69 137 H1731 Q1745 137 1745 151 V175 H55 V151 Q55 137 69 137 Z" fill="#6b5a4d"/>
@@ -99,7 +99,7 @@
 <text x="352.6" y="207.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Sets the show list</text>
 <text x="352.6" y="224.5" text-anchor="middle" font-size="10.8" fill="#4d4137">Add or remove up to 10 shows</text>
 <text x="352.6" y="237.5" text-anchor="middle" font-size="10.8" fill="#4d4137">on the dashboard (admin login)</text>
-<text x="352.6" y="250.5" text-anchor="middle" font-size="10.8" fill="#4d4137">no code change</text>
+<text x="352.6" y="250.5" text-anchor="middle" font-size="10.8" fill="#4d4137">a new show is read at once</text>
 <rect x="245.1" y="279" width="215" height="80" rx="9" fill="#e6e4ec" stroke="#a7a3b5" stroke-width="1.4"/>
 <text x="352.6" y="310.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Holds the code</text>
 <text x="352.6" y="327.0" text-anchor="middle" font-size="10.8" fill="#4d4137">Push to main → CI checks → deploy</text>
@@ -116,7 +116,7 @@
 <text x="605.8" y="495.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Live channel data</text>
 <text x="605.8" y="512.5" text-anchor="middle" font-size="10.8" fill="#4d4137">uploads, views, likes, comments</text>
 <text x="605.8" y="525.5" text-anchor="middle" font-size="10.8" fill="#4d4137">free: 10,000 units a day</text>
-<text x="605.8" y="538.5" text-anchor="middle" font-size="10.8" fill="#4d4137">(about 32 used per refresh)</text>
+<text x="605.8" y="538.5" text-anchor="middle" font-size="10.8" fill="#4d4137">(~35 per refresh, ~4 per new show)</text>
 <rect x="498.2" y="567" width="215" height="80" rx="9" fill="#e3f0cb" stroke="#a5c76a" stroke-width="1.4"/>
 <text x="605.8" y="598.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Podcast feeds (RSS)</text>
 <text x="605.8" y="615.0" text-anchor="middle" font-size="10.8" fill="#4d4137">episodes + show notes, no quota</text>
@@ -140,17 +140,17 @@
 <text x="1365.2" y="922.5" text-anchor="middle" font-size="10.8" fill="#4d4137">against the text · writes brief intro</text>
 <rect x="1510.9" y="759" width="215" height="80" rx="9" fill="#fde5bd" stroke="#e7b564" stroke-width="1.4"/>
 <text x="1618.4" y="783.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Code scores → dashboard</text>
-<text x="1618.4" y="800.5" text-anchor="middle" font-size="10.8" fill="#4d4137">6 topics · up to 7 founders</text>
-<text x="1618.4" y="813.5" text-anchor="middle" font-size="10.8" fill="#4d4137">up to 5 sponsors · media round</text>
-<text x="1618.4" y="826.5" text-anchor="middle" font-size="10.8" fill="#4d4137">= 2+ shows within 30 days</text>
+<text x="1618.4" y="800.5" text-anchor="middle" font-size="10.8" fill="#4d4137">6 topics · up to 7 guests</text>
+<text x="1618.4" y="813.5" text-anchor="middle" font-size="10.8" fill="#4d4137">up to 5 sponsors · rated in words</text>
+<text x="1618.4" y="826.5" text-anchor="middle" font-size="10.8" fill="#4d4137">with reasons + one-click links</text>
 <rect x="1510.9" y="951" width="215" height="80" rx="9" fill="#dfe6f8" stroke="#8ea9e6" stroke-width="1.4"/>
 <text x="1618.4" y="975.5" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Aditya decides</text>
 <text x="1618.4" y="992.5" text-anchor="middle" font-size="10.8" fill="#4d4137">shortlist · dismiss · contacted</text>
 <text x="1618.4" y="1005.5" text-anchor="middle" font-size="10.8" fill="#4d4137">Confirmed · sponsored · CSV</text>
-<text x="1618.4" y="1018.5" text-anchor="middle" font-size="10.8" fill="#4d4137">system never contacts anyone</text>
+<text x="1618.4" y="1018.5" text-anchor="middle" font-size="10.8" fill="#4d4137">Your shortlist · contacts no one</text>
 <rect x="1510.9" y="1047" width="215" height="80" rx="9" fill="#e7dcf3" stroke="#b79bdc" stroke-width="1.4"/>
 <text x="1618.4" y="1078.0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3e332b">Monday brief email</text>
-<text x="1618.4" y="1095.0" text-anchor="middle" font-size="10.8" fill="#4d4137">short summary of the dashboard</text>
+<text x="1618.4" y="1095.0" text-anchor="middle" font-size="10.8" fill="#4d4137">summary + your shortlist</text>
 <text x="1618.4" y="1108.0" text-anchor="middle" font-size="10.8" fill="#4d4137">free: 100 emails a day</text>
 <rect x="348.0" y="1173" width="200" height="30" rx="15" fill="#fde5bd" stroke="#e7b564"/>
 <text x="448.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Code does the maths</text>
@@ -162,25 +162,35 @@
 <text x="1151.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">The system never contacts anyone</text>
 <rect x="1302.0" y="1173" width="150" height="30" rx="15" fill="#dff0d6" stroke="#8cc77a"/>
 <text x="1377.0" y="1193" text-anchor="middle" font-size="12.5" fill="#4d4137">Free tiers only</text>
-<rect x="55" y="1229" width="1690" height="196" rx="14" fill="#fbfaf8" stroke="#d6cdc3"/>
+<rect x="55" y="1229" width="1690" height="250" rx="14" fill="#fbfaf8" stroke="#d6cdc3"/>
 <text x="79" y="1259" font-size="15" font-weight="700" fill="#3e332b">What changed from the first version</text>
 <circle cx="89" cy="1283" r="10" fill="#6b5a4d"/><text x="89" y="1287" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">1</text>
-<text x="107" y="1287" font-size="12" fill="#4d4137">Shows come from YouTube and from podcast RSS feeds. Aditya adds or removes</text>
-<text x="107" y="1302" font-size="12" fill="#4d4137">them (max 10) on the dashboard, no code.</text>
+<text x="107" y="1287" font-size="12" fill="#4d4137">Shows come from YouTube and podcast RSS feeds. Aditya adds or removes them</text>
+<text x="107" y="1302" font-size="12" fill="#4d4137">(max 10) on the dashboard, no code. A new show is read at once; removing</text>
+<text x="107" y="1317" font-size="12" fill="#4d4137">one updates the dashboard in seconds.</text>
 <circle cx="89" cy="1332" r="10" fill="#6b5a4d"/><text x="89" y="1336" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">2</text>
 <text x="107" y="1336" font-size="12" fill="#4d4137">Thin data fixes itself: a show with few guest episodes gets its podcast</text>
 <text x="107" y="1351" font-size="12" fill="#4d4137">feed attached (Apple free directory); up to 3 shows may be added.</text>
 <circle cx="89" cy="1381" r="10" fill="#6b5a4d"/><text x="89" y="1385" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">3</text>
-<text x="107" y="1385" font-size="12" fill="#4d4137">Founders are ranked on their own, not per topic. Founders only. Media</text>
-<text x="107" y="1400" font-size="12" fill="#4d4137">round = same founder on 2+ shows within 30 days.</text>
-<circle cx="934.0" cy="1283" r="10" fill="#6b5a4d"/><text x="934.0" y="1287" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">4</text>
-<text x="952.0" y="1287" font-size="12" fill="#4d4137">Topics are ranked by how many shows cover them at the same time (last 30</text>
-<text x="952.0" y="1302" font-size="12" fill="#4d4137">days). Exactly 6, never padded.</text>
-<circle cx="934.0" cy="1332" r="10" fill="#6b5a4d"/><text x="934.0" y="1336" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">5</text>
-<text x="952.0" y="1336" font-size="12" fill="#4d4137">Review Gate: shortlist, dismiss, contacted, Confirmed (removes a guest</text>
-<text x="952.0" y="1351" font-size="12" fill="#4d4137">from the list), sponsored. CSV export. Sends nothing.</text>
-<circle cx="934.0" cy="1381" r="10" fill="#6b5a4d"/><text x="934.0" y="1385" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">6</text>
-<text x="952.0" y="1385" font-size="12" fill="#4d4137">Fallback chain: live data → last good snapshot → demo data, labelled in a</text>
-<text x="952.0" y="1400" font-size="12" fill="#4d4137">banner. Two crons (daily, Monday). CI must pass before deploy.</text>
-<text x="900.0" y="1455" text-anchor="middle" font-size="12" fill="#7a6d61">Stack: Next.js on Vercel · GitHub · Neon (Postgres) · YouTube Data API v3 · Podcast RSS · Gemini Flash · Resend</text>
+<text x="107" y="1385" font-size="12" fill="#4d4137">Guests are ranked on their own, not per topic. Founders only. Media round</text>
+<text x="107" y="1400" font-size="12" fill="#4d4137">= same guest on 2+ shows within 30 days.</text>
+<circle cx="89" cy="1430" r="10" fill="#6b5a4d"/><text x="89" y="1434" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">4</text>
+<text x="107" y="1434" font-size="12" fill="#4d4137">Topics: exactly 6, the ones the most shows cover at the same time (last 30</text>
+<text x="107" y="1449" font-size="12" fill="#4d4137">days), grouped by audience response, never padded.</text>
+<circle cx="934.0" cy="1283" r="10" fill="#6b5a4d"/><text x="934.0" y="1287" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">5</text>
+<text x="952.0" y="1287" font-size="12" fill="#4d4137">Plain ratings instead of raw percentages: topics (High, Steady, Mixed</text>
+<text x="952.0" y="1302" font-size="12" fill="#4d4137">response), guests (Top, Strong, Good lead), sponsors (Active, Possible</text>
+<text x="952.0" y="1317" font-size="12" fill="#4d4137">advertiser), each with its reasons.</text>
+<circle cx="934.0" cy="1332" r="10" fill="#6b5a4d"/><text x="934.0" y="1336" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">6</text>
+<text x="952.0" y="1336" font-size="12" fill="#4d4137">One-click Find links for guests and sponsors: Google first, then LinkedIn,</text>
+<text x="952.0" y="1351" font-size="12" fill="#4d4137">X, Instagram, plus a checked company website when the episodes name one.</text>
+<circle cx="934.0" cy="1381" r="10" fill="#6b5a4d"/><text x="934.0" y="1385" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">7</text>
+<text x="952.0" y="1385" font-size="12" fill="#4d4137">Review Gate: shortlist, dismiss, contacted, Confirmed, sponsored, CSV, and</text>
+<text x="952.0" y="1400" font-size="12" fill="#4d4137">a Your shortlist block that also appears in the Monday email. It sends</text>
+<text x="952.0" y="1415" font-size="12" fill="#4d4137">nothing.</text>
+<circle cx="934.0" cy="1430" r="10" fill="#6b5a4d"/><text x="934.0" y="1434" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">8</text>
+<text x="952.0" y="1434" font-size="12" fill="#4d4137">Fallback chain: live data → last good snapshot → demo data, labelled in a</text>
+<text x="952.0" y="1449" font-size="12" fill="#4d4137">banner. One refresh a day plus the Monday brief. CI must pass before</text>
+<text x="952.0" y="1464" font-size="12" fill="#4d4137">deploy.</text>
+<text x="900.0" y="1509" text-anchor="middle" font-size="12" fill="#7a6d61">Stack: Next.js on Vercel · GitHub · Neon (Postgres) · YouTube Data API v3 · Podcast RSS · Gemini Flash · Resend</text>
 </svg>
